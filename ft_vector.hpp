@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/10 21:57:15 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/10 23:50:35 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,66 @@
 #include <iostream>
 #include <stdexcept>
 #include "ft_iterator.hpp"
+
 namespace ft
 {
-
 	template <class T, class Alloc = std::allocator<T> >
 	class vector
 	{
 	public:
-		typedef T													value_type;
-		typedef Alloc												allocator_type;			//defaults to: allocator<value_type>
-		typedef typename allocator_type::reference					reference;				//for the default allocator: value_type&
-		typedef typename allocator_type::const_reference			const_reference;		//for the default allocator: const value_type&
-		typedef typename allocator_type::pointer					pointer;				//for the default allocator: value_type*
-		typedef typename allocator_type::const_pointer				const_pointer;			//for the default allocator: const value_type*
-		typedef Iterator<std::random_access_iterator_tag, T>		iterator;				//a random access iterator to value_type	convertible to const_iterator
-		typedef Iterator<std::random_access_iterator_tag, const T>	const_iterator; 		// a random access iterator to const value_type
-		typedef ReverseIterator<iterator>							reverse_iterator;
-		typedef ReverseIterator<const_iterator>						const_reverse_iterator;
-		typedef ptrdiff_t											difference_type;		//a signed integral type, identical to: iterator_traits<iterator>::difference_type
-		typedef size_t												size_type;
+		typedef T value_type;
+		typedef Alloc allocator_type;									  //defaults to: allocator<value_type>
+		typedef typename allocator_type::reference reference;			  //for the default allocator: value_type&
+		typedef typename allocator_type::const_reference const_reference; //for the default allocator: const value_type&
+		typedef typename allocator_type::pointer pointer;				  //for the default allocator: value_type*
+		typedef typename allocator_type::const_pointer const_pointer;	  //for the default allocator: const value_type*
+		typedef ptrdiff_t difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type
+		typedef size_t size_type;
+
+		class iterator : public ft::iterator<random_access_iterator_tag, T, size_type>
+		{
+		public:
+			iterator(pointer p = NULL, difference_type n = 0): _p(p), _index(n) { };
+			~iterator() {};
+			iterator(iterator const &);
+			iterator &operator=(iterator const& other)
+			{
+				_p = other._p;
+				return (*this);
+			}
+
+			iterator &operator++()
+			{
+				_index++;
+				return *this;
+			}
+			iterator operator++(int)
+			{
+				iterator retval = *this;
+				++(*this);
+				return retval;
+			}
+			bool operator==(iterator const& other) const { return (_p == other._p && _index == other._index); };
+			bool operator!=(iterator const& other) const { return !this->operator==(other); }
+			value_type	operator*() { return _p[_index]; }
+
+		protected:
+			pointer			_p;
+			difference_type	_index;
+		};
+
+		typedef iterator iterator;									  //a random access iterator to value_type	convertible to const_iterator
+		typedef iterator const_iterator;								  // a random access iterator to const value_type
+		typedef ReverseIterator<iterator> reverse_iterator;
+		typedef ReverseIterator<const_iterator> const_reverse_iterator;
 
 		// Constructor - Destructor
-		explicit vector(const allocator_type &alloc = allocator_type()):
-			_alloc(alloc), _size(0)
+		explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _size(0)
 		{
 			_v = _alloc.allocate(_size, 0);
 		}
 
-		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()):
-			_alloc(alloc), _size(n)
+		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : _alloc(alloc), _size(n)
 		{
 			_v = _alloc.allocate(_size, 0);
 			for (size_type i = 0; i < _size; i++)
@@ -53,8 +84,7 @@ namespace ft
 		template <class InputIterator>
 		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
 
-		vector(const vector &x):
-			_alloc(x._alloc), _size(x._size)
+		vector(const vector &x) : _alloc(x._alloc), _size(x._size)
 		{
 			_v = _alloc.allocate(_size, 0);
 			for (size_type i = 0; i < _size; i++)
@@ -81,9 +111,9 @@ namespace ft
 		}
 
 		//Iterators
-		iterator begin();
+		iterator begin() { return iterator(_v, 0); }
 		const_iterator begin() const;
-		iterator end();
+		iterator end() { return iterator(_v, _size); };
 		const_iterator end() const;
 		reverse_iterator rbegin();
 		const_reverse_iterator rbegin() const;
@@ -91,13 +121,16 @@ namespace ft
 		const_reverse_iterator rend() const;
 
 		// Capacity
-		size_type size() const{ return _size; }
+		size_type size() const { return _size; }
 		size_type max_size() const
 		{
 			size_type max_size = 0;
-			try {
+			try
+			{
 				max_size = _alloc.max_size();
-			} catch (std::exception& e){
+			}
+			catch (std::exception &e)
+			{
 				std::cout << "Error in vector.max_size() :" << e.what() << std::endl;
 			}
 			return (max_size);
@@ -148,9 +181,9 @@ namespace ft
 		allocator_type get_allocator() const;
 
 	private:
-		T*			_v;
-		Alloc		_alloc;
-		size_type	_size;
+		T *_v;
+		Alloc _alloc;
+		size_type _size;
 	};
 
 	// relational operators
