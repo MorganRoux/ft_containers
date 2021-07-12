@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/10 23:50:35 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/13 00:04:27 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,45 +28,47 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference; //for the default allocator: const value_type&
 		typedef typename allocator_type::pointer pointer;				  //for the default allocator: value_type*
 		typedef typename allocator_type::const_pointer const_pointer;	  //for the default allocator: const value_type*
-		typedef ptrdiff_t difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type
 		typedef size_t size_type;
 
 		class iterator : public ft::iterator<random_access_iterator_tag, T, size_type>
 		{
 		public:
-			iterator(pointer p = NULL, difference_type n = 0): _p(p), _index(n) { };
+			iterator(pointer p = NULL): _p(p) { };
 			~iterator() {};
-			iterator(iterator const &);
-			iterator &operator=(iterator const& other)
-			{
-				_p = other._p;
-				return (*this);
-			}
-
-			iterator &operator++()
-			{
-				_index++;
-				return *this;
-			}
+			iterator(iterator const& other):_p(other._p) { };
+			iterator &operator=(iterator const& other) { _p = other._p; return (*this); }
+			iterator &operator++() { _p++; return *this; }
 			iterator operator++(int)
 			{
 				iterator retval = *this;
 				++(*this);
 				return retval;
 			}
-			bool operator==(iterator const& other) const { return (_p == other._p && _index == other._index); };
+			iterator &operator--() { _p--; return *this; }
+			iterator operator--(int)
+			{
+				iterator retval = *this;
+				--(*this);
+				return retval;
+			}
+			iterator operator+(int n) { _p += n; return *this; }
+			iterator operator+(iterator other);
+			iterator operator-(int n) { _p -= n; return *this; }
+			iterator operator-(iterator other);
+			bool operator==(iterator const& other) const { return (_p == other._p); }
 			bool operator!=(iterator const& other) const { return !this->operator==(other); }
-			value_type	operator*() { return _p[_index]; }
+			value_type& operator*() { return *_p; }
+			value_type const& operator*() const { return *_p; }
 
 		protected:
 			pointer			_p;
-			difference_type	_index;
 		};
 
 		typedef iterator iterator;									  //a random access iterator to value_type	convertible to const_iterator
-		typedef iterator const_iterator;								  // a random access iterator to const value_type
+		typedef const iterator const_iterator;								  // a random access iterator to const value_type
+		typedef typename iterator_traits<iterator>::difference_type difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type
 		typedef ReverseIterator<iterator> reverse_iterator;
-		typedef ReverseIterator<const_iterator> const_reverse_iterator;
+		typedef const ReverseIterator<const_iterator> const_reverse_iterator;
 
 		// Constructor - Destructor
 		explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _size(0)
@@ -111,14 +113,14 @@ namespace ft
 		}
 
 		//Iterators
-		iterator begin() { return iterator(_v, 0); }
-		const_iterator begin() const;
-		iterator end() { return iterator(_v, _size); };
-		const_iterator end() const;
-		reverse_iterator rbegin();
-		const_reverse_iterator rbegin() const;
-		reverse_iterator rend();
-		const_reverse_iterator rend() const;
+		iterator begin() { return iterator(_v); }
+		const_iterator begin() const { return const_iterator(_v); }
+		iterator end() { return iterator(_v + _size); };
+		const_iterator end() const { return const_iterator(_v + _size); };
+		reverse_iterator rbegin() {return reverse_iterator(end());};
+		const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+		reverse_iterator rend() { return reverse_iterator(begin()); };
+		const_reverse_iterator rend() const { return const_reverse_iterator(begin()); };
 
 		// Capacity
 		size_type size() const { return _size; }
