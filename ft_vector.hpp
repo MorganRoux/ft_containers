@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/13 00:04:27 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/13 00:34:54 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,19 @@ namespace ft
 				--(*this);
 				return retval;
 			}
-			iterator operator+(int n) { _p += n; return *this; }
+			iterator operator+(int n)
+			{
+				iterator ret = *this;
+				ret._p += n;
+				return ret;
+			}
 			iterator operator+(iterator other);
-			iterator operator-(int n) { _p -= n; return *this; }
+			iterator operator-(int n)
+			{
+				iterator ret = *this;
+				ret._p -= n;
+				return ret;
+			}
 			iterator operator-(iterator other);
 			bool operator==(iterator const& other) const { return (_p == other._p); }
 			bool operator!=(iterator const& other) const { return !this->operator==(other); }

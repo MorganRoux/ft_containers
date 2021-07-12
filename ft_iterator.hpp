@@ -71,37 +71,45 @@ namespace ft
 	class ReverseIterator
 	{
 	public:
-		ReverseIterator() {_base = iterator(); };
-		explicit ReverseIterator(iterator it){ _base = --it; };
-		ReverseIterator(const ReverseIterator<iterator> &rev_it){ _base = rev_it._base; }
-		ReverseIterator &operator=(iterator const& other) { _base = other._base; return (*this); }
-		ReverseIterator& operator++() { _base--; return *this; }
+
+		typedef				iterator											iterator_type;
+		typedef typename 	ft::iterator_traits<iterator>::iterator_category	iterator_category;
+		typedef typename 	ft::iterator_traits<iterator>::value_type			value_type;
+		typedef typename 	ft::iterator_traits<iterator>::difference_type		difference_type;
+		typedef typename 	ft::iterator_traits<iterator>::pointer				pointer;
+		typedef typename 	ft::iterator_traits<iterator>::reference			reference;
+
+		ReverseIterator() {_current = iterator_type(); };
+		explicit ReverseIterator(iterator_type it) { _current = it; };
+		ReverseIterator(const ReverseIterator<iterator_type> &rev_it){ _current = rev_it._current; };
+		ReverseIterator& operator=(ReverseIterator const& other) { _current = other._current; return (*this); };
+		ReverseIterator& operator++() { _current--; return *this; };
 		ReverseIterator operator++(int)
 		{
 			ReverseIterator retval = *this;
 			++(*this);
 			return retval;
 		}
-		ReverseIterator &operator--() { _base++; return *this; }
+		ReverseIterator& operator--() { _current++; return *this; };
 		ReverseIterator operator--(int)
 		{
 			ReverseIterator retval = *this;
 			--(*this);
 			return retval;
 		}
-		ReverseIterator operator+(int n) { _base -= n; return *this; }
+		ReverseIterator operator+(int n) { _current -= n; return *this; };
 		ReverseIterator operator+(ReverseIterator other);
-		ReverseIterator operator-(int n) { _base -= n; return *this; }
+		ReverseIterator operator-(int n) { _current -= n; return *this; };
 		ReverseIterator operator-(ReverseIterator other);
-		bool operator==(ReverseIterator const &other) const { return (_base == other._base); }
-		bool operator!=(ReverseIterator const &other) const { return !this->operator==(other); }
-		typename iterator::value_type &operator*() { return *_base; }
-		typename iterator::value_type const &operator*() const { return *_base; }
+		bool operator==(ReverseIterator const &other) const { return (_current == other._current); };
+		bool operator!=(ReverseIterator const &other) const { return !this->operator==(other); };
+		typename iterator_type::value_type &operator*() { return *(_current - 1); };
+		typename iterator_type::value_type const &operator*() const { return *(_current); };
 
 	private:
 
-		iterator	base() { return _base + 1;}
-		iterator 	_base;
+		iterator_type	base() { return _current;};
+		iterator_type 	_current;
 
 	};
 }

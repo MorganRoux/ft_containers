@@ -13,7 +13,7 @@ int main(void)
 
 	ft::vector<int> v1;
 	ft::vector<int> v2(6);
-	v2[1] = 1; v2[2] = 7;
+	v2[1] = 1; v2[2] = 7; v2[3] = 8;
 	const ft::vector<int> v3(v2);
 	std::cout << v2[3] << " - " << v2.at(3) << std::endl;
 	std::cout << v2[2] << std::endl;
