@@ -74,7 +74,7 @@ namespace ft
 		ReverseIterator() {_base = iterator(); };
 		explicit ReverseIterator(iterator it){ _base = --it; };
 		ReverseIterator(const ReverseIterator<iterator> &rev_it){ _base = rev_it._base; }
-		ReverseIterator &operator=(ReverseIterator const& other) { _base = other._base; return (*this); }
+		ReverseIterator &operator=(iterator const& other) { _base = other._base; return (*this); }
 		ReverseIterator& operator++() { _base--; return *this; }
 		ReverseIterator operator++(int)
 		{
@@ -89,6 +89,10 @@ namespace ft
 			--(*this);
 			return retval;
 		}
+		ReverseIterator operator+(int n) { _base -= n; return *this; }
+		ReverseIterator operator+(ReverseIterator other);
+		ReverseIterator operator-(int n) { _base -= n; return *this; }
+		ReverseIterator operator-(ReverseIterator other);
 		bool operator==(ReverseIterator const &other) const { return (_base == other._base); }
 		bool operator!=(ReverseIterator const &other) const { return !this->operator==(other); }
 		typename iterator::value_type &operator*() { return *_base; }
