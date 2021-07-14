@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/14 13:46:27 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/14 13:48:11 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,74 +100,6 @@ namespace ft
 		typedef typename allocator_type::pointer pointer;				  //for the default allocator: value_type*
 		typedef typename allocator_type::const_pointer const_pointer;	  //for the default allocator: const value_type*
 		typedef size_t size_type;
-
-		template <class U>
-		class ra_iterator : public ft::iterator<random_access_iterator_tag, U>
-		{
-		public:
-			using typename ft::iterator<random_access_iterator_tag, U>::value_type;
-			using typename ft::iterator<random_access_iterator_tag, U>::difference_type;
-			using typename ft::iterator<random_access_iterator_tag, U>::pointer;
-			using typename ft::iterator<random_access_iterator_tag, U>::reference;
-			using typename ft::iterator<random_access_iterator_tag, U>::iterator_category;
-
-			ra_iterator(pointer p = NULL) : _p(p){};
-			~ra_iterator(){};
-			ra_iterator(ra_iterator const &other) : _p(other._p){};
-			ra_iterator &operator=(ra_iterator const &other)
-			{
-				_p = other._p;
-				return (*this);
-			}
-			ra_iterator &operator++()
-			{
-				_p++;
-				return *this;
-			}
-			ra_iterator operator++(int)
-			{
-				ra_iterator retval = *this;
-				++(*this);
-				return retval;
-			}
-			ra_iterator &operator--()
-			{
-				_p--;
-				return *this;
-			}
-			ra_iterator operator--(int)
-			{
-				ra_iterator retval = *this;
-				--(*this);
-				return retval;
-			}
-			ra_iterator operator+(int n)
-			{
-				ra_iterator ret = *this;
-				ret._p += n;
-				return ret;
-			}
-			difference_type operator+(ra_iterator other)
-			{
-				return (_p - other._p);
-			}
-			ra_iterator operator-(int n)
-			{
-				ra_iterator ret = *this;
-				ret._p -= n;
-				return ret;
-			}
-			difference_type operator-(ra_iterator other) { return _p - other._p; }
-			bool operator==(ra_iterator const &other) const { return (_p == other._p); }
-			bool operator!=(ra_iterator const &other) const { return !this->operator==(other); }
-			value_type &operator*() { return *_p; }
-			value_type const &operator*() const { return *_p; }
-			value_type &operator[](difference_type n) { return *(_p + n); }
-			value_type const &operator[](difference_type n) const { return *(_p + n); }
-
-		protected:
-			pointer _p;
-		};
 
 		typedef ra_iterator<T> iterator;											 //a random access iterator to value_type	convertible to const_iterator
 		typedef ra_iterator<const T> const_iterator;								 // a random access iterator to const value_type
