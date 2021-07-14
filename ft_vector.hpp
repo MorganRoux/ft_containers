@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/13 00:34:54 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/14 12:46:42 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,43 +30,53 @@ namespace ft
 		typedef typename allocator_type::const_pointer const_pointer;	  //for the default allocator: const value_type*
 		typedef size_t size_type;
 
-		class iterator : public ft::iterator<random_access_iterator_tag, T, size_type>
+		class ra_iterator : public ft::iterator<random_access_iterator_tag, T>
 		{
 		public:
-			iterator(pointer p = NULL): _p(p) { };
-			~iterator() {};
-			iterator(iterator const& other):_p(other._p) { };
-			iterator &operator=(iterator const& other) { _p = other._p; return (*this); }
-			iterator &operator++() { _p++; return *this; }
-			iterator operator++(int)
+			using typename ft::iterator<random_access_iterator_tag, T>::value_type;
+			using typename ft::iterator<random_access_iterator_tag, T>::difference_type;
+			using typename ft::iterator<random_access_iterator_tag, T>::pointer;
+			using typename ft::iterator<random_access_iterator_tag, T>::reference;
+			using typename ft::iterator<random_access_iterator_tag, T>::iterator_category;
+
+			ra_iterator(pointer p = NULL): _p(p) { };
+			~ra_iterator() {};
+			ra_iterator(ra_iterator const& other):_p(other._p) { };
+			ra_iterator &operator=(ra_iterator const& other) { _p = other._p; return (*this); }
+			ra_iterator &operator++() { _p++; return *this; }
+			ra_iterator operator++(int)
 			{
-				iterator retval = *this;
+				ft::iterator<random_access_iterator_tag, T, size_type>::testi = 0;
+				ra_iterator retval = *this;
 				++(*this);
 				return retval;
 			}
-			iterator &operator--() { _p--; return *this; }
-			iterator operator--(int)
+			ra_iterator &operator--() { _p--; return *this; }
+			ra_iterator operator--(int)
 			{
-				iterator retval = *this;
+				ra_iterator retval = *this;
 				--(*this);
 				return retval;
 			}
-			iterator operator+(int n)
+			ra_iterator operator+(int n)
 			{
-				iterator ret = *this;
+				ra_iterator ret = *this;
 				ret._p += n;
 				return ret;
 			}
-			iterator operator+(iterator other);
-			iterator operator-(int n)
+			difference_type operator+(ra_iterator other)
 			{
-				iterator ret = *this;
+				return (_p - other._p);
+			}
+			ra_iterator operator-(int n)
+			{
+				ra_iterator ret = *this;
 				ret._p -= n;
 				return ret;
 			}
-			iterator operator-(iterator other);
-			bool operator==(iterator const& other) const { return (_p == other._p); }
-			bool operator!=(iterator const& other) const { return !this->operator==(other); }
+			difference_type operator-(ra_iterator other) { return _p - other._p; }
+			bool operator==(ra_iterator const& other) const { return (_p == other._p); }
+			bool operator!=(ra_iterator const& other) const { return !this->operator==(other); }
 			value_type& operator*() { return *_p; }
 			value_type const& operator*() const { return *_p; }
 
@@ -74,10 +84,10 @@ namespace ft
 			pointer			_p;
 		};
 
-		typedef iterator iterator;									  //a random access iterator to value_type	convertible to const_iterator
-		typedef const iterator const_iterator;								  // a random access iterator to const value_type
-		typedef typename iterator_traits<iterator>::difference_type difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type
-		typedef ReverseIterator<iterator> reverse_iterator;
+		typedef ra_iterator iterator;									  //a random access iterator to value_type	convertible to const_iterator
+		typedef const ra_iterator const_iterator;								  // a random access iterator to const value_type
+		typedef typename iterator_traits<ra_iterator>::difference_type difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type
+		typedef ReverseIterator<ra_iterator> reverse_iterator;
 		typedef const ReverseIterator<const_iterator> const_reverse_iterator;
 
 		// Constructor - Destructor
