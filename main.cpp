@@ -58,5 +58,10 @@ int main(void)
 	ft_cit = v2.begin();
 	ft_cit++;
 	std::cout << ft_cit[1] << std::endl;
+
+	std::cout << "5. =========" << std::endl;
+	ft::vector<int> v4(v2.begin(), v2.end());
+	for (ft::vector<int>::iterator it = v4.begin(); it != v4.end(); it++)
+		std::cout << *it << std::endl;
 	return 0;
 }

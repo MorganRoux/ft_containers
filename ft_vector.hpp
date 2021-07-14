@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/14 15:35:54 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/14 15:51:09 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,15 +117,21 @@ namespace ft
 			_v = _alloc.allocate(_size, 0);
 		}
 
-		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : _alloc(alloc), _size(n)
+		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(n)
 		{
 			_v = _alloc.allocate(_size, 0);
 			for (size_type i = 0; i < _size; i++)
 				_alloc.construct(&_v[i], val);
 		}
 
-		template <class InputIterator>
-		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
+		template <class Iter>
+		vector(Iter first, Iter last, const allocator_type &alloc = allocator_type()) : _alloc(alloc), _size(last - first)
+		{
+			_v = _alloc.allocate(_size, 0);
+			iterator it(_v);
+			for (; first != last; it++, first++)
+				*it = *first;
+		}
 
 		vector(const vector &x) : _alloc(x._alloc), _size(x._size)
 		{
