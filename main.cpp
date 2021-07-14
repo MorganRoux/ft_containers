@@ -50,10 +50,12 @@ int main(void)
 
 	std::cout << "4. =========" << std::endl;
 	std::vector<int>::const_iterator cit;
+	const ft::vector<int> cv(6);
 	cit = sv2.begin();
 	cit++;
 	std::cout << cit[1] << std::endl;
-	ft::vector<int>::const_iterator ft_cit(v2.begin());
+	ft::vector<int>::const_iterator ft_cit(cv.begin());
+	ft_cit = v2.begin();
 	ft_cit++;
 	std::cout << ft_cit[1] << std::endl;
 	return 0;
