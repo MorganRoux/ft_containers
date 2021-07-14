@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/14 17:55:48 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/14 18:14:17 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ namespace ft
 		}
 
 		template <class Iter>
-
 		vector(typename ft::enable_if< ft::is_iterator<Iter>::value, Iter>::type first, Iter last, const allocator_type &alloc = allocator_type() ):
 			_alloc(alloc), _size(last - first)
 		{
