@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/14 13:48:11 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/14 15:35:54 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <stdexcept>
 #include "ft_iterator.hpp"
 
-
 // https://quuxplusone.github.io/blog/2018/12/01/const-iterator-antipatterns/
 
 namespace ft
@@ -24,12 +23,16 @@ namespace ft
 	template <class U>
 	class ra_iterator : public ft::iterator<random_access_iterator_tag, U>
 	{
+
+	private:
+		typedef ft::iterator<random_access_iterator_tag, U> base_iterator;
+
 	public:
-		using typename ft::iterator<random_access_iterator_tag, U>::value_type;
-		using typename ft::iterator<random_access_iterator_tag, U>::difference_type;
-		using typename ft::iterator<random_access_iterator_tag, U>::pointer;
-		using typename ft::iterator<random_access_iterator_tag, U>::reference;
-		using typename ft::iterator<random_access_iterator_tag, U>::iterator_category;
+		typedef typename ft::iterator<random_access_iterator_tag, U>::value_type value_type;
+		typedef typename ft::iterator<random_access_iterator_tag, U>::difference_type difference_type;
+		typedef typename ft::iterator<random_access_iterator_tag, U>::pointer pointer;
+		typedef typename ft::iterator<random_access_iterator_tag, U>::reference reference;
+		typedef typename ft::iterator<random_access_iterator_tag, U>::iterator_category iterator_category;
 
 		ra_iterator(pointer p = NULL) : _p(p){};
 		~ra_iterator(){};
@@ -85,6 +88,8 @@ namespace ft
 		value_type &operator[](difference_type n) { return *(_p + n); }
 		value_type const &operator[](difference_type n) const { return *(_p + n); }
 
+		operator ra_iterator<const U>() const {return ra_iterator<const U>(_p); };
+
 	protected:
 		pointer _p;
 	};
@@ -100,7 +105,6 @@ namespace ft
 		typedef typename allocator_type::pointer pointer;				  //for the default allocator: value_type*
 		typedef typename allocator_type::const_pointer const_pointer;	  //for the default allocator: const value_type*
 		typedef size_t size_type;
-
 		typedef ra_iterator<T> iterator;											 //a random access iterator to value_type	convertible to const_iterator
 		typedef ra_iterator<const T> const_iterator;								 // a random access iterator to const value_type
 		typedef typename iterator_traits<iterator>::difference_type difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type
