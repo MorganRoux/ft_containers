@@ -62,5 +62,12 @@ int main(void)
 	ft::vector<int> v4(v2.begin(), v2.end());
 	for (ft::vector<int>::iterator it = v4.begin(); it != v4.end(); it++)
 		std::cout << *it << std::endl;
+
+	std::cout << "======== TESTS =========" << std::endl;
+	NAMESPACE::vector<int> vect(6, 8);
+	vect[1] = 6;
+	std::cout << vect.front() << std::endl;
+	const int i = vect.front();
+	std::cout <<  i << std::endl;
 	return 0;
 }

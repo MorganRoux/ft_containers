@@ -9,7 +9,7 @@ INC_PATH	=	-I./incs
 COMPILE		=	$(CC) $(FLAGS) $(INC_PATH)
 
 %.o : %.cpp
-			$(CC) $(FLAGS) $(INC_PATH) -c $<  -o $(<:.cpp=.o)
+			$(CC) $(FLAGS) $(INC_PATH) -D NAMESPACE=ft -c $<  -o $(<:.cpp=.o)
 
 all:		$(NAME)
 
@@ -24,5 +24,14 @@ fclean:
 			rm -f ${NAME}
 
 re:			fclean all
+
+test:		fclean
+			$(CC) $(FLAGS) $(INC_PATH) $(SRCS) -D NAMESPACE=ft -o test_fd
+			$(CC) $(FLAGS) $(INC_PATH) $(SRCS) -D NAMESPACE=std -o test_std
+			./test_fd > fd.log
+			./test_std > std.log
+			rm -f test_fd
+			rm -f test_std
+			diff fd.log std.log
 
 .PHONY:		clean fclean all re
