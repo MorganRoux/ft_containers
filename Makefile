@@ -26,12 +26,12 @@ fclean:
 re:			fclean all
 
 test:		fclean
-			$(CC) $(FLAGS) $(INC_PATH) $(SRCS) -D NAMESPACE=ft -o test_fd
 			$(CC) $(FLAGS) $(INC_PATH) $(SRCS) -D NAMESPACE=std -o test_std
-			./test_fd > fd.log
+			$(CC) $(FLAGS) $(INC_PATH) $(SRCS) -D NAMESPACE=ft -o test_fd
 			./test_std > std.log
-			rm -f test_fd
+			./test_fd > fd.log
 			rm -f test_std
-			diff fd.log std.log
+			rm -f test_fd
+			diff std.log fd.log
 
 .PHONY:		clean fclean all re

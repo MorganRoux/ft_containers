@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/14 19:47:24 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/14 20:48:54 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,10 @@ namespace ft
 			return ret;
 		}
 		difference_type operator-(ra_iterator other) { return _p - other._p; }
+		bool operator<(ra_iterator const &other) const { return (_p < other._p); }
+		bool operator>=(ra_iterator const &other) const { return !(_p < other._p); }
+		bool operator>(ra_iterator const &other) const { return (_p > other._p); }
+		bool operator<=(ra_iterator const &other) const { return !(_p < other._p); }
 		bool operator==(ra_iterator const &other) const { return (_p == other._p); }
 		bool operator!=(ra_iterator const &other) const { return !this->operator==(other); }
 		value_type &operator*() { return *_p; }
@@ -127,13 +131,12 @@ namespace ft
 				_alloc.construct(&_v[i], val);
 		}
 
-		template <class Iter>
-		vector(typename ft::enable_if< ft::is_iterator<Iter>::value, Iter>::type first, Iter last, const allocator_type &alloc = allocator_type() ):
-			_alloc(alloc), _size(last - first), _capacity(last - first)
+		template <class InputIterator>
+		vector(typename ft::enable_if<ft::is_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type &alloc = allocator_type()) : _alloc(alloc), _size(last - first), _capacity(last - first)
 		{
 			//typedef typename Iter::iterator_category test;
 			_v = _alloc.allocate(_capacity, 0);
-			iterator it(_v);
+			iterator it = begin();
 			for (; first != last; it++, first++)
 				*it = *first;
 		}
@@ -195,7 +198,7 @@ namespace ft
 		{
 			if (n > _capacity)
 			{
-				T* tmp = _alloc.allocate(n);
+				T *tmp = _alloc.allocate(n);
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&tmp[i], _v[i]);
 				for (size_type i = 0; i < _size; i++)
@@ -205,13 +208,14 @@ namespace ft
 				_capacity = n;
 				_size = n;
 				_v = tmp;
-
-			} else if (n < _size)
+			}
+			else if (n < _size)
 			{
 				for (size_type i = n; i < _size; i++)
 					_alloc.destroy(&_v[i]);
 				_size = n;
-			} else
+			}
+			else
 			{
 				for (size_type i = _size; i < n; i++)
 					_alloc.construct(&_v[i], val);
@@ -224,7 +228,7 @@ namespace ft
 		{
 			if (n > _capacity)
 			{
-				T* tmp = _alloc.allocate(n);
+				T *tmp = _alloc.allocate(n);
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&tmp[i], _v[i]);
 				for (size_type i = 0; i < _size; i++)
@@ -253,25 +257,105 @@ namespace ft
 		}
 		reference front() { return *(_v); }
 		const_reference front() const { return *_v; }
-		reference back() { return *(_v + _size -1); };
-		const_reference back() const { return *(_v + _size -1); };
+		reference back() { return *(_v + _size - 1); };
+		const_reference back() const { return *(_v + _size - 1); };
 
 		// Modifiers
 		template <class InputIterator>
-		void assign(InputIterator first, InputIterator last);
-		void assign(size_type n, const value_type &val);
-		void push_back(const value_type &val);
-		void pop_back();
+		void assign(typename ft::enable_if<ft::is_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last)
+		{
+			if (last < first)
+				return;
+			size_type size = last - first;
+			for (size_type i = 0; i < _size; i++)
+				_alloc.destroy(&_v[i]);
+			if (size > _capacity)
+			{
+				_alloc.deallocate(_v, _capacity);
+				_capacity = size;
+				_v = _alloc.allocate(_capacity);
+			}
+			_size = size;
+			for (iterator it = begin(); first != last; first++, it++)
+				_alloc.construct(&(*it), *first);
+		}
+
+		void assign(size_type n, const value_type &val)
+		{
+			for (size_type i = 0; i < _size; i++)
+				_alloc.destroy(&_v[i]);
+			if (n > _capacity)
+			{
+				_alloc.deallocate(_v, _capacity);
+				_capacity = n;
+				_v = _alloc.allocate(_capacity);
+			}
+			_size = n;
+			for (size_type i = 0; i < _size; i++)
+				_alloc.construct(&_v[i], val);
+		}
+		void push_back(const value_type &val)
+		{
+			if (_size < _capacity)
+			{
+				_alloc.construct(&_v[_size], val);
+				_size++;
+			}
+			else
+			{
+				T *tmp = _alloc.allocate(_capacity + 1);
+				for (size_type i = 0; i < _size; i++)
+					_alloc.construct(&tmp[i], _v[i]);
+				_alloc.construct(&tmp[_size], val);
+				for (size_type i = 0; i < _size; i++)
+					_alloc.destroy(&_v[i]);
+				_alloc.deallocate(_v, _capacity);
+				_v = tmp;
+				_size++;
+				_capacity++;
+			}
+		}
+		void pop_back()
+		{
+			_alloc.destroy(&_v[_size - 1]);
+			_size--;
+		}
 		iterator insert(iterator position, const value_type &val);
 		void insert(iterator position, size_type n, const value_type &val);
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last);
-		iterator erase(iterator position);
+		iterator erase(iterator position)
+		{
+			if (position == (end() - 1))
+			{
+				_alloc.destroy(&(*position));
+				_size--;
+				return end();
+			}
+			size_type i = 0;
+			iterator it = begin();
+			T *tmp = _alloc.allocate(_capacity);
+			for (; it != position; i++, it++)
+				_alloc.construct(&tmp[i], *it);
+			it++;
+			for (; it != end(); i++, it++)
+				_alloc.construct(&tmp[i], *it);
+			for (size_type i = 0; i < _size; i++)
+				_alloc.destroy(&_v[i]);
+			_alloc.deallocate(_v, _capacity);
+			_size--;
+			_v = tmp;
+			return position;
+		}
 		iterator erase(iterator first, iterator last);
 		void swap(vector &x);
-		void clear();
-
-		allocator_type get_allocator() const;
+		void clear()
+		{
+			for (size_type i = 0; i < _size; i++)
+				_alloc.destroy(&_v[i]);
+			_size = 0;
+		}
+		allocator_type get_allocator() const { return _alloc; }
 
 	private:
 		T *_v;

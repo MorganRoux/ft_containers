@@ -1,4 +1,5 @@
 #include "ft_vector.hpp"
+#include "utils.hpp"
 #include <vector>
 
 int main(void)
@@ -71,6 +72,8 @@ int main(void)
 	NAMESPACE::vector<int> vect(6, 8);
 	NAMESPACE::vector<int>::iterator iter = vect.begin();
 	NAMESPACE::vector<int>::reverse_iterator riter = vect.rbegin();
+	std::cout << "get_allocator()" << std::endl;
+	std::cout << vect.get_allocator().max_size() << std::endl;
 	std::cout << "Iter" << std::endl;
 	for (; iter != vect.end(); iter++)
 		*iter = *iter + (iter - vect.begin());
@@ -78,40 +81,116 @@ int main(void)
 	for (; riter != vect.rend(); riter++)
 		std::cout << *riter << std::endl;
 	std::cout << "front()" << std::endl;
-	std::cout << vect.front() << std::endl;
 	{
+		std::cout << vect.front() << std::endl;
+
 		const int i = vect.front();
 		std::cout << i << std::endl;
 	}
 	std::cout << "back()" << std::endl;
-	std::cout << vect.back() << std::endl;
 	{
+		std::cout << vect.back() << std::endl;
+
 		const int i = vect.back();
 		std::cout << i << std::endl;
 	}
 	std::cout << "[] and at()" << std::endl;
-	std::cout << vect[4] << vect.at(4) << std::endl;
 	{
+		std::cout << vect[4] << vect.at(4) << std::endl;
+
 		const int i = vect[3];
 		const int j = vect.at(3);
 		std::cout << i << j << std::endl;
 	}
 	std::cout << "empty()" << std::endl;
-	std::cout << vect.empty() << std::endl;
 	{
+		std::cout << vect.empty() << std::endl;
 		NAMESPACE::vector<int> e;
 		std::cout << e.empty() << std::endl;
+		std::cout << vect.capacity() << vect.size() << std::endl;
 	}
-	std::cout << vect.capacity() << vect.size() << std::endl;
 	std::cout << "reserve()" << std::endl;
-	vect.reserve(100);
-	std::cout << vect.capacity() << vect.size() << std::endl;
+	{
+		vect.reserve(100);
+		std::cout << vect.capacity() << vect.size() << std::endl;
+	}
 	std::cout << "resize()" << std::endl;
-	vect.resize(3);
-	std::cout << vect.capacity() << vect.size() << std::endl;
-	for (NAMESPACE::vector<int>::iterator it = vect.begin(); it != vect.end(); it++)
-		std::cout << *it << std::endl;
+	{
+		vect.resize(3);
+		std::cout << vect.capacity() << vect.size() << std::endl;
+		print_container(vect);
+	}
 	std::cout << "Maxsize" << std::endl;
-	std::cout << vect.max_size() << std::endl;
+	{
+		std::cout << vect.max_size() << std::endl;
+	}
+	std::cout << "push_back()" << std::endl;
+	{
+		vect.push_back(100);
+		vect.push_back(-8);
+		print_container(vect);
+	}
+	std::cout << "pop_back()" << std::endl;
+	{
+		vect.pop_back();
+		print_container(vect);
+	}
+	std::cout << "clear" << std::endl;
+	//from cplusplus
+	{
+		NAMESPACE::vector<int> myvector;
+		myvector.push_back(100);
+		myvector.push_back(200);
+		myvector.push_back(300);
+
+		std::cout << "myvector contains:";
+		for (unsigned i = 0; i < myvector.size(); i++)
+			std::cout << ' ' << myvector[i];
+		std::cout << '\n';
+
+		myvector.clear();
+		myvector.push_back(1101);
+		myvector.push_back(2202);
+
+		std::cout << "myvector contains:";
+		for (unsigned i = 0; i < myvector.size(); i++)
+			std::cout << ' ' << myvector[i];
+		std::cout << '\n';
+	}
+	std::cout << "assign" << std::endl;
+	{
+		vect.assign(2, 50);
+		print_container(vect);
+		vect.assign(200, 6);
+		print_container(vect);
+		NAMESPACE::vector<int> count(25);
+		for (NAMESPACE::vector<int>::iterator it = count.begin(); it != count.end(); it++)
+			*it = (it - count.begin());
+		vect.assign(vect.begin(), vect.end());
+		print_container(vect);
+		print_container(count);
+	}
+	//cplusplus.com
+	{
+		NAMESPACE::vector<int> first;
+		NAMESPACE::vector<int> second;
+		NAMESPACE::vector<int> third;
+		first.assign(7, 100); // 7 ints with a value of 100
+		NAMESPACE::vector<int>::iterator it;
+		it = first.begin() + 1;
+		second.assign(it, first.end() - 1); // the 5 central values of first
+		int myints[] = {1776, 7, 4};
+		third.assign(myints, myints + 3); // assigning from array.
+		std::cout << "Size of first: " << int(first.size()) << '\n';
+		std::cout << "Size of second: " << int(second.size()) << '\n';
+		std::cout << "Size of third: " << int(third.size()) << '\n';
+	}
+
+	std::cout << "Erase" << std::endl;
+	{
+		vect.erase(vect.begin() + 2);
+		vect.erase(vect.end() - 1);
+		print_container(vect);
+	}
 	return 0;
 }
