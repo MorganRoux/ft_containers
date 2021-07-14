@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/14 19:33:43 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/14 19:47:24 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,10 +210,12 @@ namespace ft
 			{
 				for (size_type i = n; i < _size; i++)
 					_alloc.destroy(&_v[i]);
+				_size = n;
 			} else
 			{
 				for (size_type i = _size; i < n; i++)
 					_alloc.construct(&_v[i], val);
+				_size = n;
 			}
 		}
 		size_type capacity() const { return _capacity; }
