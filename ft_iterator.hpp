@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 11:57:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/14 13:26:02 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/14 18:10:24 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,20 @@ namespace ft
 		typedef const T &reference;
 		typedef random_access_iterator_tag iterator_category;
 	};
+
+	template<> class iterator_traits<int>{}; //to resolve error: type 'int' cannot be used prior to '::' because it has no members => silencing all
+    template<> class iterator_traits<char>{};
+    template<> class iterator_traits<double>{};
+    template<> class iterator_traits<std::string>{};
+    template<> class iterator_traits<unsigned int>{};
+    template<> class iterator_traits<long>{};
+    template<> class iterator_traits<long long>{};
+    template<> class iterator_traits<short int>{};
+    template<> class iterator_traits<bool>{};
+    template<> class iterator_traits<unsigned long>{};
+    template<> class iterator_traits<unsigned long long>{};
+
+
 
 	//------------- ITERATOR -------------//
 	template <class Category, class T, class Distance = ptrdiff_t,

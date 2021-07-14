@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/14 15:51:09 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/14 17:55:48 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 #define FTVECTOR_HPP
 #include <iostream>
 #include <stdexcept>
+#include <typeinfo>
 #include "ft_iterator.hpp"
+#include "metafunctions.hpp"
 
-// https://quuxplusone.github.io/blog/2018/12/01/const-iterator-antipatterns/
+// https://stackoverflow.com/questions/24346869/wrong-constructor-called-in-custom-vector-class
 
 namespace ft
 {
+
 	template <class U>
 	class ra_iterator : public ft::iterator<random_access_iterator_tag, U>
 	{
@@ -88,7 +91,7 @@ namespace ft
 		value_type &operator[](difference_type n) { return *(_p + n); }
 		value_type const &operator[](difference_type n) const { return *(_p + n); }
 
-		operator ra_iterator<const U>() const {return ra_iterator<const U>(_p); };
+		operator ra_iterator<const U>() const { return ra_iterator<const U>(_p); };
 
 	protected:
 		pointer _p;
@@ -110,6 +113,7 @@ namespace ft
 		typedef typename iterator_traits<iterator>::difference_type difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type
 		typedef ReverseIterator<iterator> reverse_iterator;
 		typedef ReverseIterator<const_iterator> const_reverse_iterator;
+		typedef int hello;
 
 		// Constructor - Destructor
 		explicit vector(const allocator_type &alloc = allocator_type()) : _alloc(alloc), _size(0)
@@ -117,7 +121,7 @@ namespace ft
 			_v = _alloc.allocate(_size, 0);
 		}
 
-		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(n)
+		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : _alloc(alloc), _size(n)
 		{
 			_v = _alloc.allocate(_size, 0);
 			for (size_type i = 0; i < _size; i++)
@@ -125,8 +129,11 @@ namespace ft
 		}
 
 		template <class Iter>
-		vector(Iter first, Iter last, const allocator_type &alloc = allocator_type()) : _alloc(alloc), _size(last - first)
+
+		vector(typename ft::enable_if< ft::is_iterator<Iter>::value, Iter>::type first, Iter last, const allocator_type &alloc = allocator_type() ):
+			_alloc(alloc), _size(last - first)
 		{
+			//typedef typename Iter::iterator_category test;
 			_v = _alloc.allocate(_size, 0);
 			iterator it(_v);
 			for (; first != last; it++, first++)
