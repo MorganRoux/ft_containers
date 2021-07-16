@@ -196,9 +196,22 @@ int main(void)
 		NAMESPACE::vector<int>::iterator it = vect.erase(vect.begin() + 2);
 		std::cout << *it << std::endl;
 		print_container(vect);
-
-		std::cout << "Erase2" << std::endl;
 		it = vect.erase(vect.end() - 1);
+		std::cout << *it << std::endl;
+		print_container(vect);
+	}
+	{
+		std::cout << "Erase2" << std::endl;
+		vect.clear();
+		for (int i = 0; i < 20; i++)
+			vect.push_back(i);
+		NAMESPACE::vector<int>::iterator it = vect.erase(vect.begin() + 2, vect.begin() + 8);
+		std::cout << *it << std::endl;
+		print_container(vect);
+		vect.clear();
+		for (int i = 0; i < 20; i++)
+			vect.push_back(i);
+		it = vect.erase(vect.begin() + 6, vect.end());
 		std::cout << *it << std::endl;
 		print_container(vect);
 	}

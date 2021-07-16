@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/16 10:02:09 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/16 18:43:37 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,7 +359,7 @@ namespace ft
 			{
 				for (iterator it = first; it != end(); it++)
 				{
-					_alloc.destroy(it);
+					_alloc.destroy(&*it);
 					_size--;
 				}
 				return end();
