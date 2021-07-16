@@ -188,8 +188,18 @@ int main(void)
 
 	std::cout << "Erase" << std::endl;
 	{
-		vect.erase(vect.begin() + 2);
-		vect.erase(vect.end() - 1);
+		vect.clear();
+		for (int i = 0; i < 10; i++)
+			vect.push_back(i);
+		print_container(vect);
+		std::cout << "-" << std::endl;
+		NAMESPACE::vector<int>::iterator it = vect.erase(vect.begin() + 2);
+		std::cout << *it << std::endl;
+		print_container(vect);
+
+		std::cout << "Erase2" << std::endl;
+		it = vect.erase(vect.end() - 1);
+		std::cout << *it << std::endl;
 		print_container(vect);
 	}
 	return 0;

@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/14 20:48:54 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/16 10:02:09 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,7 @@ namespace ft
 			for (size_type i = 0; i < _size; i++)
 				_alloc.construct(&_v[i], val);
 		}
+		
 		void push_back(const value_type &val)
 		{
 			if (_size < _capacity)
@@ -315,15 +316,18 @@ namespace ft
 				_capacity++;
 			}
 		}
+		
 		void pop_back()
 		{
 			_alloc.destroy(&_v[_size - 1]);
 			_size--;
 		}
+		
 		iterator insert(iterator position, const value_type &val);
 		void insert(iterator position, size_type n, const value_type &val);
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last);
+		
 		iterator erase(iterator position)
 		{
 			if (position == (end() - 1))
@@ -337,7 +341,8 @@ namespace ft
 			T *tmp = _alloc.allocate(_capacity);
 			for (; it != position; i++, it++)
 				_alloc.construct(&tmp[i], *it);
-			it++;
+			*it++;
+			iterator ret(&tmp[i]);
 			for (; it != end(); i++, it++)
 				_alloc.construct(&tmp[i], *it);
 			for (size_type i = 0; i < _size; i++)
@@ -345,9 +350,36 @@ namespace ft
 			_alloc.deallocate(_v, _capacity);
 			_size--;
 			_v = tmp;
-			return position;
+			return ret;
 		}
-		iterator erase(iterator first, iterator last);
+
+		iterator erase(iterator first, iterator last)
+		{
+			if (last == end())
+			{
+				for (iterator it = first; it != end(); it++)
+				{
+					_alloc.destroy(it);
+					_size--;
+				}
+				return end();
+			}
+			size_type i =0;
+			iterator it = begin();
+			T *tmp = _alloc.allocate(_capacity);
+			for (; it != first; i++, it++)
+				_alloc.construct(&tmp[i], *it);
+			iterator ret = iterator(&tmp[i]);
+			for (it = last; it != end(); i++, it++)
+				_alloc.construct(&tmp[i], *it);
+			for (size_type i = 0; i < _size; i++)
+				_alloc.destroy(&_v[i]);
+			_alloc.deallocate(_v, _capacity);
+			_size -= last - first;
+			_v = tmp;
+			return ret;
+		}
+
 		void swap(vector &x);
 		void clear()
 		{
