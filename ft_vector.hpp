@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/17 09:57:58 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/17 10:09:42 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ namespace ft
 			_v = _alloc.allocate(_capacity, 0);
 			for (size_type i = 0; i < _size; i++)
 				_alloc.construct(&_v[i], x[i]);
+			return *this;
 		}
 
 		//Iterators
@@ -272,7 +273,7 @@ namespace ft
 			if (size > _capacity)
 			{
 				_alloc.deallocate(_v, _capacity);
-				_capacity = size;
+				_capacity = 2 * size;
 				_v = _alloc.allocate(_capacity);
 			}
 			_size = size;
@@ -287,7 +288,7 @@ namespace ft
 			if (n > _capacity)
 			{
 				_alloc.deallocate(_v, _capacity);
-				_capacity = n;
+				_capacity = 2 * n;
 				_v = _alloc.allocate(_capacity);
 			}
 			_size = n;
@@ -304,7 +305,7 @@ namespace ft
 			}
 			else
 			{
-				T *tmp = _alloc.allocate(_capacity + 1);
+				T *tmp = _alloc.allocate(2 * _capacity + 1);
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&tmp[i], _v[i]);
 				_alloc.construct(&tmp[_size], val);
@@ -313,7 +314,7 @@ namespace ft
 				_alloc.deallocate(_v, _capacity);
 				_v = tmp;
 				_size++;
-				_capacity++;
+				_capacity = 2 * _capacity + 1;
 			}
 		}
 
@@ -380,7 +381,15 @@ namespace ft
 			return ret;
 		}
 
-		void swap(vector &x);
+		void swap(vector &x)
+		{
+			vector<T> tmp = *this;
+			this->clear();
+			*this = x;
+			x.clear();
+			x = tmp;
+		}
+
 		void clear()
 		{
 			for (size_type i = 0; i < _size; i++)
