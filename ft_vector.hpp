@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/16 18:43:37 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/17 09:57:58 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,7 @@ namespace ft
 			for (size_type i = 0; i < _size; i++)
 				_alloc.construct(&_v[i], val);
 		}
-		
+
 		void push_back(const value_type &val)
 		{
 			if (_size < _capacity)
@@ -316,18 +316,18 @@ namespace ft
 				_capacity++;
 			}
 		}
-		
+
 		void pop_back()
 		{
 			_alloc.destroy(&_v[_size - 1]);
 			_size--;
 		}
-		
+
 		iterator insert(iterator position, const value_type &val);
 		void insert(iterator position, size_type n, const value_type &val);
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last);
-		
+
 		iterator erase(iterator position)
 		{
 			if (position == (end() - 1))
@@ -357,12 +357,12 @@ namespace ft
 		{
 			if (last == end())
 			{
-				for (iterator it = first; it != end(); it++)
+				for (iterator it = first; it != last; it++)
 				{
 					_alloc.destroy(&*it);
 					_size--;
 				}
-				return end();
+				return first;
 			}
 			size_type i =0;
 			iterator it = begin();
