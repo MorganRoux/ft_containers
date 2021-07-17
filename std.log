@@ -1,5 +1,6 @@
 0 - 0 : 0
 diff: 6 - 6
+1
 ========= 1. ========
 8 - 8
 7
@@ -65,7 +66,6 @@ resize()
 9
 10
 size: 3
-cap: 3
 ======
 Maxsize
 4611686018427387903
@@ -77,7 +77,6 @@ push_back()
 100
 -8
 size: 5
-cap: 5
 ======
 pop_back()
 === Container ===
@@ -86,7 +85,6 @@ pop_back()
 10
 100
 size: 4
-cap: 4
 ======
 clear
 myvector contains: 100 200 300
@@ -96,7 +94,6 @@ assign
 50
 50
 size: 2
-cap: 2
 ======
 === Container ===
 6
@@ -300,7 +297,6 @@ cap: 2
 6
 6
 size: 200
-cap: 200
 ======
 === Container ===
 6
@@ -504,7 +500,6 @@ cap: 200
 6
 6
 size: 200
-cap: 200
 ======
 === Container ===
 0
@@ -533,7 +528,6 @@ cap: 200
 23
 24
 size: 25
-cap: 25
 ======
 Size of first: 7
 Size of second: 5
@@ -551,7 +545,6 @@ Erase
 8
 9
 size: 10
-cap: 10
 ======
 -
 3
@@ -566,7 +559,6 @@ cap: 10
 8
 9
 size: 9
-cap: 9
 ======
 9
 === Container ===
@@ -579,7 +571,6 @@ cap: 9
 7
 8
 size: 8
-cap: 8
 ======
 Erase2
 8
@@ -599,7 +590,6 @@ Erase2
 18
 19
 size: 14
-cap: 14
 ======
 6
 === Container ===
@@ -610,7 +600,6 @@ cap: 14
 4
 5
 size: 6
-cap: 6
 ======
 Swap
 foo contains: 200 200 200 200 200
@@ -621,11 +610,13 @@ bar contains: 100 100 100
 200
 200
 200
+size: 5
 ======
 === Container ===
 100
 100
 100
+size: 3
 ======
 0
 Insert
@@ -634,7 +625,6 @@ Insert
 100
 100
 size: 3
-cap: 3
 ======
 insert1
 === Container ===
@@ -643,7 +633,6 @@ insert1
 100
 100
 size: 4
-cap: 4
 ======
 insert2
 === Container ===
@@ -654,7 +643,6 @@ insert2
 100
 100
 size: 6
-cap: 6
 ======
 insert3
 myvector contains: 501 502 503 300 300 400 400 200 100 100 100

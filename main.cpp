@@ -1,4 +1,4 @@
-#include "ft_vector.hpp"
+#include "vector.hpp"
 #include "utils.hpp"
 #include <vector>
 
@@ -11,6 +11,7 @@ int main(void)
 		it2 = sv2.begin();
 		std::cout << it1[2] << " - " << it2[2] << " : " << (it1 == it2) << std::endl;
 		std::cout << "diff: " << sv1.end() - sv1.begin() << " - " << sv1.rend() - sv1.rbegin() << std::endl;
+
 		std::cout << "========= 1. ========" << std::endl;
 
 		ft::vector<int> v1;
@@ -22,6 +23,7 @@ int main(void)
 		std::cout << v2[3] << " - " << v2.at(3) << std::endl;
 		std::cout << v2[2] << std::endl;
 		std::cout << v3[2] << std::endl;
+		std::cout << (v1 == v2) << std::endl;
 		try
 		{
 			v2.at(10);
