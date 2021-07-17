@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/17 11:17:28 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/17 11:44:28 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define FTVECTOR_HPP
 #include <iostream>
 #include <stdexcept>
+#include <cstddef>
 #include <typeinfo>
 #include "ft_iterator.hpp"
 #include "metafunctions.hpp"
