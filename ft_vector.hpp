@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/17 10:09:42 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/17 10:10:54 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,7 @@ namespace ft
 			if (size > _capacity)
 			{
 				_alloc.deallocate(_v, _capacity);
-				_capacity = 2 * size;
+				_capacity = size;
 				_v = _alloc.allocate(_capacity);
 			}
 			_size = size;
@@ -288,7 +288,7 @@ namespace ft
 			if (n > _capacity)
 			{
 				_alloc.deallocate(_v, _capacity);
-				_capacity = 2 * n;
+				_capacity = n;
 				_v = _alloc.allocate(_capacity);
 			}
 			_size = n;
