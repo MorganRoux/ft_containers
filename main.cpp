@@ -233,5 +233,39 @@ int main(void)
 		std::cout << '\n';
 	}
 
+	NAMESPACE::vector<int>::reverse_iterator rit = vect.rend() - 1;
+	std::cout << *rit << std::endl;
+
+	std::cout << "Insert" << std::endl;
+	{
+		//from cppreference
+		NAMESPACE::vector<int> myvector(3, 100);
+		NAMESPACE::vector<int>::iterator it;
+		print_container(myvector);
+		std::cout << "insert1" << std::endl;
+		it = myvector.begin();
+		it = myvector.insert(it, 200);
+		print_container(myvector);
+
+		std::cout << "insert2" << std::endl;
+		it = myvector.begin();
+		myvector.insert(it, 2, 300);
+		print_container(myvector);
+
+		// "it" no longer valid, get a new one:
+		std::cout << "insert3" << std::endl;
+		it = myvector.begin();
+		NAMESPACE::vector<int> anothervector(2, 400);
+		myvector.insert(it + 2, anothervector.begin(), anothervector.end());
+
+		int myarray[] = {501, 502, 503};
+		myvector.insert(myvector.begin(), myarray, myarray + 3);
+
+		std::cout << "myvector contains:";
+		for (it = myvector.begin(); it < myvector.end(); it++)
+			std::cout << ' ' << *it;
+		std::cout << '\n';
+	}
+
 	return 0;
 }

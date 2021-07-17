@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/17 10:10:54 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/17 11:17:28 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,10 +324,71 @@ namespace ft
 			_size--;
 		}
 
-		iterator insert(iterator position, const value_type &val);
-		void insert(iterator position, size_type n, const value_type &val);
+		iterator insert(iterator position, const value_type &val)
+		{
+			size_type dist = position - begin();
+			insert(position, 1, val);
+			return begin() + dist;
+		}
+
+		void insert(iterator position, size_type n, const value_type &val)
+		{
+			if (_size + n <= _capacity)
+			{
+				iterator it;
+				for (it = end() - 1; it != position - 1; it--)
+					_alloc.construct(&*(it + n), *(it));
+				for (it = position; (it - position) < static_cast<difference_type>(n); it++)
+				{
+					_alloc.destroy(&*it);
+					_alloc.construct(&*it, val);
+				}
+				_size += n;
+			}
+			else
+			{
+				vector<int> tmp;
+				iterator it;
+				for (it = begin(); it != position; it++)
+					tmp.push_back(*it);
+				for (size_type i = 0; i < n; i++)
+					tmp.push_back(val);
+				for (it = position; it != end(); it++)
+					tmp.push_back(*it);
+				this->clear();
+				*this = tmp;
+			}
+		}
 		template <class InputIterator>
-		void insert(iterator position, InputIterator first, InputIterator last);
+		void insert(iterator position, typename ft::enable_if<ft::is_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last)
+		{
+			size_type n = last - first;
+			if (_size + n <= _capacity)
+			{
+				iterator it;
+				for (it = end() - 1; it != position - 1; it--)
+					_alloc.construct(&*(it + n), *(it));
+				for (iterator it_val = first, it = position; (it - position) < static_cast<difference_type>(n) ; it++, it_val++)
+				{
+					_alloc.destroy(&*it);
+					_alloc.construct(&*it, *it_val);
+				}
+				_size += n;
+			}
+			else
+			{
+				vector<int> tmp;
+				iterator it;
+				for (it = begin(); it != position; it++)
+					tmp.push_back(*it);
+				for (iterator it_val = first; it_val != last; it_val++)
+					tmp.push_back(*it_val);
+				for (it = position; it != end(); it++)
+					tmp.push_back(*it);
+				this->clear();
+				*this = tmp;
+			}
+		}
 
 		iterator erase(iterator position)
 		{
@@ -365,7 +426,7 @@ namespace ft
 				}
 				return first;
 			}
-			size_type i =0;
+			size_type i = 0;
 			iterator it = begin();
 			T *tmp = _alloc.allocate(_capacity);
 			for (; it != first; i++, it++)

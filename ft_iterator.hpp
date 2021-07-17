@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 11:57:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/14 18:10:24 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/17 10:22:36 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ namespace ft
 			--(*this);
 			return retval;
 		}
-		ReverseIterator operator+(int n) { _current -= n; return *this; };
+		ReverseIterator operator+(int n) { _current = _current - n; return *this; };
 		ReverseIterator operator+(ReverseIterator other);
-		ReverseIterator operator-(int n) { _current -= n; return *this; };
+		ReverseIterator operator-(int n) { _current = _current + n; return *this; };
 		difference_type operator-(ReverseIterator other) { return -(_current - other._current); }
 		bool operator==(ReverseIterator const &other) const { return (_current == other._current); };
 		bool operator!=(ReverseIterator const &other) const { return !this->operator==(other); };
