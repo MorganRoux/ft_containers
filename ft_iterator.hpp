@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 11:57:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/17 10:22:36 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/17 21:41:46 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,14 +123,29 @@ namespace ft
 			--(*this);
 			return retval;
 		}
-		ReverseIterator operator+(int n) { _current = _current - n; return *this; };
-		ReverseIterator operator+(ReverseIterator other);
-		ReverseIterator operator-(int n) { _current = _current + n; return *this; };
+		ReverseIterator operator+(int n) const
+		{
+			ReverseIterator rit = *this;
+			rit._current -= n;
+			return rit;
+		};
+		ReverseIterator operator-(int n) const
+		{
+			ReverseIterator rit = *this;
+			rit._current += n;
+			return rit;
+		};
 		difference_type operator-(ReverseIterator other) { return -(_current - other._current); }
-		bool operator==(ReverseIterator const &other) const { return (_current == other._current); };
+		bool operator==(ReverseIterator const &other) const { return ((_current - 1) == (other._current - 1)); };
 		bool operator!=(ReverseIterator const &other) const { return !this->operator==(other); };
+		bool operator<(ReverseIterator const &other) const { return ((_current - 1) > (other._current - 1)); }
+		bool operator>=(ReverseIterator const &other) const { return !(*this < other); }
+		bool operator>(ReverseIterator const &other) const { return (other < *this); }
+		bool operator<=(ReverseIterator const &other) const { return !(*this > other); }
+		typename iterator_type::value_type &operator[](difference_type n) { return *(_current - 1 - n); }
+		typename iterator_type::value_type const &operator[](difference_type n) const { return *(_current - 1 - n); }
 		typename iterator_type::value_type &operator*() { return *(_current - 1); };
-		typename iterator_type::value_type const &operator*() const { return *(_current); };
+		typename iterator_type::value_type const &operator*() const { return *(_current - 1); };
 
 	private:
 

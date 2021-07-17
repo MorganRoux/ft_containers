@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/17 18:33:52 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/17 21:56:22 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ namespace ft
 			--(*this);
 			return retval;
 		}
-		ra_iterator operator+(int n)
+		ra_iterator operator+(int n) const
 		{
 			ra_iterator ret = *this;
 			ret._p += n;
 			return ret;
 		}
-		ra_iterator operator-(int n)
+		ra_iterator operator-(int n) const
 		{
 			ra_iterator ret = *this;
 			ret._p -= n;
@@ -84,9 +84,9 @@ namespace ft
 		ra_iterator operator+=(int n) { this->_p += n; return *this; }
 		ra_iterator operator-=(int n) { this->_p -= n; return *this; }
 		bool operator<(ra_iterator const &other) const { return (_p < other._p); }
-		bool operator>=(ra_iterator const &other) const { return !(_p < other._p); }
-		bool operator>(ra_iterator const &other) const { return (_p > other._p); }
-		bool operator<=(ra_iterator const &other) const { return !(_p < other._p); }
+		bool operator>=(ra_iterator const &other) const { return !(*this < other); }
+		bool operator>(ra_iterator const &other) const { return (other < *this); }
+		bool operator<=(ra_iterator const &other) const { return !(*this > other); }
 		bool operator==(ra_iterator const &other) const { return (_p == other._p); }
 		bool operator!=(ra_iterator const &other) const { return !this->operator==(other); }
 		value_type &operator*() { return *_p; }
@@ -146,7 +146,7 @@ namespace ft
 				*it = *first;
 		}
 
-		vector(const vector &x) : _alloc(x._alloc), _size(x._size), _capacity(x._capacity)
+		vector(const vector &x) : _alloc(x._alloc), _size(x._size), _capacity(x._size)
 		{
 			_v = _alloc.allocate(_capacity, 0);
 			for (size_type i = 0; i < _size; i++)
@@ -167,7 +167,7 @@ namespace ft
 			_alloc.deallocate(_v, _capacity);
 			_alloc = x._alloc;
 			_size = x._size;
-			_capacity = x._capacity;
+			_capacity = x._size;
 			_v = _alloc.allocate(_capacity, 0);
 			for (size_type i = 0; i < _size; i++)
 				_alloc.construct(&_v[i], x[i]);
