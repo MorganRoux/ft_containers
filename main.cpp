@@ -78,12 +78,14 @@ int main(void)
 				t1.push_back(i);
 			NAMESPACE::vector<int> t2;
 			t2 = t1;
+
 			NAMESPACE::vector<int> t3(t2.begin(), t2.end());
 			std::cout << t1.size() << t2.size() << t3.size() << t1.capacity() << t2.capacity() << t3.capacity() << std::endl;
 			print_container(t1);
 			print_container(t2);
 			print_container(t3);
 		}
+
 		NAMESPACE::vector<int> vect;
 		std::cout << "get_allocator()" << std::endl;
 		std::cout << vect.get_allocator().max_size() << std::endl;
