@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vector.hpp                                      :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/17 12:12:55 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/17 17:50:31 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define FTVECTOR_HPP
 #include <iostream>
 #include <stdexcept>
+#include <cstddef>
 #include <typeinfo>
 #include "ft_iterator.hpp"
 #include "metafunctions.hpp"
@@ -303,7 +304,7 @@ namespace ft
 			}
 			else
 			{
-				T *tmp = _alloc.allocate(2 * _capacity + 1);
+				T *tmp = _alloc.allocate(_capacity == 0 ? 1 : 2 * _capacity);
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&tmp[i], _v[i]);
 				_alloc.construct(&tmp[_size], val);
@@ -312,7 +313,7 @@ namespace ft
 				_alloc.deallocate(_v, _capacity);
 				_v = tmp;
 				_size++;
-				_capacity = 2 * _capacity + 1;
+				_capacity = _capacity == 0 ? 1 : 2 * _capacity;
 			}
 		}
 
