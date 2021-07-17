@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/17 11:17:28 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/17 12:12:55 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,6 @@ namespace ft
 			ret._p += n;
 			return ret;
 		}
-		difference_type operator+(ra_iterator other)
-		{
-			return (_p - other._p);
-		}
 		ra_iterator operator-(int n)
 		{
 			ra_iterator ret = *this;
@@ -84,6 +80,8 @@ namespace ft
 			return ret;
 		}
 		difference_type operator-(ra_iterator other) { return _p - other._p; }
+		ra_iterator operator+=(int n) { this->_p += n; return *this; }
+		ra_iterator operator-=(int n) { this->_p -= n; return *this; }
 		bool operator<(ra_iterator const &other) const { return (_p < other._p); }
 		bool operator>=(ra_iterator const &other) const { return !(_p < other._p); }
 		bool operator>(ra_iterator const &other) const { return (_p > other._p); }
@@ -468,13 +466,35 @@ namespace ft
 
 	// relational operators
 	template <class T, class Alloc>
-	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	{
+		iterator lit, rit;
+		if (lit.size() != rit.size() || lit.capacity() != rit.capacity())
+			return false;
+
+		for (lit = lhs.begin(), rit = rhs.begin(); lit != lhs.end(); lit++; rit++)
+		{
+			if (*lit != *rit)
+				return false;
+		}
+		return true;
+	}
 
 	template <class T, class Alloc>
-	bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+	bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs) { return !(lhs == rhs); }
 
 	template <class T, class Alloc>
-	bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
+	bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
+	{
+		iterator lit, rit;
+
+		for (lit = lhs.begin(), rit = rhs.begin(); lit != lhs.end() && rit != rhs.end(); lit++; rit++)
+		{
+			if (*lit != *rit)
+				return (*lit < *rit);
+		}
+		return lhs.size() < rhs.size();
+	}
 
 	template <class T, class Alloc>
 	bool operator<=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs);
@@ -487,7 +507,7 @@ namespace ft
 
 	// swap
 	template <class T, class Alloc>
-	void swap(vector<T, Alloc> &x, vector<T, Alloc> &y);
+	void swap(vector<T, Alloc> &x, vector<T, Alloc> &y) { x.swap(y);}
 
 	// Template specializations
 	template <class Alloc>

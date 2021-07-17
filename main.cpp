@@ -231,6 +231,10 @@ int main(void)
 		for (unsigned i = 0; i < bar.size(); i++)
 			std::cout << ' ' << bar[i];
 		std::cout << '\n';
+
+		swap(bar, foo);
+		print_container(bar);
+		print_container(foo);
 	}
 
 	NAMESPACE::vector<int>::reverse_iterator rit = vect.rend() - 1;

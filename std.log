@@ -591,6 +591,18 @@ Erase2
 Swap
 foo contains: 200 200 200 200 200
 bar contains: 100 100 100
+=== Container ===
+200
+200
+200
+200
+200
+======
+=== Container ===
+100
+100
+100
+======
 0
 Insert
 === Container ===
