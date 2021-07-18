@@ -1,6 +1,6 @@
 NAME		=	ft_containers
 
-SRCS		=	main.cpp
+SRCS		=	test_vector.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 CC			=	clang++
