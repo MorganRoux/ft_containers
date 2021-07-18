@@ -6,9 +6,14 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 15:59:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/17 11:30:09 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/18 10:08:12 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+#ifndef METAFUNCTIONS_HPP
+#define METAFUNCTIONS_HPP
+#include "ft_iterator.hpp"
 
 namespace ft
 {
@@ -42,3 +47,6 @@ namespace ft
 
 
 };
+
+
+#endif
