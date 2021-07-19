@@ -1,10 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test_vector.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/19 20:31:45 by mroux             #+#    #+#             */
+/*   Updated: 2021/07/19 20:34:02 by mroux            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vector.hpp"
 #include "utils.hpp"
+#include "metafunctions.hpp"
 #include <vector>
 
-int main(void)
+void test_vector()
 {
 	{
+		std::cout << "Start" << std::endl;
 		std::vector<int> sv1(6), sv2(6);
 		std::vector<int>::iterator it1, it2;
 		it1 = sv1.begin();
@@ -406,5 +420,4 @@ int main(void)
 			std::cout << vect.max_size() << std::endl;
 		}
 	}
-	return 0;
 }
