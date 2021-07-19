@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/18 13:00:25 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/19 19:38:46 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <typeinfo>
 #include "ft_iterator.hpp"
 #include "metafunctions.hpp"
+#include "pair.hpp"
 
 namespace ft
 {
@@ -86,13 +87,13 @@ namespace ft
 		class Key,
 		class T,
 		class Compare = std::less<Key>,
-		class Alloc = std::allocator<std::pair<const Key, T>>>
+		class Alloc = std::allocator<ft::pair<const Key, T>>>
 	class map
 	{
 	public:
 		typedef Key key_type;
 		typedef T mapped_type;
-		typedef pair<const key_type, mapped_type> value_type;
+		typedef ft::pair<const key_type, mapped_type> value_type;
 		typedef Compare key_compare;
 		typedef Alloc allocator_type;
 		typedef typename allocator_type::reference reference;
@@ -135,7 +136,7 @@ namespace ft
 		size_type size() const;
 		size_type max_size() const;
 		mapped_type &operator[](const key_type &k);
-		pair<iterator, bool> insert(const value_type &val);
+		ft::pair<iterator, bool> insert(const value_type &val);
 		iterator insert(iterator position, const value_type &val);
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last);
@@ -153,8 +154,8 @@ namespace ft
 		const_iterator lower_bound(const key_type &k) const;
 		iterator upper_bound(const key_type &k);
 		const_iterator upper_bound(const key_type &k) const;
-		pair<const_iterator, const_iterator> equal_range(const key_type &k) const;
-		pair<iterator, iterator> equal_range(const key_type &k);
+		ft::pair<const_iterator, const_iterator> equal_range(const key_type &k) const;
+		ft::pair<iterator, iterator> equal_range(const key_type &k);
 		allocator_type get_allocator() const;
 	};
 }
