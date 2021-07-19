@@ -1,27 +1,3 @@
-=================OTHERS =================
-Is Integral
-0
-0
-1
-1
-1
-Pairs
-46.8
-46.8
-46.8
-78
-0
-1
-0
-1
-0
-1
-lexical compare
-1
-0
-0
-0
-1
 ==================VECTORS ====================
 Start
 0 - 0 : 0
@@ -776,6 +752,50 @@ size: 6
 ======
 insert3
 myvector contains: 501 502 503 300 300 400 400 200 100 100 100
+=============WITH STRING =================
+Start
+ -  : 0
+diff: 6 - 6
+========= 1. ========
+ - 
+
+
+0
+Out of range error in vector.at()
+Out of range error in vector.at() const
+768614336404564650
+========= 2. =========
+hello
+
+
+
+hello
+hello
+diff: 6 - 6
+========= 3. =========
+hello
+hello
+
+
+
+hello
+========= 4. =========
+
+
+========= 5. =========
+hello
+
+
+
+hello
+hello
+go
+hello
+
+
+
+hello
+hello
 ======== TESTS CONST =========
 t: 32
 vect: 20

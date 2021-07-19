@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 20:31:38 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/19 21:20:57 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/19 23:58:20 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void test_map();
 int main(void)
 {
 
-	std::cout << "=================OTHERS =================" << std::endl;
-	test_other();
+	// std::cout << "=================OTHERS =================" << std::endl;
+	// test_other();
 	std::cout << "==================VECTORS ====================" << std::endl;
 	test_vector();
 	std::cout << "================== MAP =======================" << std::endl;
-	test_map();
+	//test_map();
 	return 0;
 }
