@@ -6,12 +6,12 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/19 19:38:46 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/19 21:27:28 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FTVECTOR_HPP
-#define FTVECTOR_HPP
+#ifndef FTMAP_HPP
+#define FTMAP_HPP
 #include <iostream>
 #include <stdexcept>
 #include <cstddef>
@@ -159,3 +159,5 @@ namespace ft
 		allocator_type get_allocator() const;
 	};
 }
+
+#endif
