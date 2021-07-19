@@ -6,9 +6,12 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 20:12:50 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/17 11:53:07 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/19 20:55:57 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef FTUTILS_HPP
+#define FTUTILS_HPP
 
 template<class Container>
 void print_container(Container c)
@@ -20,3 +23,4 @@ void print_container(Container c)
 		// std::cout << "cap: "<< c.capacity() << std::endl;
 		std::cout << "======" << std::endl;
 }
+#endif
