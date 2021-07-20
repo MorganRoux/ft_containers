@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/20 20:19:46 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/20 20:57:31 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,7 +350,7 @@ namespace ft
 			}
 			else
 			{
-				vector<int> tmp;
+				vector<T> tmp;
 				iterator it;
 				for (it = begin(); it != position; it++)
 					tmp.push_back(*it);
@@ -380,7 +380,7 @@ namespace ft
 			}
 			else
 			{
-				vector<int> tmp;
+				vector<T> tmp;
 				iterator it;
 				for (it = begin(); it != position; it++)
 					tmp.push_back(*it);
