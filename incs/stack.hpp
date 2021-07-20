@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 09:47:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/18 10:10:10 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/20 20:58:53 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 namespace ft
 {
+	// TODO : add a custom tester
 	template <class T, class Container = ft::vector<T> >
 	class stack
 	{

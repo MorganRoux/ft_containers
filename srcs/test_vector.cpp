@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 20:31:45 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/20 20:56:05 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/20 21:58:02 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,6 +410,9 @@ void test_vector()
 	{
 
 		std::cout << "Constructor" << std::endl;
+		{
+			NAMESPACE::vector<std::string> t1;
+		}
 		{
 			NAMESPACE::vector<std::string> t1;
 			for (int i = 0; i < 20; i++)

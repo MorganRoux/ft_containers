@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/20 20:57:31 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/20 22:05:12 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,13 @@ namespace ft
 		typedef ReverseIterator<iterator> reverse_iterator;
 		typedef ReverseIterator<const_iterator> const_reverse_iterator;
 
+	private:
+		pointer			_v;
+		allocator_type	_alloc;
+		size_type		_size;
+		size_type		_capacity;
+
+	public:
 		template <class U, class UAlloc> friend bool operator==(const vector<U, UAlloc> &lhs, const vector<U, UAlloc> &rhs);
 		template <class U, class UAlloc> friend bool operator!=(const vector<U, UAlloc> &lhs, const vector<U, UAlloc> &rhs);
 		template <class U, class UAlloc> friend bool operator<(const vector<U, UAlloc> &lhs, const vector<U, UAlloc> &rhs);
@@ -460,13 +467,10 @@ namespace ft
 				_alloc.destroy(&_v[i]);
 			_size = 0;
 		}
+
+		// Allocator
 		allocator_type get_allocator() const { return _alloc; }
 
-	private:
-		T *_v;
-		Alloc _alloc;
-		size_type _size;
-		size_type _capacity;
 	};
 
 	// relational operators

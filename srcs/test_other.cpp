@@ -19,6 +19,18 @@ bool mypred(int a, int b)
 	return a == b;
 }
 
+class A
+	{
+	public:
+		A() { std::cout << "Constructor " << std::endl; }
+		A(const A &other)
+		{
+			std::cout << "Copy Constructor " << std::endl;
+			(void)other;
+		}
+		~A() { std::cout << "Destructor " << std::endl; }
+	};
+
 void test_other()
 {
 	std::cout << "Is Integral" << std::endl;
@@ -45,6 +57,34 @@ void test_other()
 		std::cout << (p1 >= p2) << std::endl;
 		std::cout << (p1 < p2) << std::endl;
 		std::cout << (p1 > p2) << std::endl;
+	}
+	//HARD ONE
+
+	// {
+	// 	std::cout << "--------constructor destructor of pair" << std::endl;
+	// 	A a;
+	// 	NAMESPACE::pair<std::string, A> t;
+	// 	NAMESPACE::pair<std::string, A> test("hello", a);
+	// 	std::cout << "Ending" << std::endl;
+	// }
+	// {
+	// 	std::cout << "-------makepair" << std::endl;
+	// 	A a;
+	// 	NAMESPACE::pair<std::string, A> test = NAMESPACE::make_pair<std::string, A>("hello", a);
+	// }
+
+	{
+		std::cout << "--------constructor destructor of pair" << std::endl;
+		std::string a("hey");
+		NAMESPACE::pair<std::string, std::string> t, t2;
+		NAMESPACE::pair<std::string, std::string> test("hello", a);
+		t = test;
+		std::cout << test.first << test.second << t.first << t.second << t2.first << t2.second << std::endl;
+	}
+	{
+		std::cout << "-------makepair" << std::endl;
+		NAMESPACE::pair<std::string, std::string> test(NAMESPACE::make_pair<std::string, std::string>("hello", "yay"));
+		std::cout << test.first << test.second << std::endl;
 	}
 
 	std::cout << "lexical compare" << std::endl;
