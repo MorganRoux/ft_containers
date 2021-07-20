@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 20:31:45 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/20 00:03:10 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/20 20:16:55 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,9 +351,9 @@ void test_vector()
 
 		ft::vector<std::string> v1;
 		ft::vector<std::string> v2(6, "hello");
-		v2[1] = 1;
-		v2[2] = 7;
-		v2[3] = 8;
+		v2[1] = "one";
+		v2[2] = 100;
+		v2[3] = std::string("tri");
 		const ft::vector<std::string> v3(v2);
 		std::cout << v2[3] << " - " << v2.at(3) << std::endl;
 		std::cout << v2[2] << std::endl;
@@ -403,9 +403,9 @@ void test_vector()
 		for (ft::vector<std::string>::iterator it = v2.begin(); it != v2.end(); it++)
 			std::cout << *it << std::endl;
 		ft::vector<std::string> v4(v2.begin(), v2.end());
-		std::cout << "go" << std::endl;
-		for (ft::vector<std::string>::iterator it = v4.begin(); it != v4.end(); it++)
-			std::cout << *it << std::endl;
+		// std::cout << "go" << std::endl;
+		// for (ft::vector<std::string>::iterator it = v4.begin(); it != v4.end(); it++)
+		// 	std::cout << *it << std::endl;
 	}
 	{
 	// 	std::cout << "======== TESTS =========" << std::endl;

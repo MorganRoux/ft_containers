@@ -757,43 +757,36 @@ Start
  -  : 0
 diff: 6 - 6
 ========= 1. ========
- - 
-
-
+tri - tri
+d
+d
 0
 Out of range error in vector.at()
 Out of range error in vector.at() const
 768614336404564650
 ========= 2. =========
 hello
-
-
-
+one
+d
+tri
 hello
 hello
 diff: 6 - 6
 ========= 3. =========
 hello
 hello
-
-
-
+tri
+d
+one
 hello
 ========= 4. =========
 
-
+d
 ========= 5. =========
 hello
-
-
-
-hello
-hello
-go
-hello
-
-
-
+one
+d
+tri
 hello
 hello
 ======== TESTS CONST =========
