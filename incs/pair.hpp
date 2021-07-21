@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 19:38:49 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/19 23:30:12 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/21 22:36:04 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,10 @@ namespace ft
 		first_type first;
 		second_type second;
 
-		pair() {
-			first = first_type();
-			second = second_type();
-		}
+		pair(): first(first_type()), second(second_type()) {}
 
 		template <class U, class V>
-		pair(const pair<U, V> &pr){
-			first = pr.first;
-			second = pr.second;
-		}
+		pair(const pair<U, V> &pr): first(pr.first), second(pr.second) {}
 
 		pair(const first_type &a, const second_type &b)
 		{

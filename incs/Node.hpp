@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 19:22:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/21 21:18:06 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/21 22:28:36 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ namespace ft
 	class Node
 	{
 	public:
+
+		U 			_value;
+		Node*		_left;
+		Node*		_right;
+		Node*		_parent;
+
 		static Node*	leftmost(Node *n)
 		{
 			while(n->_left != NULL)
@@ -37,15 +43,11 @@ namespace ft
 			return n;
 		}
 
+		Node() : _value(U()), _left(NULL), _right(NULL), _parent(NULL) {};
 		Node(U v, Node *left = NULL, Node *right = NULL, Node *parent = NULL) :
 			_value(v), _left(left), _right(right), _parent(parent) {};
 		~Node(){};
 
-		U 			getValue() { return _value; }
-		U const		getValue() const { return _value; }
-		void		setLeft(Node* left) { _left = left; }
-		void		setRight(Node *right) { _right = right; }
-		void		setParent(Node *parent) {_parent = parent; }
 		Node*		prev(){
 			Node* newNode = prevL();
 			if (newNode == NULL)
@@ -60,12 +62,6 @@ namespace ft
 		}
 
 	private:
-		U 			_value;
-		Node*		_left;
-		Node*		_right;
-		Node*		_parent;
-
-		Node() : _value(U()), _left(NULL), _right(NULL), _parent(NULL) {};
 		Node*		prevL()
 		{
 			if (_left != NULL)

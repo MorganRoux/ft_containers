@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/21 20:54:57 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/22 00:25:01 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,25 @@ namespace ft
 {
 
 
-	template <class U>
+	template <class U, class Compare>
 	class bi_iterator : public ft::iterator<bidirectional_iterator_tag, U>
 	{
 
 	private:
 		typedef ft::iterator<bidirectional_iterator_tag, U> base_iterator;
-
+		typedef Compare key_compare;
 	public:
 		typedef typename ft::iterator<bidirectional_iterator_tag, U>::value_type value_type;
-		typedef typename ft::iterator<bidirectional_iterator_tag, U>::difference_type difference_type;
-		typedef typename ft::iterator<bidirectional_iterator_tag, U>::pointer pointer;
 		typedef typename ft::iterator<bidirectional_iterator_tag, U>::reference reference;
-		typedef typename ft::iterator<bidirectional_iterator_tag, U>::iterator_category iterator_category;
 
-		bi_iterator(pointer p = NULL) : _p(p){};
+
+		bi_iterator(Node<value_type> *p = NULL, const key_compare &comp = key_compare()) : _p(p), _value_comp(comp) {};
 		~bi_iterator(){};
-		bi_iterator(bi_iterator const &other) : _p(other._p){};
+		bi_iterator(bi_iterator const &other) : _p(other._p), _value_comp(other._value_comp){};
 		bi_iterator &operator=(bi_iterator const &other)
 		{
 			_p = other._p;
+			return *this;
 		}
 		bi_iterator &operator++()
 		{
@@ -68,19 +67,38 @@ namespace ft
 			--(*this);
 			return retval;
 		}
-		bool operator<(bi_iterator const &other) const { return (_p < other._p); }
+		bool operator<(bi_iterator const &other) const { return (_value_comp(_p->_value,other._p->_value)); }
 		bool operator>=(bi_iterator const &other) const { return !(*this < other); }
 		bool operator>(bi_iterator const &other) const { return (other < *this); }
 		bool operator<=(bi_iterator const &other) const { return !(*this > other); }
-		bool operator==(bi_iterator const &other) const { return (_p == other._p); }
+		bool operator==(bi_iterator const &other) const { return ( !_value_comp(_p->_value, other._p->_value) && !_value_comp(other._p->_value, _p->_value)); }
 		bool operator!=(bi_iterator const &other) const { return !this->operator==(other); }
-		value_type &operator*() { return _p->getValue(); }
-		value_type const &operator*() const { return _p->getValue(); }
+		value_type &operator*() { return _p->_value; }
+		value_type const &operator*() const { return _p->_value; }
 
-		operator bi_iterator<const U>() const { return bi_iterator<const U>(_p); };
+		operator bi_iterator<const U, key_compare>() const { return bi_iterator<const U, key_compare>(_p); };
 
-	protected:
+		class value_compare
+		{
+			// in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+			friend class bi_iterator;
+
+		protected:
+			key_compare comp;
+			value_compare(key_compare c) : comp(c) {} // constructed with map's comparison object
+		public:
+			typedef bool result_type;
+			typedef value_type first_argument_type;
+			typedef value_type second_argument_type;
+			bool operator()(const value_type &x, const value_type &y) const
+			{
+				return comp(x.first, y.first);
+			}
+		};
+
+		protected:
 		Node<value_type>* _p;
+		value_compare _value_comp;
 	};
 
 	template <
@@ -100,8 +118,8 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		typedef bi_iterator<value_type> iterator;
-		typedef bi_iterator<const value_type> const_iterator;
+		typedef bi_iterator<value_type, key_compare> iterator;
+		typedef bi_iterator<const value_type, key_compare> const_iterator;
 		// TODO : disable function definition of reverse iterator depending on the type of iterator
 		typedef ReverseIterator<iterator> reverse_iterator;
 		typedef ReverseIterator<const_iterator> const_reverse_iterator;
@@ -130,21 +148,21 @@ namespace ft
 	private:
 
 		//pointer _m;
-		node_type* _root;
-		size_type _size;
-		size_type _capacity;
+		node_type	*_root;
+		node_type	_lastNode;
+		size_type 		_size;
 		allocator_type _alloc;
 		key_compare _key_comp;
 		value_compare _value_comp;
 
 	public:
 		explicit map(const key_compare &comp = key_compare(),
-					 const allocator_type &alloc = allocator_type()) : _root(NULL), _size(0), _capacity(0), _alloc(alloc), _key_comp(comp), _value_comp(comp){};
+					 const allocator_type &alloc = allocator_type()) :_root(NULL), _size(0), _alloc(alloc), _key_comp(comp), _value_comp(comp){};
 
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last,
 			const key_compare &comp = key_compare(),
-			const allocator_type &alloc = allocator_type()) : _root(NULL), _size(last - first), _capacity(last - first), _alloc(alloc), _key_comp(comp), _value_comp(comp)
+			const allocator_type &alloc = allocator_type()) :  _root(NULL), _size(last - first), _alloc(alloc), _key_comp(comp), _value_comp(comp)
 		{
 			for (iterator it = first; it != last; it++)
 				insert(*it);
@@ -157,7 +175,7 @@ namespace ft
 
 		~map()
 		{
-			clear();
+			//clear();
 		}
 
 		map &operator=(const map &x)
@@ -168,24 +186,25 @@ namespace ft
 		}
 
 		// Iterators
-		iterator begin();					   // { return iterator(_m); }
-		const_iterator begin() const;		   //{ return const_iterator(_m); }
-		iterator end();						   // { return iterator(_m + _size); }
-		const_iterator end() const;			   // { return iterator(_m + _size); }
-		reverse_iterator rbegin();			   //{ return reverse_iterator(_m); }
-		const_reverse_iterator rbegin() const; //{ return const_reverse_iterator(_m); }
-		reverse_iterator rend();			   //{ return reverse_iterator(_m + _size); }
-		const_reverse_iterator rend() const;   //{ return const_reverse_iterator(_m + _size); }
+		iterator begin()					{ return iterator(node_type::leftmost(_root)); }
+		const_iterator begin() const		{ return const_iterator(node_type::leftmost(_root)); }
+		iterator end()						{ return iterator(&_lastNode); }
+		const_iterator end() const			{ return iterator(&_lastNode); }
+		// reverse_iterator rbegin();				{ return reverse_iterator(node_type::rightmost(_root)); }
+		// const_reverse_iterator rbegin() const;	{ return const_reverse_iterator(node_type::rightmost(_root)); }
+		// reverse_iterator rend();				{ return reverse_iterator(&_rendNode); }
+		// const_reverse_iterator rend() const;	{ return const_reverse_iterator(&_rendNode); }
 
 		// Capacity
 		bool empty() const { return (_size == 0); }
 		size_type size() const { return _size; }
 		size_type max_size() const
 		{
+			std::allocator<node_type> al;
 			size_type max_size = 0;
 			try
 			{
-				max_size = _alloc.max_size();
+				max_size = al.max_size();
 			}
 			catch (std::exception &e)
 			{
@@ -198,7 +217,45 @@ namespace ft
 		mapped_type &operator[](const key_type &k);
 
 		// Modifiers
-		ft::pair<iterator, bool> insert(const value_type &val);
+		ft::pair<iterator, bool> insert(const value_type &val)
+		{
+			if (_root == NULL)
+			{
+				_root = new node_type(val, NULL, &_lastNode, NULL);
+				return ft::pair<iterator, bool>(iterator(_root), true);
+			}
+			node_type *node = _root;
+			while(1) //node->_left != NULL || node->_right != NULL)
+			{
+				if (_value_comp(val, node->_value))		//val < node->_value
+				{
+					if (node->_left == NULL || node->_left == &_lastNode)
+					{
+						node_type *newNode = new node_type(val,node->_left, NULL, node);
+						node->_left = newNode;
+						_size++;
+						return ft::pair<iterator, bool>(iterator(newNode), true);
+					}
+					else
+						node = node->_left;
+				}
+				else if(_value_comp(node->_value, val))	//val > node->_value
+				{
+					if (node->_right == NULL || node->_right == &_lastNode)
+					{
+						node_type *newNode = new node_type(val, NULL, node->_right, node);
+						node->_right = newNode;
+						_size++;
+						return ft::pair<iterator, bool>(iterator(newNode), true);
+					}
+					else
+						node = node->_right;
+				}
+				else								//val == node->_value
+					return ft::pair<iterator, bool>(iterator(node), false);
+
+			}
+		}
 		iterator insert(iterator position, const value_type &val);
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last);
