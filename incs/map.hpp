@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/20 22:04:57 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/21 20:54:57 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@
 #include "ft_iterator.hpp"
 #include "metafunctions.hpp"
 #include "pair.hpp"
+#include "Node.hpp"
 
 namespace ft
 {
+
+
 	template <class U>
 	class bi_iterator : public ft::iterator<bidirectional_iterator_tag, U>
 	{
@@ -42,11 +45,10 @@ namespace ft
 		bi_iterator &operator=(bi_iterator const &other)
 		{
 			_p = other._p;
-			return (*this);
 		}
 		bi_iterator &operator++()
 		{
-			_p++;
+			_p = _p->next();
 			return *this;
 		}
 		bi_iterator operator++(int)
@@ -57,7 +59,7 @@ namespace ft
 		}
 		bi_iterator &operator--()
 		{
-			_p--;
+			_p = _p->prev();
 			return *this;
 		}
 		bi_iterator operator--(int)
@@ -72,15 +74,13 @@ namespace ft
 		bool operator<=(bi_iterator const &other) const { return !(*this > other); }
 		bool operator==(bi_iterator const &other) const { return (_p == other._p); }
 		bool operator!=(bi_iterator const &other) const { return !this->operator==(other); }
-		value_type &operator*() { return *_p; }
-		value_type const &operator*() const { return *_p; }
-		value_type &operator[](difference_type n) { return *(_p + n); }
-		value_type const &operator[](difference_type n) const { return *(_p + n); }
+		value_type &operator*() { return _p->getValue(); }
+		value_type const &operator*() const { return _p->getValue(); }
 
 		operator bi_iterator<const U>() const { return bi_iterator<const U>(_p); };
 
 	protected:
-		pointer _p;
+		Node<value_type>* _p;
 	};
 
 	template <
@@ -107,73 +107,75 @@ namespace ft
 		typedef ReverseIterator<const_iterator> const_reverse_iterator;
 		typedef typename iterator_traits<iterator>::difference_type difference_type;
 		typedef size_t size_type;
+		typedef Node<value_type> node_type;
 
 		class value_compare
 		{
-			 // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+			// in C++98, it is required to inherit binary_function<value_type,value_type,bool>
 			friend class map;
 
-			protected:
-				key_compare comp;
-				value_compare(key_compare c) : comp(c) {} // constructed with map's comparison object
-			public:
-				typedef bool result_type;
-				typedef value_type first_argument_type;
-				typedef value_type second_argument_type;
-				bool operator()(const value_type &x, const value_type &y) const
-				{
-					return comp(x.first, y.first);
-				}
-
+		protected:
+			key_compare comp;
+			value_compare(key_compare c) : comp(c) {} // constructed with map's comparison object
+		public:
+			typedef bool result_type;
+			typedef value_type first_argument_type;
+			typedef value_type second_argument_type;
+			bool operator()(const value_type &x, const value_type &y) const
+			{
+				return comp(x.first, y.first);
+			}
 		};
 
 	private:
-		pointer _m;
+
+		//pointer _m;
+		node_type* _root;
 		size_type _size;
 		size_type _capacity;
 		allocator_type _alloc;
-		value_compare _key_comp;
+		key_compare _key_comp;
+		value_compare _value_comp;
 
 	public:
-
-		// TODO : add comp
 		explicit map(const key_compare &comp = key_compare(),
-					 const allocator_type &alloc = allocator_type()):
-			_size(0), _capacity(0), _alloc(alloc), _key_comp(comp)
-			{
-				_m = _alloc.allocate(_capacity, 0);
-			};
+					 const allocator_type &alloc = allocator_type()) : _root(NULL), _size(0), _capacity(0), _alloc(alloc), _key_comp(comp), _value_comp(comp){};
 
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last,
 			const key_compare &comp = key_compare(),
-			const allocator_type &alloc = allocator_type());
+			const allocator_type &alloc = allocator_type()) : _root(NULL), _size(last - first), _capacity(last - first), _alloc(alloc), _key_comp(comp), _value_comp(comp)
+		{
+			for (iterator it = first; it != last; it++)
+				insert(*it);
+		}
 
-		map(const map &x){
+		map(const map &x)
+		{
 			*this = x;
 		}
 
-		~map() {
+		~map()
+		{
 			clear();
 		}
 
 		map &operator=(const map &x)
 		{
 			clear();
-			_alloc.allocate(_m, x.capacity());
-			for (iterator it = x.begin(); it < x.end(); it++)
+			for (iterator it = x.begin(); it != x.end(); it++)
 				insert(*it);
 		}
 
 		// Iterators
-		iterator begin() { return iterator(_m); }
-		const_iterator begin() const { return const_iterator(_m); }
-		iterator end() { return iterator(_m + _size); }
-		const_iterator end() const { return iterator(_m + _size); }
-		reverse_iterator rbegin() { return reverse_iterator(_m); }
-		const_reverse_iterator rbegin() const { return const_reverse_iterator(_m); }
-		reverse_iterator rend() { return reverse_iterator(_m + _size); }
-		const_reverse_iterator rend() const { return const_reverse_iterator(_m + _size); }
+		iterator begin();					   // { return iterator(_m); }
+		const_iterator begin() const;		   //{ return const_iterator(_m); }
+		iterator end();						   // { return iterator(_m + _size); }
+		const_iterator end() const;			   // { return iterator(_m + _size); }
+		reverse_iterator rbegin();			   //{ return reverse_iterator(_m); }
+		const_reverse_iterator rbegin() const; //{ return const_reverse_iterator(_m); }
+		reverse_iterator rend();			   //{ return reverse_iterator(_m + _size); }
+		const_reverse_iterator rend() const;   //{ return const_reverse_iterator(_m + _size); }
 
 		// Capacity
 		bool empty() const { return (_size == 0); }
@@ -204,15 +206,11 @@ namespace ft
 		size_type erase(const key_type &k);
 		void erase(iterator first, iterator last);
 		void swap(map &x);
-		void clear() {
-			for (size_type i = 0; i < _size; i++)
-				_alloc.destroy(&_m[i]);
-			_alloc.deallocate(_m, _capacity);
-		}
+		void clear();
 
 		// Observers
-		key_compare key_comp() const;
-		value_compare value_comp() const;
+		key_compare key_comp() const { return _key_comp; }
+		value_compare value_comp() const { return _value_comp; }
 
 		// Operations
 		iterator find(const key_type &k);
@@ -226,9 +224,9 @@ namespace ft
 		ft::pair<iterator, iterator> equal_range(const key_type &k);
 
 		// Allocator
-		allocator_type get_allocator() const;
-
+		allocator_type get_allocator() const { return _alloc; }
 	};
+
 }
 
 #endif

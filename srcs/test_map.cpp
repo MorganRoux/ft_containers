@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/20 22:02:01 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/21 20:19:33 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@
 
 void test_map()
 {
-	std::cout << "constructor / desctructor" << std::endl;
-	{
-		NAMESPACE::map<std::string, std::string> m;
-		for (NAMESPACE::map<std::string, std::string>::iterator it = m.begin(); it != m.end(); it++)
-		{
-			std::cout << (*it).first << (*it).second << std::endl;
-		}
-		std::cout << m.size() << std::endl;
-	}
-	{
-		NAMESPACE::map<std::string, std::string> m;
-		for (NAMESPACE::map<std::string, std::string>::iterator it = m.begin(); it != m.end(); it++)
-		{
-			std::cout << (*it).first << (*it).second << std::endl;
-		}
-		std::cout << m.size() << std::endl;
-	}
+	// std::cout << "constructor / desctructor" << std::endl;
+	// {
+	// 	NAMESPACE::map<std::string, std::string> m;
+	// 	for (NAMESPACE::map<std::string, std::string>::iterator it = m.begin(); it != m.end(); it++)
+	// 	{
+	// 		std::cout << (*it).first << (*it).second << std::endl;
+	// 	}
+	// 	std::cout << m.size() << std::endl;
+	// }
+	// {
+	// 	NAMESPACE::map<std::string, std::string> m;
+	// 	for (NAMESPACE::map<std::string, std::string>::iterator it = m.begin(); it != m.end(); it++)
+	// 	{
+	// 		std::cout << (*it).first << (*it).second << std::endl;
+	// 	}
+	// 	std::cout << m.size() << std::endl;
+	// }
 }
