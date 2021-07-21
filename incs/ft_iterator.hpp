@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 11:57:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/17 21:41:46 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/22 01:01:54 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,16 +136,26 @@ namespace ft
 			return rit;
 		};
 		difference_type operator-(ReverseIterator other) { return -(_current - other._current); }
-		bool operator==(ReverseIterator const &other) const { return ((_current - 1) == (other._current - 1)); };
+		bool operator==(ReverseIterator const &other) const { return (_current == other._current); };
 		bool operator!=(ReverseIterator const &other) const { return !this->operator==(other); };
-		bool operator<(ReverseIterator const &other) const { return ((_current - 1) > (other._current - 1)); }
+		bool operator<(ReverseIterator const &other) const { return (_current > other._current); }
 		bool operator>=(ReverseIterator const &other) const { return !(*this < other); }
 		bool operator>(ReverseIterator const &other) const { return (other < *this); }
 		bool operator<=(ReverseIterator const &other) const { return !(*this > other); }
 		typename iterator_type::value_type &operator[](difference_type n) { return *(_current - 1 - n); }
 		typename iterator_type::value_type const &operator[](difference_type n) const { return *(_current - 1 - n); }
-		typename iterator_type::value_type &operator*() { return *(_current - 1); };
-		typename iterator_type::value_type const &operator*() const { return *(_current - 1); };
+		typename iterator_type::value_type &operator*()
+		{
+			iterator_type tmp = _current;
+			tmp--;
+			return *tmp;
+		};
+		typename iterator_type::value_type const &operator*() const
+		{
+			iterator_type tmp = _current;
+			tmp--;
+			return *tmp;
+		};
 
 	private:
 

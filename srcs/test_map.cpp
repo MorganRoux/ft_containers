@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/22 00:25:08 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/22 01:20:48 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void test_map()
 	{
 	NAMESPACE::map<int, int> m;
 	NAMESPACE::map<int, int>::iterator it;
+	NAMESPACE::map<int, int>::reverse_iterator rit;
+
 	it = m.insert(NAMESPACE::pair<int,int>(4, 4)).first;
 	std::cout << (*it).second << std::endl;
 	it = m.insert(NAMESPACE::make_pair<int,int>(1, 1)).first;
@@ -56,7 +58,10 @@ void test_map()
 
 	std::cout << "iterator" << std::endl;
 	for (it = m.begin(); it != m.end(); it++)
-		std::cout << (*it).second << std::endl;
+		std::cout << (*it).first << (*it).second << std::endl;
+	std::cout << "reverse iterator" << std::endl;
 
+	for (rit = m.rbegin(); rit != m.rend(); rit++)
+		std::cout << (*rit).first << (*rit).second << std::endl;
 	}
 }

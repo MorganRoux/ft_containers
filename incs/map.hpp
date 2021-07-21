@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/22 00:25:01 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/22 01:21:34 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ namespace ft
 		bi_iterator &operator=(bi_iterator const &other)
 		{
 			_p = other._p;
+			_value_comp = other._value_comp;
 			return *this;
 		}
 		bi_iterator &operator++()
@@ -190,10 +191,10 @@ namespace ft
 		const_iterator begin() const		{ return const_iterator(node_type::leftmost(_root)); }
 		iterator end()						{ return iterator(&_lastNode); }
 		const_iterator end() const			{ return iterator(&_lastNode); }
-		// reverse_iterator rbegin();				{ return reverse_iterator(node_type::rightmost(_root)); }
-		// const_reverse_iterator rbegin() const;	{ return const_reverse_iterator(node_type::rightmost(_root)); }
-		// reverse_iterator rend();				{ return reverse_iterator(&_rendNode); }
-		// const_reverse_iterator rend() const;	{ return const_reverse_iterator(&_rendNode); }
+		reverse_iterator rbegin()				{ return reverse_iterator(&_lastNode); }
+		const_reverse_iterator rbegin() const	{ return const_reverse_iterator(&_lastNode); }
+		reverse_iterator rend()					{ return reverse_iterator(node_type::leftmost(_root)); }
+		const_reverse_iterator rend() const		{ return const_reverse_iterator(node_type::leftmost(_root)); }
 
 		// Capacity
 		bool empty() const { return (_size == 0); }
@@ -222,6 +223,7 @@ namespace ft
 			if (_root == NULL)
 			{
 				_root = new node_type(val, NULL, &_lastNode, NULL);
+				_lastNode._parent = _root;
 				return ft::pair<iterator, bool>(iterator(_root), true);
 			}
 			node_type *node = _root;
@@ -244,6 +246,8 @@ namespace ft
 					if (node->_right == NULL || node->_right == &_lastNode)
 					{
 						node_type *newNode = new node_type(val, NULL, node->_right, node);
+						if (node->_right == &_lastNode)
+							_lastNode._parent = newNode;
 						node->_right = newNode;
 						_size++;
 						return ft::pair<iterator, bool>(iterator(newNode), true);
