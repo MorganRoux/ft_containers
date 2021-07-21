@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 19:22:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/21 21:02:32 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/21 21:18:06 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ namespace ft
 
 		U 			getValue() { return _value; }
 		U const		getValue() const { return _value; }
+		void		setLeft(Node* left) { _left = left; }
+		void		setRight(Node *right) { _right = right; }
+		void		setParent(Node *parent) {_parent = parent; }
 		Node*		prev(){
 			Node* newNode = prevL();
 			if (newNode == NULL)
@@ -56,7 +59,7 @@ namespace ft
 			return newNode;
 		}
 
-	// private:
+	private:
 		U 			_value;
 		Node*		_left;
 		Node*		_right;
@@ -72,19 +75,18 @@ namespace ft
 		}
 		Node*		prevU()
 		{
-			Node* cur, up;
+			Node *cur, *up;
 			if (_parent == NULL)		//root node
 				return NULL;
-			cur = this;
-			up = _parent;
-			while(up._parent != NULL)
+			up = this;
+			while(up->_parent != NULL)
 			{
-				if (up._right == cur)	//left turn
-					return up;
 				cur = up;
-				up = up._parent;
+				up = up->_parent;
+				if (up->_right == cur)	//left turn
+					return up;
 			}
-			return NULL;				// no successor
+			return NULL;		// no successor
 		}
 
 		Node*		nextR()
@@ -96,17 +98,16 @@ namespace ft
 		}
 		Node*		nextU()
 		{
-			Node*	cur, up;
+			Node	*cur, *up;
 			if (_parent == NULL)		//root node
 				return NULL;
-			cur = this;
-			up = _parent;
-			while(up._parent != NULL)
+			up = this;
+			while(up->_parent != NULL)
 			{
-				if (up._left == cur)	//right turn
-					return up;
 				cur = up;
-				up = up._parent;
+				up = up->_parent;
+				if (up->_left == cur)	//right turn
+					return up;
 			}
 			return NULL;				// no successor
 		}
