@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 17:43:40 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 21:55:11 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,10 @@ namespace ft
 		}
 
 		// Element access
-		mapped_type &operator[](const key_type &k);
+		mapped_type &operator[](const key_type &k)
+		{
+			return (*((this->insert(make_pair(k,mapped_type()))).first)).second;
+		}
 
 		// Modifiers
 		ft::pair<iterator, bool> insert(const value_type &val)
@@ -275,7 +278,11 @@ namespace ft
 		}
 		iterator insert(iterator position, const value_type &val);
 		template <class InputIterator>
-		void insert(InputIterator first, InputIterator last);
+		void insert(InputIterator first, InputIterator last)
+		{
+			for (InputIterator it = first; it != last ; it++)
+				insert(value_type(*it));
+		}
 		void erase(iterator position)
 		{
 			if (position == NULL)
@@ -355,13 +362,43 @@ namespace ft
 			}
 			return NULL;
 		}
-		size_type count(const key_type &k) const;
-		iterator lower_bound(const key_type &k);
-		const_iterator lower_bound(const key_type &k) const;
-		iterator upper_bound(const key_type &k);
-		const_iterator upper_bound(const key_type &k) const;
-		ft::pair<const_iterator, const_iterator> equal_range(const key_type &k) const;
-		ft::pair<iterator, iterator> equal_range(const key_type &k);
+		size_type count(const key_type &k) const { return (find(k) == NULL ? 0 : 1);}
+		iterator lower_bound(const key_type &k)
+		{
+			iterator it = begin();
+			while (it != end() && _key_comp((*it).first, k))
+				it++;
+			return it;
+		}
+		const_iterator lower_bound(const key_type &k) const
+		{
+			const_iterator it = begin();
+			while (it != end() && _key_comp((*it).first, k))
+				it++;
+			return it;
+		}
+		iterator upper_bound(const key_type &k)
+		{
+			iterator it = begin();
+			while (it != end() && !_key_comp(k, (*it).first))
+				it++;
+			return it;
+		}
+		const_iterator upper_bound(const key_type &k) const
+		{
+			const_iterator it = begin();
+			while (it != end() && !_key_comp(k, (*it).first))
+				it++;
+			return it;
+		}
+		ft::pair<iterator, iterator> equal_range(const key_type &k)
+		{
+			return ft::pair<iterator, iterator>(lower_bound(k), upper_bound(k));
+		}
+		ft::pair<const_iterator, const_iterator> equal_range(const key_type &k) const
+		{
+			return ft::pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k));
+		}
 
 		// Allocator
 		allocator_type get_allocator() const { return _alloc; }

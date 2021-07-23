@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 17:37:25 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 21:58:01 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,13 @@ void test_map()
 	print_map(m);
 	m.erase(5);
 	print_map(m);
+
+	std::cout << "bounds" << std::endl;
+	std::cout << (*(m.lower_bound(3))).second << std::endl;
+	std::cout << (*(m.upper_bound(3))).second << std::endl;
+	std::cout << (*(m.equal_range(3).first)).second << std::endl;
+	std::cout << m.count(5) << m.count(10)  << std::endl;
+	std::cout << m[5] << m[10] << std::endl;
 
 	}
 }
