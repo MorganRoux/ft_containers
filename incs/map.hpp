@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 14:37:34 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 15:16:08 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,23 @@ namespace ft
 
 	private:
 
-		//pointer _m;
+		typedef		typename std::allocator<node_type> node_allocator_type;
 		node_type	*_root;
 		node_type	_lastNode;
 		size_type 		_size;
 		allocator_type _alloc;
+		node_allocator_type _node_alloc;
 		key_compare _key_comp;
 		value_compare _value_comp;
+
+		void	recursive_insert(node_type const *n)
+		{
+			if (n == NULL)
+				return;
+			insert(n->_value);
+			recursive_insert(n->_left);
+			recursive_insert(n->_right);
+		}
 
 	public:
 		explicit map(const key_compare &comp = key_compare(),
@@ -91,9 +101,10 @@ namespace ft
 				insert(*it);
 		}
 
-		map(const map &x)
+		map(const map &x): _size(x._size), _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
 		{
-			*this = x;
+			recursive_insert(x._root);
+
 		}
 
 		~map()

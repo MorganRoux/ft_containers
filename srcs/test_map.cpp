@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 14:56:43 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 15:01:31 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,14 @@ void test_map()
 		std::cout << (*rit).first << (*rit).second << std::endl;
 
 	NAMESPACE::map<int, int>::const_iterator cit(it);
-	for (; cit != m.end(); cit++)
+	for (cit = m.begin(); cit != m.end(); cit++)
 		std::cout << (*cit).first << cit->second << std::endl;
 	it->second = 1000;
-
 	// Should not compile
 	// cit->second = 3;
+	std::cout << "operator ->" << std::endl;
+	std::cout << it->second << cit->second << std::endl;
 
-	std::cout << it->second << std::endl;
+
 	}
 }
