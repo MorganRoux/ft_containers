@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 16:30:27 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 16:59:44 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,36 @@ void test_map()
 	m.erase(it);
 	m.erase(3);
 	std::cout << "---" << std::endl;
+	print_map(m);
+
+	it = m.insert(NAMESPACE::pair<int,int>(14, 4)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(11, 1)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(18, 8)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(15, 5)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(13, 3)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(12, 2)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(13, 6)).first;
+	std::cout << (*it).second << std::endl;
+
+	std::cout << "---" << std::endl;
+	print_map(m);
+	std::cout << "==" << std::endl;
+	it = m.begin();
+	it++;
+	m.erase(it);
+	print_map(m);
+	it = m.begin();
+	it++;
+	m.erase(it);
+	print_map(m);
+	it = m.begin();
+	m.erase(it);
 	print_map(m);
 	}
 }

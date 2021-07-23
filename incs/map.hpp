@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 16:32:03 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 16:59:50 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ namespace ft
 
 		void	recursive_insert(node_type const *n)
 		{
-			if (n == NULL)
+			if (n == NULL || n == &_lastNode)
 				return;
 			insert(n->_value);
 			recursive_insert(n->_left);
@@ -95,8 +95,47 @@ namespace ft
 			node_type* right = n->_right;
 			_node_alloc.destroy(n);
 			_node_alloc.deallocate(n, 1);
+			n = NULL;
 			recursive_delete(left);
 			recursive_delete(right);
+		}
+
+		void	replace(node_type *n)
+		{
+			if (_root == NULL)
+			{
+				n->_parent = NULL;
+				_root = n;
+				return;
+			}
+			node_type *node = _root;
+			while(1) //node->_left != NULL || node->_right != NULL)
+			{
+				if (_value_comp(n->_value, node->_value))		//val < node->_value
+				{
+					if (node->_left == NULL) // || node->_left == &_lastNode)
+					{
+						node->_left = n;
+						n->_parent = node;
+						n->_right = NULL;
+						return;
+					}
+					else
+						node = node->_left;
+				}
+				else //val > node->_value
+				{
+					if (node->_right == NULL || node->_right == &_lastNode)
+					{
+						node->_right = n;
+						n->_parent = node;
+						n->_right = node->_right;
+						return;
+					}
+					else
+						node = node->_right;
+				}
+			}
 		}
 		void balance() {};
 
@@ -195,7 +234,7 @@ namespace ft
 			{
 				if (_value_comp(val, node->_value))		//val < node->_value
 				{
-					if (node->_left == NULL || node->_left == &_lastNode)
+					if (node->_left == NULL)// || node->_left == &_lastNode)
 					{
 						node_type *newNode = _node_alloc.allocate(1, 0);
 						_node_alloc.construct(newNode, node_type(val,node->_left, NULL, node));
@@ -241,10 +280,16 @@ namespace ft
 				else
 					parent->_right = NULL;
 			}
+			else
+				_root = NULL;
 			_node_alloc.destroy(n);
 			_node_alloc.deallocate(n, 1);
+			n = NULL;
+
+			//TODO: problem when erasing a branch with last node : looks ok ???
 			recursive_insert(left);
 			recursive_insert(right);
+
 		}
 
 		size_type erase(const key_type &k)
@@ -255,7 +300,11 @@ namespace ft
 			erase(position);
 			return(1);
 		}
-		void erase(iterator first, iterator last);
+		void erase(iterator first, iterator last)
+		{
+			for (iterator it = first; it != last; it++)
+				erase(it);
+		}
 		void swap(map &x)
 		{
 			map tmp = x;
