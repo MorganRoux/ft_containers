@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 15:16:08 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 15:21:24 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,8 @@ namespace ft
 		{
 			if (_root == NULL)
 			{
-				_root = new node_type(val, NULL, &_lastNode, NULL);
+				_root = _node_alloc.allocate(1, 0);
+				_node_alloc.construct(_root, node_type(val, NULL, &_lastNode, NULL));
 				_lastNode._parent = _root;
 				return ft::pair<iterator, bool>(iterator(_root), true);
 			}
@@ -166,7 +167,8 @@ namespace ft
 				{
 					if (node->_left == NULL || node->_left == &_lastNode)
 					{
-						node_type *newNode = new node_type(val,node->_left, NULL, node);
+						node_type *newNode = _node_alloc.allocate(1, 0);
+						_node_alloc.construct(newNode, node_type(val,node->_left, NULL, node));
 						node->_left = newNode;
 						_size++;
 						return ft::pair<iterator, bool>(iterator(newNode), true);
@@ -178,7 +180,8 @@ namespace ft
 				{
 					if (node->_right == NULL || node->_right == &_lastNode)
 					{
-						node_type *newNode = new node_type(val, NULL, node->_right, node);
+						node_type *newNode = _node_alloc.allocate(1, 0);
+						_node_alloc.construct(newNode, node_type(val, NULL, node->_right, node));
 						if (node->_right == &_lastNode)
 							_lastNode._parent = newNode;
 						node->_right = newNode;
