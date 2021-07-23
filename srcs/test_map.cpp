@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 15:01:31 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 16:30:27 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 #include <iostream>
 #include "pair.hpp"
 
-
+template<class Key, class Value>
+void print_map(NAMESPACE::map<Key, Value> const& m)
+{
+	for (typename NAMESPACE::map<Key, Value>::const_iterator it = m.begin(); it != m.end(); it++)
+		std::cout << it->first << " - " << it->second << std::endl;
+	std::cout << m.size() << std::endl;
+}
 
 void test_map()
 {
@@ -73,6 +79,13 @@ void test_map()
 	std::cout << "operator ->" << std::endl;
 	std::cout << it->second << cit->second << std::endl;
 
-
+	std::cout << "erase " << std::endl;
+	print_map(m);
+	it = m.begin();
+	it++;
+	m.erase(it);
+	m.erase(3);
+	std::cout << "---" << std::endl;
+	print_map(m);
 	}
 }
