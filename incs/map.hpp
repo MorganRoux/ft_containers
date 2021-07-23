@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 15:21:24 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 16:03:10 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,19 @@ namespace ft
 			recursive_insert(n->_right);
 		}
 
+		void	recursive_delete(node_type *n)
+		{
+			if (n == NULL || n == &_lastNode)
+				return;
+			node_type* left = n->_left;
+			node_type* right = n->_right;
+			_node_alloc.destroy(n);
+			_node_alloc.deallocate(n, 1);
+			recursive_delete(left);
+			recursive_delete(right);
+		}
+		void balance() {};
+
 	public:
 		explicit map(const key_compare &comp = key_compare(),
 					 const allocator_type &alloc = allocator_type()) :_root(NULL), _size(0), _alloc(alloc), _key_comp(comp), _value_comp(comp){};
@@ -99,24 +112,37 @@ namespace ft
 		{
 			for (iterator it = first; it != last; it++)
 				insert(*it);
+			node_type* lastNode = node_type::rightmost(_root);
+			lastNode->_right = _lastNode;
+			_lastNode._parent = last;
+			balance();
 		}
 
 		map(const map &x): _size(x._size), _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
 		{
-			recursive_insert(x._root);
-
+			*this = x;
 		}
 
 		~map()
 		{
-			//clear();
+			clear();
 		}
 
 		map &operator=(const map &x)
 		{
 			clear();
+			_size = x._size;
+			_alloc = x._alloc;
+			_key_comp = x._key_comp;
+			_value_comp = x._value_comp;
 			for (iterator it = x.begin(); it != x.end(); it++)
 				insert(*it);
+			node_type* last = node_type::rightmost(_root);
+			last->_right = _lastNode;
+			_lastNode._parent = last;
+			balance();
+
+			return *this;
 		}
 
 		// Iterators
@@ -158,6 +184,7 @@ namespace ft
 				_root = _node_alloc.allocate(1, 0);
 				_node_alloc.construct(_root, node_type(val, NULL, &_lastNode, NULL));
 				_lastNode._parent = _root;
+				_size++;
 				return ft::pair<iterator, bool>(iterator(_root), true);
 			}
 			node_type *node = _root;
@@ -199,11 +226,26 @@ namespace ft
 		iterator insert(iterator position, const value_type &val);
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last);
-		void erase(iterator position);
+		void erase(iterator position)
+		{
+			value_type elmt = *position;
+
+
+		}
 		size_type erase(const key_type &k);
 		void erase(iterator first, iterator last);
-		void swap(map &x);
-		void clear();
+		void swap(map &x)
+		{
+			map tmp = x;
+			x = *this;
+			*this = tmp;
+		}
+		void clear() {
+			recursive_delete(_root);
+			_lastNode._left = NULL;
+			_lastNode._right = NULL;
+			_lastNode._parent = NULL;
+		}
 
 		// Observers
 		key_compare key_comp() const { return _key_comp; }

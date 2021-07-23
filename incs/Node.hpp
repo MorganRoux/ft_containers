@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 19:22:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 14:56:16 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 15:52:16 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <cstddef>
 #include <typeinfo>
 #include "ft_iterator.hpp"
+#include "pair.hpp"
 
 namespace ft
 {
@@ -125,14 +126,21 @@ namespace ft
 	class node_iterator : public ft::iterator<bidirectional_iterator_tag, U>
 	{
 
-	private:
-		typedef ft::iterator<bidirectional_iterator_tag, U> base_iterator;
+
+
 	public:
 		typedef typename ft::iterator<bidirectional_iterator_tag, U>::value_type value_type;
 		typedef typename ft::iterator<bidirectional_iterator_tag, U>::reference reference;
 
 		friend class const_node_iterator<U>;
+		template <class Key, class T, class Compare, class Alloc>
+		friend class map;
 
+	private:
+		typedef ft::iterator<bidirectional_iterator_tag, U> base_iterator;
+		Node<value_type> *getNode() { return _p; }
+
+	public:
 		node_iterator(Node<value_type> *p = NULL) : _p(p) {};
 		~node_iterator(){};
 		node_iterator(node_iterator const &other) : _p(other._p){};
