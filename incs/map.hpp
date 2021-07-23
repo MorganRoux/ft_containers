@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 17:30:54 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 17:43:40 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,15 @@ namespace ft
 		};
 
 	private:
-
-		typedef		typename std::allocator<node_type> node_allocator_type;
-		node_type	*_root;
-		node_type	_lastNode;
+		typedef typename std::allocator<node_type> node_allocator_type;
+		node_type *_root;
+		node_type _lastNode;
 		allocator_type _alloc;
 		node_allocator_type _node_alloc;
 		key_compare _key_comp;
 		value_compare _value_comp;
 
-		void	recursive_insert(node_type const *n)
+		void recursive_insert(node_type const *n)
 		{
 			if (n == NULL || n == &_lastNode)
 				return;
@@ -87,12 +86,12 @@ namespace ft
 			recursive_insert(n->_right);
 		}
 
-		void	recursive_delete(node_type *n)
+		void recursive_delete(node_type *n)
 		{
 			if (n == NULL || n == &_lastNode)
 				return;
-			node_type* left = n->_left;
-			node_type* right = n->_right;
+			node_type *left = n->_left;
+			node_type *right = n->_right;
 			_node_alloc.destroy(n);
 			_node_alloc.deallocate(n, 1);
 			n = NULL;
@@ -100,7 +99,7 @@ namespace ft
 			recursive_delete(right);
 		}
 
-		void	replace(node_type *n)
+		void replace(node_type *n)
 		{
 			if (_root == NULL)
 			{
@@ -109,9 +108,9 @@ namespace ft
 				return;
 			}
 			node_type *node = _root;
-			while(1) //node->_left != NULL || node->_right != NULL)
+			while (1) //node->_left != NULL || node->_right != NULL)
 			{
-				if (_value_comp(n->_value, node->_value))		//val < node->_value
+				if (_value_comp(n->_value, node->_value)) //val < node->_value
 				{
 					if (node->_left == NULL) // || node->_left == &_lastNode)
 					{
@@ -137,26 +136,35 @@ namespace ft
 				}
 			}
 		}
-		void balance() {};
+
+		void recursive_replace(node_type *n)
+		{
+			if (n == NULL || n == &_lastNode)
+				return;
+			replace(n);
+			recursive_replace(n->_left);
+			recursive_replace(n->_right);
+		}
+		void balance(){};
 
 	public:
 		explicit map(const key_compare &comp = key_compare(),
-					 const allocator_type &alloc = allocator_type()) :_root(NULL), _alloc(alloc), _key_comp(comp), _value_comp(comp){};
+					 const allocator_type &alloc = allocator_type()) : _root(NULL), _alloc(alloc), _key_comp(comp), _value_comp(comp){};
 
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last,
 			const key_compare &comp = key_compare(),
-			const allocator_type &alloc = allocator_type()) :  _root(NULL), _alloc(alloc), _key_comp(comp), _value_comp(comp)
+			const allocator_type &alloc = allocator_type()) : _root(NULL), _alloc(alloc), _key_comp(comp), _value_comp(comp)
 		{
 			for (iterator it = first; it != last; it++)
 				insert(*it);
-			node_type* lastNode = node_type::rightmost(_root);
+			node_type *lastNode = node_type::rightmost(_root);
 			lastNode->_right = _lastNode;
 			_lastNode._parent = last;
 			balance();
 		}
 
-		map(const map &x): _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
+		map(const map &x) : _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
 		{
 			*this = x;
 		}
@@ -174,7 +182,7 @@ namespace ft
 			_value_comp = x._value_comp;
 			for (const_iterator it = x.begin(); it != x.end(); it++)
 				insert(*it);
-			node_type* last = node_type::rightmost(_root);
+			node_type *last = node_type::rightmost(_root);
 			last->_right = &_lastNode;
 			_lastNode._parent = last;
 			balance();
@@ -183,18 +191,19 @@ namespace ft
 		}
 
 		// Iterators
-		iterator begin()					{ return iterator(node_type::leftmost(_root)); }
-		const_iterator begin() const		{ return const_iterator(node_type::leftmost(_root)); }
-		iterator end()						{ return iterator(&_lastNode); }
-		const_iterator end() const			{ return const_iterator(node_type::rightmost(_root)); }
-		reverse_iterator rbegin()				{ return reverse_iterator(node_type::rightmost(_root)); }
-		const_reverse_iterator rbegin() const	{ return const_reverse_iterator(node_type::rightmost(_root)); }
-		reverse_iterator rend()					{ return reverse_iterator(node_type::leftmost(_root)); }
-		const_reverse_iterator rend() const		{ return const_reverse_iterator(node_type::leftmost(_root)); }
+		iterator begin() { return iterator(node_type::leftmost(_root)); }
+		const_iterator begin() const { return const_iterator(node_type::leftmost(_root)); }
+		iterator end() { return iterator(&_lastNode); }
+		const_iterator end() const { return const_iterator(node_type::rightmost(_root)); }
+		reverse_iterator rbegin() { return reverse_iterator(node_type::rightmost(_root)); }
+		const_reverse_iterator rbegin() const { return const_reverse_iterator(node_type::rightmost(_root)); }
+		reverse_iterator rend() { return reverse_iterator(node_type::leftmost(_root)); }
+		const_reverse_iterator rend() const { return const_reverse_iterator(node_type::leftmost(_root)); }
 
 		// Capacity
 		bool empty() const { return (size() == 0); }
-		size_type size() const {
+		size_type size() const
+		{
 			if (_root == NULL)
 				return 0;
 			size_type i = 0;
@@ -232,21 +241,21 @@ namespace ft
 				return ft::pair<iterator, bool>(iterator(_root), true);
 			}
 			node_type *node = _root;
-			while(1) //node->_left != NULL || node->_right != NULL)
+			while (1) //node->_left != NULL || node->_right != NULL)
 			{
-				if (_value_comp(val, node->_value))		//val < node->_value
+				if (_value_comp(val, node->_value)) //val < node->_value
 				{
-					if (node->_left == NULL)// || node->_left == &_lastNode)
+					if (node->_left == NULL) // || node->_left == &_lastNode)
 					{
 						node_type *newNode = _node_alloc.allocate(1, 0);
-						_node_alloc.construct(newNode, node_type(val,node->_left, NULL, node));
+						_node_alloc.construct(newNode, node_type(val, node->_left, NULL, node));
 						node->_left = newNode;
 						return ft::pair<iterator, bool>(iterator(newNode), true);
 					}
 					else
 						node = node->_left;
 				}
-				else if(_value_comp(node->_value, val))	//val > node->_value
+				else if (_value_comp(node->_value, val)) //val > node->_value
 				{
 					if (node->_right == NULL || node->_right == &_lastNode)
 					{
@@ -260,9 +269,8 @@ namespace ft
 					else
 						node = node->_right;
 				}
-				else								//val == node->_value
+				else //val == node->_value
 					return ft::pair<iterator, bool>(iterator(node), false);
-
 			}
 		}
 		iterator insert(iterator position, const value_type &val);
@@ -274,8 +282,8 @@ namespace ft
 				return;
 			node_type *n = position.getNode();
 			node_type *left = n->_left;
-			node_type* right = n->_right;
-			node_type* parent = n->_parent;
+			node_type *right = n->_right;
+			node_type *parent = n->_parent;
 
 			if (parent != NULL)
 			{
@@ -291,9 +299,9 @@ namespace ft
 			n = NULL;
 
 			//TODO: problem when erasing a branch with last node : looks ok ???
+			// TODO : better strategy ?
 			recursive_insert(left);
 			recursive_insert(right);
-
 		}
 
 		size_type erase(const key_type &k)
@@ -302,10 +310,11 @@ namespace ft
 			if (position == NULL)
 				return (0);
 			erase(position);
-			return(1);
+			return (1);
 		}
 		void erase(iterator first, iterator last)
 		{
+			iterator it = first;
 			for (iterator it = first; it != last; it++)
 				erase(it);
 		}
@@ -315,7 +324,8 @@ namespace ft
 			x = *this;
 			*this = tmp;
 		}
-		void clear() {
+		void clear()
+		{
 			recursive_delete(_root);
 			_lastNode._left = NULL;
 			_lastNode._right = NULL;
@@ -335,9 +345,16 @@ namespace ft
 					return it;
 			}
 			return NULL;
-
 		}
-		const_iterator find(const key_type &k) const;
+		const_iterator find(const key_type &k) const
+		{
+			for (const_iterator it = begin(); it != end(); it++)
+			{
+				if (it->first == k)
+					return it;
+			}
+			return NULL;
+		}
 		size_type count(const key_type &k) const;
 		iterator lower_bound(const key_type &k);
 		const_iterator lower_bound(const key_type &k) const;

@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 17:34:10 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 17:37:25 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,24 @@ void test_map()
 	// m.erase(it);
 	// print_map(m);
 
+	std::cout << "erasing root" << std::endl;
+	it = m.insert(NAMESPACE::pair<int,int>(4, 4)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(1, 1)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(8, 8)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(5, 5)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(3, 3)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(2, 2)).first;
+	std::cout << (*it).second << std::endl;
+	it = m.insert(NAMESPACE::make_pair<int,int>(9, 9)).first;
+	std::cout << (*it).second << std::endl;
+	print_map(m);
+	m.erase(5);
+	print_map(m);
 
 	}
 }
