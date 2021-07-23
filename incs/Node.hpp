@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 19:22:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 14:47:28 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 14:56:16 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,8 @@ namespace ft
 		bool operator!=(node_iterator const &other) const { return !this->operator==(other); }
 		value_type &operator*() { return _p->_value; }
 		value_type const &operator*() const { return _p->_value; }
+		value_type *operator->() {return &(_p->_value); }
+		value_type const *operator->() const {return &(_p->value); }
 
 		protected:
 		Node<value_type>* _p;
@@ -219,8 +221,10 @@ namespace ft
 		}
 		bool operator==(const_node_iterator const &other) const { return ( _p == other._p) ; }
 		bool operator!=(const_node_iterator const &other) const { return !this->operator==(other); }
-		value_type const& operator*() { return _p->_value; }
+		value_type const &operator*() { return _p->_value; }
 		value_type const &operator*() const { return _p->_value; }
+		value_type const *operator->() {return &(_p->_value); }
+		value_type const *operator->() const {return &(_p->value); }
 
 		protected:
 		Node<value_type>* _p;

@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/20 22:05:12 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 14:57:04 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ namespace ft
 		bool operator!=(ra_iterator const &other) const { return !this->operator==(other); }
 		value_type &operator*() { return *_p; }
 		value_type const &operator*() const { return *_p; }
+		value_type *operator->() { return _p; }
+		value_type const *operator->() const { return _p; }
 		value_type &operator[](difference_type n) { return *(_p + n); }
 		value_type const &operator[](difference_type n) const { return *(_p + n); }
 

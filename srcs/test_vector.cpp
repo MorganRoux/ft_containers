@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 20:31:45 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/20 21:58:02 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 14:59:19 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -661,6 +661,10 @@ void test_vector()
 			for (it = myvector.begin(); it < myvector.end(); it++)
 				std::cout << ' ' << *it;
 			std::cout << '\n';
+
+			std::cout << "operator ->" << std::endl;
+			std::cout <<  myvector.begin()->size() << std::endl;
+
 		}
 	}
 
