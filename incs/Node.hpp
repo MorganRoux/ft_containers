@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 19:22:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 15:52:16 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 17:31:57 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,16 @@ namespace ft
 
 		static Node*	leftmost(Node *n)
 		{
+			if (n == NULL)
+				return NULL;
 			while(n->_left != NULL)
 				n = n->_left;
 			return n;
 		}
 		static Node*	rightmost(Node *n)
 		{
+			if (n == NULL)
+				return NULL;
 			while(n->_right != NULL)
 				n = n->_right;
 			return n;

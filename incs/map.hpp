@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 16:59:50 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 17:30:54 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,8 @@ namespace ft
 		// Capacity
 		bool empty() const { return (size() == 0); }
 		size_type size() const {
+			if (_root == NULL)
+				return 0;
 			size_type i = 0;
 			for (const_iterator it = begin(); it != end(); it++)
 				i++;
@@ -268,6 +270,8 @@ namespace ft
 		void insert(InputIterator first, InputIterator last);
 		void erase(iterator position)
 		{
+			if (position == NULL)
+				return;
 			node_type *n = position.getNode();
 			node_type *left = n->_left;
 			node_type* right = n->_right;

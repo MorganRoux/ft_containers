@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 16:59:44 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 17:34:10 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 template<class Key, class Value>
 void print_map(NAMESPACE::map<Key, Value> const& m)
 {
+	if (m.empty())
+		return;
 	for (typename NAMESPACE::map<Key, Value>::const_iterator it = m.begin(); it != m.end(); it++)
 		std::cout << it->first << " - " << it->second << std::endl;
 	std::cout << m.size() << std::endl;
@@ -107,15 +109,55 @@ void test_map()
 	print_map(m);
 	std::cout << "==" << std::endl;
 	it = m.begin();
-	it++;
 	m.erase(it);
 	print_map(m);
-	it = m.begin();
-	it++;
-	m.erase(it);
-	print_map(m);
+	std::cout << "---" << std::endl;
 	it = m.begin();
 	m.erase(it);
 	print_map(m);
+	std::cout << "---" << std::endl;
+	it = m.begin();
+	m.erase(it);
+	print_map(m);
+	std::cout << "---" << std::endl;
+	it = m.begin();
+	m.erase(it);
+	print_map(m);
+	std::cout << "---" << std::endl;
+	it = m.begin();
+	m.erase(it);
+	print_map(m);
+	std::cout << "---" << std::endl;
+	it = m.begin();
+	m.erase(it);
+	print_map(m);
+	std::cout << "---" << std::endl;
+	it = m.begin();
+	m.erase(it);
+	print_map(m);
+	std::cout << "---" << std::endl;
+	it = m.begin();
+	m.erase(it);
+	print_map(m);
+	std::cout << "---" << std::endl;
+	it = m.begin();
+	m.erase(it);
+	print_map(m);
+	std::cout << "---" << std::endl;
+	it = m.begin();
+	m.erase(it);
+	print_map(m);
+
+	// Bug of the std::map
+	// std::cout << "---" << std::endl;
+	// it = m.begin();
+	// m.erase(it);
+	// print_map(m);
+	// std::cout << "already empty---" << std::endl;
+	// it = m.begin();
+	// m.erase(it);
+	// print_map(m);
+
+
 	}
 }
