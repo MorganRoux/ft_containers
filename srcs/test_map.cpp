@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/22 01:20:48 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 14:49:07 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,10 @@ void test_map()
 
 	for (rit = m.rbegin(); rit != m.rend(); rit++)
 		std::cout << (*rit).first << (*rit).second << std::endl;
+
+	NAMESPACE::map<int, int>::const_iterator cit(it);
+	for (; cit != m.end(); cit++)
+		std::cout << (*cit).first << std::endl;
+
 	}
 }

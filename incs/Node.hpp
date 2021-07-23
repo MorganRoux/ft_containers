@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 19:22:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/22 01:21:32 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 14:47:28 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdexcept>
 #include <cstddef>
 #include <typeinfo>
+#include "ft_iterator.hpp"
 
 namespace ft
 {
@@ -47,6 +48,7 @@ namespace ft
 		Node(U v, Node *left = NULL, Node *right = NULL, Node *parent = NULL) :
 			_value(v), _left(left), _right(right), _parent(parent) {};
 		~Node(){};
+
 		Node &operator=(Node const &other)
 		{
 			_value = other._value;
@@ -116,6 +118,114 @@ namespace ft
 		}
 	};
 
+	template <class U>
+	class const_node_iterator;
+
+	template <class U>
+	class node_iterator : public ft::iterator<bidirectional_iterator_tag, U>
+	{
+
+	private:
+		typedef ft::iterator<bidirectional_iterator_tag, U> base_iterator;
+	public:
+		typedef typename ft::iterator<bidirectional_iterator_tag, U>::value_type value_type;
+		typedef typename ft::iterator<bidirectional_iterator_tag, U>::reference reference;
+
+		friend class const_node_iterator<U>;
+
+		node_iterator(Node<value_type> *p = NULL) : _p(p) {};
+		~node_iterator(){};
+		node_iterator(node_iterator const &other) : _p(other._p){};
+		//operator const_node_iterator<const U>() const { return const_node_iterator<const U>(_p); };
+
+		node_iterator &operator=(node_iterator const &other)
+		{
+			_p = other._p;
+			return *this;
+		}
+		node_iterator &operator++()
+		{
+			_p = _p->next();
+			return *this;
+		}
+		node_iterator operator++(int)
+		{
+			node_iterator retval = *this;
+			++(*this);
+			return retval;
+		}
+		node_iterator &operator--()
+		{
+			_p = _p->prev();
+			return *this;
+		}
+		node_iterator operator--(int)
+		{
+			node_iterator retval = *this;
+			--(*this);
+			return retval;
+		}
+		bool operator==(node_iterator const &other) const { return ( _p == other._p) ; }
+		bool operator!=(node_iterator const &other) const { return !this->operator==(other); }
+		value_type &operator*() { return _p->_value; }
+		value_type const &operator*() const { return _p->_value; }
+
+		protected:
+		Node<value_type>* _p;
+
+	};
+
+	template <class U>
+	class const_node_iterator : public ft::iterator<bidirectional_iterator_tag, U>
+	{
+
+	private:
+		typedef ft::iterator<bidirectional_iterator_tag, U> base_iterator;
+	public:
+		typedef typename ft::iterator<bidirectional_iterator_tag, U>::value_type value_type;
+		typedef typename ft::iterator<bidirectional_iterator_tag, U>::reference reference;
+
+		const_node_iterator(Node<value_type> *p = NULL) : _p(p) {};
+		~const_node_iterator(){};
+		const_node_iterator(const_node_iterator const &other) : _p(other._p){};
+		const_node_iterator(node_iterator<U> const &other) : _p(other._p){};
+
+		const_node_iterator &operator=(const_node_iterator const &other)
+		{
+			_p = other._p;
+			return *this;
+		}
+		const_node_iterator &operator++()
+		{
+			_p = _p->next();
+			return *this;
+		}
+		const_node_iterator operator++(int)
+		{
+			const_node_iterator retval = *this;
+			++(*this);
+			return retval;
+		}
+		const_node_iterator &operator--()
+		{
+			_p = _p->prev();
+			return *this;
+		}
+		const_node_iterator operator--(int)
+		{
+			const_node_iterator retval = *this;
+			--(*this);
+			return retval;
+		}
+		bool operator==(const_node_iterator const &other) const { return ( _p == other._p) ; }
+		bool operator!=(const_node_iterator const &other) const { return !this->operator==(other); }
+		value_type const& operator*() { return _p->_value; }
+		value_type const &operator*() const { return _p->_value; }
+
+		protected:
+		Node<value_type>* _p;
+
+	};
 
 }
 #endif

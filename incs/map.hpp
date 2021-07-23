@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/22 01:21:34 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/23 14:37:34 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,84 +23,6 @@
 
 namespace ft
 {
-
-
-	template <class U, class Compare>
-	class bi_iterator : public ft::iterator<bidirectional_iterator_tag, U>
-	{
-
-	private:
-		typedef ft::iterator<bidirectional_iterator_tag, U> base_iterator;
-		typedef Compare key_compare;
-	public:
-		typedef typename ft::iterator<bidirectional_iterator_tag, U>::value_type value_type;
-		typedef typename ft::iterator<bidirectional_iterator_tag, U>::reference reference;
-
-
-		bi_iterator(Node<value_type> *p = NULL, const key_compare &comp = key_compare()) : _p(p), _value_comp(comp) {};
-		~bi_iterator(){};
-		bi_iterator(bi_iterator const &other) : _p(other._p), _value_comp(other._value_comp){};
-		bi_iterator &operator=(bi_iterator const &other)
-		{
-			_p = other._p;
-			_value_comp = other._value_comp;
-			return *this;
-		}
-		bi_iterator &operator++()
-		{
-			_p = _p->next();
-			return *this;
-		}
-		bi_iterator operator++(int)
-		{
-			bi_iterator retval = *this;
-			++(*this);
-			return retval;
-		}
-		bi_iterator &operator--()
-		{
-			_p = _p->prev();
-			return *this;
-		}
-		bi_iterator operator--(int)
-		{
-			bi_iterator retval = *this;
-			--(*this);
-			return retval;
-		}
-		bool operator<(bi_iterator const &other) const { return (_value_comp(_p->_value,other._p->_value)); }
-		bool operator>=(bi_iterator const &other) const { return !(*this < other); }
-		bool operator>(bi_iterator const &other) const { return (other < *this); }
-		bool operator<=(bi_iterator const &other) const { return !(*this > other); }
-		bool operator==(bi_iterator const &other) const { return ( !_value_comp(_p->_value, other._p->_value) && !_value_comp(other._p->_value, _p->_value)); }
-		bool operator!=(bi_iterator const &other) const { return !this->operator==(other); }
-		value_type &operator*() { return _p->_value; }
-		value_type const &operator*() const { return _p->_value; }
-
-		operator bi_iterator<const U, key_compare>() const { return bi_iterator<const U, key_compare>(_p); };
-
-		class value_compare
-		{
-			// in C++98, it is required to inherit binary_function<value_type,value_type,bool>
-			friend class bi_iterator;
-
-		protected:
-			key_compare comp;
-			value_compare(key_compare c) : comp(c) {} // constructed with map's comparison object
-		public:
-			typedef bool result_type;
-			typedef value_type first_argument_type;
-			typedef value_type second_argument_type;
-			bool operator()(const value_type &x, const value_type &y) const
-			{
-				return comp(x.first, y.first);
-			}
-		};
-
-		protected:
-		Node<value_type>* _p;
-		value_compare _value_comp;
-	};
 
 	template <
 		class Key,
@@ -119,8 +41,8 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		typedef bi_iterator<value_type, key_compare> iterator;
-		typedef bi_iterator<const value_type, key_compare> const_iterator;
+		typedef node_iterator<value_type> iterator;
+		typedef const_node_iterator<value_type> const_iterator;
 		// TODO : disable function definition of reverse iterator depending on the type of iterator
 		typedef ReverseIterator<iterator> reverse_iterator;
 		typedef ReverseIterator<const_iterator> const_reverse_iterator;
