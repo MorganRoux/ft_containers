@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 20:31:38 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/22 00:48:47 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/24 22:14:58 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void test_node();
 int main(void)
 {
 
-	std::cout << "=================OTHERS =================" << std::endl;
-	test_other();
-	std::cout << "==================VECTORS ====================" << std::endl;
-	test_vector();
+	//std::cout << "=================OTHERS =================" << std::endl;
+	//test_other();
+	//std::cout << "==================VECTORS ====================" << std::endl;
+	//test_vector();
 	std::cout << "===================NODE =====================" << std::endl;
 	test_node();
 	std::cout << "================== MAP =======================" << std::endl;

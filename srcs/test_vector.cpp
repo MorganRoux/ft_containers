@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 20:31:45 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 14:59:19 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/24 22:13:43 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <vector>
 #include <iostream>
 #include <cstring>
-
+#include <string>
 void test_vector()
 {
 	{

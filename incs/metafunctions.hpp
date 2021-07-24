@@ -6,13 +6,14 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 15:59:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/19 21:06:49 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/24 21:53:40 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FTMETAFUNCTIONS_HPP
 #define FTMETAFUNCTIONS_HPP
-
+#include <cstddef>
+#include <typeinfo>
 namespace ft
 {
 	// ======================== enable_if ======================= //
@@ -79,16 +80,6 @@ namespace ft
 
 	template <>
 	struct is_integral_base<char> : ft::true_type
-	{
-	};
-
-	template <>
-	struct is_integral_base<char16_t> : ft::true_type
-	{
-	};
-
-	template <>
-	struct is_integral_base<char32_t> : ft::true_type
 	{
 	};
 

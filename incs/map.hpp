@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/24 21:22:31 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/24 22:05:34 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,7 +292,7 @@ namespace ft
 		// Element access
 		mapped_type &operator[](const key_type &k)
 		{
-			return (*((this->insert(make_pair(k, mapped_type()))).first)).second;
+			return (*((this->insert(ft::make_pair(k, mapped_type()))).first)).second;
 		}
 
 		// Modifiers
