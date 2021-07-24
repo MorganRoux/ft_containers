@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 21:58:01 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/24 20:56:51 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include <iostream>
 #include "pair.hpp"
 
-template<class Key, class Value>
-void print_map(NAMESPACE::map<Key, Value> const& m)
+template <class Key, class Value>
+void print_map(NAMESPACE::map<Key, Value> const &m)
 {
 	if (m.empty())
 		return;
@@ -24,6 +24,7 @@ void print_map(NAMESPACE::map<Key, Value> const& m)
 		std::cout << it->first << " - " << it->second << std::endl;
 	std::cout << m.size() << std::endl;
 }
+
 
 void test_map()
 {
@@ -45,144 +46,213 @@ void test_map()
 	// 	std::cout << m.size() << std::endl;
 	// }
 	{
-	NAMESPACE::map<int, int> m;
-	NAMESPACE::map<int, int>::iterator it;
-	NAMESPACE::map<int, int>::reverse_iterator rit;
+		NAMESPACE::map<int, int> m;
+		NAMESPACE::map<int, int>::iterator it;
+		NAMESPACE::map<int, int>::reverse_iterator rit;
 
-	it = m.insert(NAMESPACE::pair<int,int>(4, 4)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(1, 1)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(8, 8)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(5, 5)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(3, 3)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(2, 2)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(3, 6)).first;
-	std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::pair<int, int>(4, 4)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(1, 1)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(8, 8)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(5, 5)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(3, 3)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(2, 2)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(3, 6)).first;
+		std::cout << (*it).second << std::endl;
 
-	std::cout << "iterator" << std::endl;
-	for (it = m.begin(); it != m.end(); it++)
-		std::cout << (*it).first << (*it).second << std::endl;
-	std::cout << "reverse iterator" << std::endl;
+		std::cout << "iterator" << std::endl;
+		for (it = m.begin(); it != m.end(); it++)
+			std::cout << (*it).first << (*it).second << std::endl;
+		std::cout << "reverse iterator" << std::endl;
 
-	for (rit = m.rbegin(); rit != m.rend(); rit++)
-		std::cout << (*rit).first << (*rit).second << std::endl;
+		for (rit = m.rbegin(); rit != m.rend(); rit++)
+			std::cout << (*rit).first << (*rit).second << std::endl;
 
-	NAMESPACE::map<int, int>::const_iterator cit(it);
-	for (cit = m.begin(); cit != m.end(); cit++)
-		std::cout << (*cit).first << cit->second << std::endl;
-	it->second = 1000;
-	// Should not compile
-	// cit->second = 3;
-	std::cout << "operator ->" << std::endl;
-	std::cout << it->second << cit->second << std::endl;
+		NAMESPACE::map<int, int>::const_iterator cit(it);
+		for (cit = m.begin(); cit != m.end(); cit++)
+			std::cout << (*cit).first << cit->second << std::endl;
+		it->second = 1000;
+		// Should not compile
+		// cit->second = 3;
+		std::cout << "operator ->" << std::endl;
+		std::cout << it->second << cit->second << std::endl;
 
-	std::cout << "erase " << std::endl;
-	print_map(m);
-	it = m.begin();
-	it++;
-	m.erase(it);
-	m.erase(3);
-	std::cout << "---" << std::endl;
-	print_map(m);
+		std::cout << "erase by position and erase by key" << std::endl;
+		print_map(m);
+		it = m.begin();
+		it++;
+		m.erase(it);
+		m.erase(3);
+		std::cout << "---" << std::endl;
+		print_map(m);
 
-	it = m.insert(NAMESPACE::pair<int,int>(14, 4)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(11, 1)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(18, 8)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(15, 5)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(13, 3)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(12, 2)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(13, 6)).first;
-	std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::pair<int, int>(14, 4)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(11, 1)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(18, 8)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(15, 5)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(13, 3)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(12, 2)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(13, 6)).first;
+		std::cout << (*it).second << std::endl;
 
-	std::cout << "---" << std::endl;
-	print_map(m);
-	std::cout << "==" << std::endl;
-	it = m.begin();
-	m.erase(it);
-	print_map(m);
-	std::cout << "---" << std::endl;
-	it = m.begin();
-	m.erase(it);
-	print_map(m);
-	std::cout << "---" << std::endl;
-	it = m.begin();
-	m.erase(it);
-	print_map(m);
-	std::cout << "---" << std::endl;
-	it = m.begin();
-	m.erase(it);
-	print_map(m);
-	std::cout << "---" << std::endl;
-	it = m.begin();
-	m.erase(it);
-	print_map(m);
-	std::cout << "---" << std::endl;
-	it = m.begin();
-	m.erase(it);
-	print_map(m);
-	std::cout << "---" << std::endl;
-	it = m.begin();
-	m.erase(it);
-	print_map(m);
-	std::cout << "---" << std::endl;
-	it = m.begin();
-	m.erase(it);
-	print_map(m);
-	std::cout << "---" << std::endl;
-	it = m.begin();
-	m.erase(it);
-	print_map(m);
-	std::cout << "---" << std::endl;
-	it = m.begin();
-	m.erase(it);
-	print_map(m);
+		print_map(m);
+		//m.analyse_map(10);
+		std::cout << "-1--" << std::endl;
+		it = m.begin();
+		std::cout << "delete " <<  it->first << std::endl;
+		m.erase(it);
+		print_map(m);
+		//m.analyse_map(10);
+		std::cout << "-2--" << std::endl;
+		it = m.begin();
+		std::cout << "delete " <<  it->first << std::endl;
+		m.erase(it);
+		print_map(m);
+		//m.analyse_map(10);
+		std::cout << "-3--" << std::endl;
+		it = m.begin();
+		std::cout << "delete " <<  it->first << std::endl;
+		m.erase(it);
+		print_map(m);
+		//m.analyse_map(10);
+		std::cout << "--4-" << std::endl;
+		it = m.begin();
+		std::cout << "delete " <<  it->first << std::endl;
+		m.erase(it);
+		print_map(m);
+		//m.analyse_map(10);
+		std::cout << "-5--" << std::endl;
+		it = m.begin();
+		std::cout << "delete " <<  it->first << std::endl;
+		m.erase(it);
+		print_map(m);
+		//m.analyse_map(10);
+		std::cout << "-6--" << std::endl;
+		it = m.begin();
+		std::cout << "delete " <<  it->first << std::endl;
+		m.erase(it);
+		print_map(m);
+		//m.analyse_map(10);
+		std::cout << "--7-" << std::endl;
+		it = m.begin();
+		std::cout << "delete " <<  it->first << std::endl;
+		m.erase(it);
+		print_map(m);
+		std::cout << "-8--" << std::endl;
+		it = m.begin();
+		std::cout << "delete " <<  it->first << std::endl;
+		m.erase(it);
+		print_map(m);
+		std::cout << "--9-" << std::endl;
+		it = m.begin();
+		m.erase(it);
+		print_map(m);
+		//m.analyse_map(10);
+		std::cout << "-10--" << std::endl;
+		it = m.begin();
+		m.erase(it);
+		print_map(m);
+		//m.analyse_map(10);
 
-	// Bug of the std::map
-	// std::cout << "---" << std::endl;
-	// it = m.begin();
-	// m.erase(it);
-	// print_map(m);
-	// std::cout << "already empty---" << std::endl;
-	// it = m.begin();
-	// m.erase(it);
-	// print_map(m);
+		// Bug of the std::map
+		// std::cout << "---" << std::endl;
+		// it = m.begin();
+		// m.erase(it);
+		// print_map(m);
+		// std::cout << "already empty---" << std::endl;
+		// it = m.begin();
+		// m.erase(it);
+		// print_map(m);
 
-	std::cout << "erasing root" << std::endl;
-	it = m.insert(NAMESPACE::pair<int,int>(4, 4)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(1, 1)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(8, 8)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(5, 5)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(3, 3)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(2, 2)).first;
-	std::cout << (*it).second << std::endl;
-	it = m.insert(NAMESPACE::make_pair<int,int>(9, 9)).first;
-	std::cout << (*it).second << std::endl;
-	print_map(m);
-	m.erase(5);
-	print_map(m);
+		std::cout << "erasing root" << std::endl;
+		it = m.insert(NAMESPACE::pair<int, int>(4, 4)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(1, 1)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(8, 8)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(5, 5)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(3, 3)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(2, 2)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(9, 9)).first;
+		std::cout << (*it).second << std::endl;
+		print_map(m);
+		m.erase(5);
+		print_map(m);
 
-	std::cout << "bounds" << std::endl;
-	std::cout << (*(m.lower_bound(3))).second << std::endl;
-	std::cout << (*(m.upper_bound(3))).second << std::endl;
-	std::cout << (*(m.equal_range(3).first)).second << std::endl;
-	std::cout << m.count(5) << m.count(10)  << std::endl;
-	std::cout << m[5] << m[10] << std::endl;
+		std::cout << "erase range" << std::endl;
+		it = m.insert(NAMESPACE::pair<int, int>(14, 4)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(11, 1)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(18, 8)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(15, 5)).first;
+		std::cout << (*it).second << std::endl;
+		it = m.insert(NAMESPACE::make_pair<int, int>(13, 3)).first;
+		print_map(m);
+		{
+			NAMESPACE::map<int, int>::iterator itkb = m.begin();
+			NAMESPACE::map<int, int>::iterator itke = m.end();
+			itkb++; itkb++;
+			itke--;itke--;itke--;
+			std::cout << "---" << std::endl;
+			m.erase(itkb, itke);
+			print_map(m);
+		}
 
+
+		std::cout << "bounds" << std::endl;
+		std::cout << (*(m.lower_bound(3))).second << std::endl;
+		std::cout << (*(m.upper_bound(3))).second << std::endl;
+		std::cout << (*(m.equal_range(3).first)).second << std::endl;
+		std::cout << m.count(5) << m.count(10) << std::endl;
+		std::cout << m[5] << m[10] << std::endl;
+
+		std::cout << "clear" << std::endl;
+		{
+			NAMESPACE::map<int, int> m2 = m;
+			m2.clear();
+			print_map(m2);
+		}
+
+		std::cout << "swap" << std::endl;
+		{
+			NAMESPACE::map<int, int> m2;
+			it = m2.insert(NAMESPACE::pair<int, int>(8, 8)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(11, 1)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(81, 8)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(51, 5)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(31, 3)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(12, 2)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(19, 9)).first;
+
+			print_map(m);
+			print_map(m2);
+			m.swap(m2);
+			std::cout << "ok" << std::endl;
+			print_map(m);
+			print_map(m2);
+		}
 	}
 }

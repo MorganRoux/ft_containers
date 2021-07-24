@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 19:22:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 17:31:57 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/24 12:43:57 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,23 @@ namespace ft
 				n = n->_left;
 			return n;
 		}
+		static Node const*	leftmost(Node const *n)
+		{
+			if (n == NULL)
+				return NULL;
+			while(n->_left != NULL)
+				n = n->_left;
+			return n;
+		}
 		static Node*	rightmost(Node *n)
+		{
+			if (n == NULL)
+				return NULL;
+			while(n->_right != NULL)
+				n = n->_right;
+			return n;
+		}
+		static Node const*	rightmost(Node const *n)
 		{
 			if (n == NULL)
 				return NULL;
@@ -68,15 +84,35 @@ namespace ft
 				newNode = prevU();
 			return newNode;
 		}
+		Node const*		prev() const{
+			Node const* newNode = prevL();
+			if (newNode == NULL)
+				newNode = prevU();
+			return newNode;
+		}
 		Node*		next() {
 			Node* newNode = nextR();
 			if (newNode == NULL)
 				newNode = nextU();
 			return newNode;
 		}
+		Node const *	next() const {
+			Node const* newNode = nextR();
+			if (newNode == NULL)
+				newNode = nextU();
+			return newNode;
+		}
+
 
 	private:
 		Node*		prevL()
+		{
+			if (_left != NULL)
+				return (rightmost(_left));
+			else
+				return NULL;
+		}
+		Node const*		prevL() const
 		{
 			if (_left != NULL)
 				return (rightmost(_left));
@@ -99,6 +135,22 @@ namespace ft
 			return NULL;		// no successor
 		}
 
+		Node const*		prevU() const
+		{
+			Node const *cur, *up;
+			if (_parent == NULL)		//root node
+				return NULL;
+			up = this;
+			while(up->_parent != NULL)
+			{
+				cur = up;
+				up = up->_parent;
+				if (up->_right == cur)	//left turn
+					return up;
+			}
+			return NULL;		// no successor
+		}
+
 		Node*		nextR()
 		{
 			if (_right != NULL)
@@ -106,9 +158,33 @@ namespace ft
 			else
 				return NULL;
 		}
+		Node const *		nextR() const
+		{
+			if (_right != NULL)
+				return leftmost(_right);
+			else
+				return NULL;
+		}
+
 		Node*		nextU()
 		{
-			Node	*cur, *up;
+			Node *cur, *up;
+			if (_parent == NULL)		//root node
+				return NULL;
+			up = this;
+			while(up->_parent != NULL)
+			{
+				cur = up;
+				up = up->_parent;
+				if (up->_left == cur)	//right turn
+					return up;
+			}
+			return NULL;				// no successor
+		}
+
+		Node const*		nextU() const
+		{
+			Node	const *cur, *up;
 			if (_parent == NULL)		//root node
 				return NULL;
 			up = this;
@@ -199,7 +275,7 @@ namespace ft
 		typedef typename ft::iterator<bidirectional_iterator_tag, U>::value_type value_type;
 		typedef typename ft::iterator<bidirectional_iterator_tag, U>::reference reference;
 
-		const_node_iterator(Node<value_type> *p = NULL) : _p(p) {};
+		const_node_iterator(const Node<value_type> *p = NULL) : _p(p) {};
 		~const_node_iterator(){};
 		const_node_iterator(const_node_iterator const &other) : _p(other._p){};
 		const_node_iterator(node_iterator<U> const &other) : _p(other._p){};
@@ -239,7 +315,7 @@ namespace ft
 		value_type const *operator->() const {return &(_p->value); }
 
 		protected:
-		Node<value_type>* _p;
+		Node<value_type>const * _p;
 
 	};
 

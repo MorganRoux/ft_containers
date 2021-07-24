@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 21:55:11 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/24 21:22:31 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,53 +99,116 @@ namespace ft
 			recursive_delete(right);
 		}
 
-		void replace(node_type *n)
+		void 	eraseLeaf(node_type *n)
 		{
-			if (_root == NULL)
-			{
-				n->_parent = NULL;
-				_root = n;
-				return;
-			}
-			node_type *node = _root;
-			while (1) //node->_left != NULL || node->_right != NULL)
-			{
-				if (_value_comp(n->_value, node->_value)) //val < node->_value
-				{
-					if (node->_left == NULL) // || node->_left == &_lastNode)
-					{
-						node->_left = n;
-						n->_parent = node;
-						n->_right = NULL;
-						return;
-					}
-					else
-						node = node->_left;
-				}
-				else //val > node->_value
-				{
-					if (node->_right == NULL || node->_right == &_lastNode)
-					{
-						node->_right = n;
-						n->_parent = node;
-						n->_right = node->_right;
-						return;
-					}
-					else
-						node = node->_right;
-				}
-			}
+			if (n->_parent == NULL)
+				_root = NULL;
+			else if (n->_parent->_left == n)
+				n->_parent->_left = NULL;
+			else if (n->_parent->_right == n)
+				n->_parent->_right = NULL;
+			_node_alloc.destroy(n);
+			_node_alloc.deallocate(n, 1);
 		}
 
-		void recursive_replace(node_type *n)
+		void	eraseWithOneChild(node_type *n, node_type *child)
 		{
-			if (n == NULL || n == &_lastNode)
-				return;
-			replace(n);
-			recursive_replace(n->_left);
-			recursive_replace(n->_right);
+			if (n->_parent == NULL)
+			{
+				if (child == &_lastNode)
+					_root = NULL;
+				else
+					_root = child;
+			}
+			else if (n->_parent->_left == n)
+				n->_parent->_left = child;
+			else if (n->_parent->_right == n)
+				n->_parent->_right = child;
+			child->_parent = n->_parent;
+			_node_alloc.destroy(n);
+			_node_alloc.deallocate(n, 1);
 		}
-		void balance(){};
+
+		node_type* getPredecessor(node_type *n)
+		{
+			iterator it(n);
+			it--;
+			return it.getNode();
+		}
+		node_type* getSuccessor(node_type *n)
+		{
+			iterator it(n);
+			it++;
+			return it.getNode();
+		}
+
+		void	eraseWithTwoChilds(node_type *n)
+		{
+			node_type *pred = getPredecessor(n);
+			if (pred != NULL)
+				replaceByPredecessor(n, pred);
+			else
+			{
+				node_type *succ = getSuccessor(n);
+				if (succ != &_lastNode)
+					replaceBySuccessor(n, succ);
+				else
+				{
+					_root = NULL;
+				}
+			}
+			_node_alloc.destroy(n);
+			_node_alloc.deallocate(n, 1);
+
+		}
+		void replaceByPredecessor(node_type *n, node_type *pred)
+		{
+			// by definition, the predecessor has NO right child
+			if (pred->_parent != n)
+			{
+				if (pred->_left != NULL)
+					pred->_left->_parent = pred->_parent;
+				pred->_parent->_right = pred->_left;
+				pred->_left = n->_left;
+				n->_left->_parent = pred;
+			}
+			if (n->_parent == NULL)
+				_root = pred;
+			else if (n->_parent->_left == n)
+				n->_parent->_left = pred;
+			else
+				n->_parent->_right = pred;
+
+			pred->_parent = n->_parent;
+			pred->_right = n->_right;
+			n->_right->_parent = pred;
+		}
+		void replaceBySuccessor(node_type *n, node_type *succ)
+		{
+			// by definition, the successor has NO left child
+			if (succ->_parent != n)
+			{
+				if(succ->_right != NULL)
+					succ->_right->_parent = succ->_parent;
+				succ->_parent->_left = succ->_right;
+				succ->_right = n->_right;
+				n->_right->_parent = succ;
+			}
+			if (n->_parent == NULL)
+			{
+				if (succ != &_lastNode)
+					_root = succ;
+			}
+			else if (n->_parent->_right == n)
+				n->_parent->_right = succ;
+			else
+				n->_parent->_left = succ;
+
+			succ->_parent = n->_parent;
+			succ->_left = n->_left;
+			n->_left->_parent = succ;
+		}
+
 
 	public:
 		explicit map(const key_compare &comp = key_compare(),
@@ -161,10 +224,9 @@ namespace ft
 			node_type *lastNode = node_type::rightmost(_root);
 			lastNode->_right = _lastNode;
 			_lastNode._parent = last;
-			balance();
 		}
 
-		map(const map &x) : _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
+		map(const map &x) : _root(NULL), _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
 		{
 			*this = x;
 		}
@@ -176,16 +238,16 @@ namespace ft
 
 		map &operator=(const map &x)
 		{
-			clear();
+
 			_alloc = x._alloc;
 			_key_comp = x._key_comp;
 			_value_comp = x._value_comp;
+			clear();
 			for (const_iterator it = x.begin(); it != x.end(); it++)
 				insert(*it);
 			node_type *last = node_type::rightmost(_root);
 			last->_right = &_lastNode;
 			_lastNode._parent = last;
-			balance();
 
 			return *this;
 		}
@@ -194,7 +256,7 @@ namespace ft
 		iterator begin() { return iterator(node_type::leftmost(_root)); }
 		const_iterator begin() const { return const_iterator(node_type::leftmost(_root)); }
 		iterator end() { return iterator(&_lastNode); }
-		const_iterator end() const { return const_iterator(node_type::rightmost(_root)); }
+		const_iterator end() const { return const_iterator(&_lastNode); }
 		reverse_iterator rbegin() { return reverse_iterator(node_type::rightmost(_root)); }
 		const_reverse_iterator rbegin() const { return const_reverse_iterator(node_type::rightmost(_root)); }
 		reverse_iterator rend() { return reverse_iterator(node_type::leftmost(_root)); }
@@ -230,7 +292,7 @@ namespace ft
 		// Element access
 		mapped_type &operator[](const key_type &k)
 		{
-			return (*((this->insert(make_pair(k,mapped_type()))).first)).second;
+			return (*((this->insert(make_pair(k, mapped_type()))).first)).second;
 		}
 
 		// Modifiers
@@ -280,35 +342,24 @@ namespace ft
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last)
 		{
-			for (InputIterator it = first; it != last ; it++)
+			for (InputIterator it = first; it != last; it++)
 				insert(value_type(*it));
 		}
+
 		void erase(iterator position)
 		{
 			if (position == NULL)
 				return;
 			node_type *n = position.getNode();
-			node_type *left = n->_left;
-			node_type *right = n->_right;
-			node_type *parent = n->_parent;
+			if (n == NULL)
+				return;
 
-			if (parent != NULL)
-			{
-				if (parent->_left == n)
-					parent->_left = NULL;
-				else
-					parent->_right = NULL;
-			}
+			if (n->_left == NULL && n->_right == NULL)
+				eraseLeaf(n);
+			else if (n->_left == NULL || n->_right == NULL)
+				eraseWithOneChild(n, n->_left != NULL ? n->_left : n->_right);
 			else
-				_root = NULL;
-			_node_alloc.destroy(n);
-			_node_alloc.deallocate(n, 1);
-			n = NULL;
-
-			//TODO: problem when erasing a branch with last node : looks ok ???
-			// TODO : better strategy ?
-			recursive_insert(left);
-			recursive_insert(right);
+				eraseWithTwoChilds(n);
 		}
 
 		size_type erase(const key_type &k)
@@ -321,9 +372,22 @@ namespace ft
 		}
 		void erase(iterator first, iterator last)
 		{
-			iterator it = first;
-			for (iterator it = first; it != last; it++)
-				erase(it);
+			key_type first_key = first->first;
+			key_type last_key = last->first;
+			key_type k = first_key;
+			// std::cout << "===go: from " << first_key << " to " << last_key << std::endl;
+			while (_key_comp(k, last_key) || _key_comp(last_key, k))
+			{
+				// std::cout << k << std::endl;
+				key_type next_key = (++find(k))->first;
+				erase(k);
+
+				// std::cout << "..............." << std::endl;
+				// analyse_map(20);
+				// std::cout << "..............." << std::endl;
+				k = next_key;
+			}
+			// std::cout << "out" << std::endl;
 		}
 		void swap(map &x)
 		{
@@ -334,6 +398,7 @@ namespace ft
 		void clear()
 		{
 			recursive_delete(_root);
+			_root = NULL;
 			_lastNode._left = NULL;
 			_lastNode._right = NULL;
 			_lastNode._parent = NULL;
@@ -362,7 +427,7 @@ namespace ft
 			}
 			return NULL;
 		}
-		size_type count(const key_type &k) const { return (find(k) == NULL ? 0 : 1);}
+		size_type count(const key_type &k) const { return (find(k) == NULL ? 0 : 1); }
 		iterator lower_bound(const key_type &k)
 		{
 			iterator it = begin();
@@ -402,6 +467,55 @@ namespace ft
 
 		// Allocator
 		allocator_type get_allocator() const { return _alloc; }
+
+
+		void print_map()
+		{
+			print_node(_root);
+			if (empty())
+				return;
+			for (iterator it = begin(); it != end(); it++)
+				std::cout << it->first << " - " << it->second << std::endl;
+			std::cout << size() << std::endl;
+		}
+		void analyse_map(int height)
+		{
+			std::cout << "Analyse map" << std::endl;
+			for (int i = 1; i < height; i++)
+			{
+				std::cout << i << ".." << std::endl;
+				print_level(_root, i);
+				std::cout << "..." << std::endl;
+			}
+
+
+		}
+		void print_node(node_type *n)
+		{
+			if (n == NULL) {
+				std::cout << "Self = null" << std::endl;
+				std::cout << "--" << std::endl;
+				return;
+			}
+			std::cout << "Self: " << n << std::endl;
+			std::cout << n->_value.first << "-" << n->_value.second << std::endl;
+			std::cout << "L: " << n->_left << std::endl;
+			std::cout << "R: " << n->_right << std::endl;
+			std::cout << "P: " << n->_parent << std::endl;
+			std::cout << "--" << std::endl;
+		}
+		void print_level(node_type *n, int level)
+		{
+			if (n == NULL)
+				return;
+			if (level == 1)
+				print_node(n);
+			else
+			{
+				print_level(n->_left, level - 1);
+				print_level(n->_right, level - 1);
+			}
+		}
 	};
 
 }
