@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 10:28:00 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 10:51:23 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,12 +213,12 @@ namespace ft
 
 	public:
 		explicit map(const key_compare &comp = key_compare(),
-					 const allocator_type &alloc = allocator_type()) : _root(NULL), _alloc(alloc), _key_comp(comp), _value_comp(comp){};
+					 const allocator_type &alloc = allocator_type()) : _root(NULL),  _lastNode(node_type()), _alloc(alloc), _key_comp(comp), _value_comp(comp) {};
 
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last,
 			const key_compare &comp = key_compare(),
-			const allocator_type &alloc = allocator_type()) : _root(NULL), _alloc(alloc), _key_comp(comp), _value_comp(comp)
+			const allocator_type &alloc = allocator_type()) : _root(NULL),  _lastNode(node_type()), _alloc(alloc), _key_comp(comp), _value_comp(comp)
 		{
 			for (iterator it = first; it != last; it++)
 				insert(*it);
@@ -227,7 +227,7 @@ namespace ft
 			_lastNode._parent = lastNode;
 		}
 
-		map(const map &x) : _root(NULL), _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
+		map(const map &x) : _root(NULL),  _lastNode(node_type()), _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
 		{
 			*this = x;
 		}
