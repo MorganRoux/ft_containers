@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 20:31:45 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 14:11:54 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 17:03:29 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -461,7 +461,10 @@ void test_vector()
 		ft::vector<std::string>::reverse_iterator vr1;
 		for (vr1 = v2.rbegin(); vr1 != v2.rend(); ++vr1)
 			std::cout << *vr1 << std::endl;
-
+		vr1 -= 3;
+		std::cout << *vr1 << std::endl;
+		vr1 += 1;
+		std::cout << *vr1 << std::endl;
 		std::cout << "========= 4. =========" << std::endl;
 		std::vector<std::string>::const_iterator cit;
 		const ft::vector<std::string> cv(6);
@@ -818,6 +821,7 @@ void test_vector()
 		std::cout << "Iter" << std::endl;
 		for (; iter != vect.end(); iter++)
 			std::cout << *iter << std::endl;
+
 		std::cout << (vect.begin() < vect.end()) << std::endl;
 		std::cout << (vect.begin() <= vect.end()) << std::endl;
 		std::cout << (vect.begin() >= vect.end()) << std::endl;
@@ -831,6 +835,10 @@ void test_vector()
 		std::cout << "Riter" << std::endl;
 		for (; riter != vect.rend(); riter++)
 			std::cout << *riter << std::endl;
+		riter -= 3;
+		std::cout << *riter << std::endl;
+		riter += 1;
+		std::cout << *riter << std::endl;
 		std::cout << (vect.rbegin() < vect.rend()) << std::endl;
 		std::cout << (vect.rbegin() <= vect.rend()) << std::endl;
 		std::cout << (vect.rbegin() >= vect.rend()) << std::endl;
