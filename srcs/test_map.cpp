@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 13:12:43 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 13:15:09 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -545,6 +545,7 @@ void test_map()
 
 		std::cout << "operator ->" << std::endl;
 		it--;
+		cit--;
 		std::cout << it->second << cit->second << std::endl;
 
 		std::cout << "bounds" << std::endl;
