@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 13:15:09 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 14:56:45 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,6 +263,44 @@ void test_map()
 			std::cout << "Size of first: " << first.size() << '\n';
 			std::cout << "Size of second: " << second.size() << '\n';
 		}
+
+		//comparaisons
+		std::cout << "compare" << std::endl;
+		{
+			NAMESPACE::map<int, int> m2;
+			it = m2.insert(NAMESPACE::pair<int, int>(8, 8)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(11, 1)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(81, 8)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(51, 5)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(31, 3)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(12, 2)).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<int, int>(19, 9)).first;
+
+			NAMESPACE::map<int, int> m1(m2);
+std::cout << "---" << std::endl;
+			std::cout << (m1 == m2) << std::endl;
+			std::cout << (m1 != m2) << std::endl;
+			std::cout << (m1 >= m2) << std::endl;
+			std::cout << (m1 <= m2) << std::endl;
+			std::cout << (m1 < m2) << std::endl;
+			std::cout << (m1 > m2) << std::endl;
+
+			m2.insert(NAMESPACE::make_pair<int, int>(25, 9));
+			std::cout << "===" << std::endl;
+			std::cout << (m1 == m2) << std::endl;
+			std::cout << (m1 != m2) << std::endl;
+			std::cout << (m1 >= m2) << std::endl;
+			std::cout << (m1 <= m2) << std::endl;
+			std::cout << (m1 < m2) << std::endl;
+			std::cout << (m1 > m2) << std::endl;
+		}
+
 	}
 
 	std::cout << "=============== with strings =============" << std::endl;
@@ -494,9 +532,9 @@ void test_map()
 			std::cout << "Size of first: " << first.size() << '\n';
 			std::cout << "Size of second: " << second.size() << '\n';
 		}
-	 }
+	}
 
-	std::cout << "---------- with const -------------"<< std::endl;
+	std::cout << "---------- with const -------------" << std::endl;
 	std::cout << "constructor / desctructor" << std::endl;
 	{
 		const NAMESPACE::map<std::string, std::string> m;
@@ -553,6 +591,5 @@ void test_map()
 		std::cout << (*(m.upper_bound(3))).second << std::endl;
 		std::cout << (*(m.equal_range(3).first)).second << std::endl;
 		std::cout << m.count(5) << m.count(10) << std::endl;
-
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 14:52:16 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 15:16:01 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -480,17 +480,10 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		typename vector<T, Alloc>::const_iterator lit, rit;
 		if (lhs.size() != rhs.size())
-			return false;
-		if (lhs.size() == 0)
-			return true;
-		for (lit = lhs.begin(), rit = rhs.begin(); lit != lhs.end(); lit++, rit++)
-		{
-			if (*lit != *rit)
-				return false;
-		}
-		return true;
+		return false;
+
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 	}
 
 	template <class T, class Alloc>
@@ -499,16 +492,7 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		typename vector<T, Alloc>::const_iterator lit, rit;
-
-		for (lit = lhs.begin(), rit = rhs.begin(); lit != lhs.end() && rit != rhs.end(); lit++, rit++)
-		{
-			if (*lit != *rit)
-				return (*lit < *rit);
-		}
-		if (lhs.size() != rhs.size())
-			return (lhs.size() < rhs.size());
-		return false;
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(),rhs.begin(),rhs.end());
 	}
 
 	template <class T, class Alloc>

@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 13:02:30 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 15:16:20 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ namespace ft
 			recursive_delete(right);
 		}
 
-		void 	eraseLeaf(node_type *n)
+		void eraseLeaf(node_type *n)
 		{
 			if (n->_parent == NULL)
 				_root = NULL;
@@ -112,7 +112,7 @@ namespace ft
 			_node_alloc.deallocate(n, 1);
 		}
 
-		void	eraseWithOneChild(node_type *n, node_type *child)
+		void eraseWithOneChild(node_type *n, node_type *child)
 		{
 			if (n->_parent == NULL)
 			{
@@ -130,20 +130,20 @@ namespace ft
 			_node_alloc.deallocate(n, 1);
 		}
 
-		node_type* getPredecessor(node_type *n)
+		node_type *getPredecessor(node_type *n)
 		{
 			iterator it(n);
 			it--;
 			return it.getNode();
 		}
-		node_type* getSuccessor(node_type *n)
+		node_type *getSuccessor(node_type *n)
 		{
 			iterator it(n);
 			it++;
 			return it.getNode();
 		}
 
-		void	eraseWithTwoChilds(node_type *n)
+		void eraseWithTwoChilds(node_type *n)
 		{
 			node_type *pred = getPredecessor(n);
 			if (pred != NULL)
@@ -160,7 +160,6 @@ namespace ft
 			}
 			_node_alloc.destroy(n);
 			_node_alloc.deallocate(n, 1);
-
 		}
 		void replaceByPredecessor(node_type *n, node_type *pred)
 		{
@@ -189,7 +188,7 @@ namespace ft
 			// by definition, the successor has NO left child
 			if (succ->_parent != n)
 			{
-				if(succ->_right != NULL)
+				if (succ->_right != NULL)
 					succ->_right->_parent = succ->_parent;
 				succ->_parent->_left = succ->_right;
 				succ->_right = n->_right;
@@ -210,15 +209,14 @@ namespace ft
 			n->_left->_parent = succ;
 		}
 
-
 	public:
 		explicit map(const key_compare &comp = key_compare(),
-					 const allocator_type &alloc = allocator_type()) : _root(NULL),  _lastNode(node_type()), _alloc(alloc), _key_comp(comp), _value_comp(comp) {};
+					 const allocator_type &alloc = allocator_type()) : _root(NULL), _lastNode(node_type()), _alloc(alloc), _key_comp(comp), _value_comp(comp){};
 
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last,
 			const key_compare &comp = key_compare(),
-			const allocator_type &alloc = allocator_type()) : _root(NULL),  _lastNode(node_type()), _alloc(alloc), _key_comp(comp), _value_comp(comp)
+			const allocator_type &alloc = allocator_type()) : _root(NULL), _lastNode(node_type()), _alloc(alloc), _key_comp(comp), _value_comp(comp)
 		{
 			for (iterator it = first; it != last; it++)
 				insert(*it);
@@ -229,7 +227,7 @@ namespace ft
 			// _lastNode._parent = lastNode;
 		}
 
-		map(const map &x) : _root(NULL),  _lastNode(node_type()), _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
+		map(const map &x) : _root(NULL), _lastNode(node_type()), _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
 		{
 			*this = x;
 		}
@@ -255,12 +253,14 @@ namespace ft
 		}
 
 		// Iterators
-		iterator begin() {
+		iterator begin()
+		{
 			if (_root == NULL)
 				return iterator(&_lastNode);
 			return iterator(node_type::leftmost(_root));
 		}
-		const_iterator begin() const {
+		const_iterator begin() const
+		{
 			if (_root == NULL)
 				return const_iterator(&_lastNode);
 			return const_iterator(node_type::leftmost(_root));
@@ -269,12 +269,14 @@ namespace ft
 		const_iterator end() const { return const_iterator(&_lastNode); }
 		reverse_iterator rbegin() { return reverse_iterator(&_lastNode); }
 		const_reverse_iterator rbegin() const { return const_reverse_iterator(&_lastNode); }
-		reverse_iterator rend() {
+		reverse_iterator rend()
+		{
 			if (_root == NULL)
 				return reverse_iterator(&_lastNode);
 			return reverse_iterator(node_type::leftmost(_root));
 		}
-		const_reverse_iterator rend() const {
+		const_reverse_iterator rend() const
+		{
 			if (_root == NULL)
 				return const_reverse_iterator(&_lastNode);
 			return const_reverse_iterator(node_type::leftmost(_root));
@@ -358,7 +360,7 @@ namespace ft
 		}
 		iterator insert(iterator position, const value_type &val)
 		{
-		node_type *node = position.getNode();
+			node_type *node = position.getNode();
 			while (1) //node->_left != NULL || node->_right != NULL)
 			{
 				if (_value_comp(val, node->_value)) //val < node->_value
@@ -390,7 +392,7 @@ namespace ft
 				else //val == node->_value
 					return iterator(node);
 			}
-			}
+		}
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last)
 		{
@@ -520,7 +522,6 @@ namespace ft
 		// Allocator
 		allocator_type get_allocator() const { return _alloc; }
 
-
 		void print_map() const
 		{
 			print_node(_root);
@@ -539,12 +540,11 @@ namespace ft
 				print_level(_root, i);
 				std::cout << "..." << std::endl;
 			}
-
-
 		}
 		void print_node(node_type *n) const
 		{
-			if (n == NULL) {
+			if (n == NULL)
+			{
 				std::cout << "Self = null" << std::endl;
 				std::cout << "--" << std::endl;
 				return;
@@ -570,52 +570,49 @@ namespace ft
 		}
 	};
 
-template <class Key, class T, class Compare, class Alloc>
-  bool operator== ( const map<Key,T,Compare,Alloc>& lhs,
-                    const map<Key,T,Compare,Alloc>& rhs )
-{
-	if (lhs.size() != rhs.size())
-		return false;
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator==(const map<Key, T, Compare, Alloc> &lhs,
+					const map<Key, T, Compare, Alloc> &rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return false;
 
-	return equal(lhs.begin(), rhs.begin(), lhs.end());
-}
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+	}
 
-template <class Key, class T, class Compare, class Alloc>
-  bool operator!= ( const map<Key,T,Compare,Alloc>& lhs,
-                    const map<Key,T,Compare,Alloc>& rhs )
-{
-	return !(lhs == rhs);
-}
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator!=(const map<Key, T, Compare, Alloc> &lhs,
+					const map<Key, T, Compare, Alloc> &rhs)
+	{
+		return !(lhs == rhs);
+	}
 
-template <class Key, class T, class Compare, class Alloc>
-  bool operator<  ( const map<Key,T,Compare,Alloc>& lhs,
-                    const map<Key,T,Compare,Alloc>& rhs )
-{
-	if (lhs.size() != rhs.size())
-		return (lhs.size() < rhs.size());
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator<(const map<Key, T, Compare, Alloc> &lhs,
+				   const map<Key, T, Compare, Alloc> &rhs)
+	{
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
 
-	return lexicographical_compare(lhs.begin(), rhs.begin(), lhs.end(), rhs.end());
-}
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator<=(const map<Key, T, Compare, Alloc> &lhs,
+					const map<Key, T, Compare, Alloc> &rhs)
+	{
+		return !(lhs > rhs);
+	}
 
-template <class Key, class T, class Compare, class Alloc>
-  bool operator<= ( const map<Key,T,Compare,Alloc>& lhs,
-                    const map<Key,T,Compare,Alloc>& rhs )
-{
-	return !(lhs > rhs);
-}
-
-template <class Key, class T, class Compare, class Alloc>
-  bool operator>  ( const map<Key,T,Compare,Alloc>& lhs,
-                    const map<Key,T,Compare,Alloc>& rhs )
-{
-	return !(rhs < lhs);
-}
-template <class Key, class T, class Compare, class Alloc>
-  bool operator>= ( const map<Key,T,Compare,Alloc>& lhs,
-                    const map<Key,T,Compare,Alloc>& rhs )
-{
-	return !(lhs < rhs);
-}
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator>(const map<Key, T, Compare, Alloc> &lhs,
+				   const map<Key, T, Compare, Alloc> &rhs)
+	{
+		return (rhs < lhs);
+	}
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator>=(const map<Key, T, Compare, Alloc> &lhs,
+					const map<Key, T, Compare, Alloc> &rhs)
+	{
+		return !(lhs < rhs);
+	}
 }
 
 #endif
