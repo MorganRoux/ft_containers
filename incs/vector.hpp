@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 12:39:12 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 14:52:16 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <typeinfo>
 #include "ft_iterator.hpp"
 #include "metafunctions.hpp"
+#include "compare.hpp"
 
 // https://stackoverflow.com/questions/24346869/wrong-constructor-called-in-custom-vector-class
 
@@ -480,9 +481,10 @@ namespace ft
 	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
 		typename vector<T, Alloc>::const_iterator lit, rit;
-		if (lhs.size() != rhs.size() || lhs.capacity() != rhs.capacity())
+		if (lhs.size() != rhs.size())
 			return false;
-
+		if (lhs.size() == 0)
+			return true;
 		for (lit = lhs.begin(), rit = rhs.begin(); lit != lhs.end(); lit++, rit++)
 		{
 			if (*lit != *rit)

@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/25 13:18:19 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 14:07:50 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 14:42:06 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,24 +105,24 @@ void test_stack()
 
 		//comparaison between empty
 
-		// NAMESPACE::stack<std::string> mystack3(mystacks);
-		// std::cout << mystacks.size() << mystack3.size() << std::endl;
-		// std::cout << "---comp" << std::endl;
-		// std::cout << (mystack3 == mystacks) << std::endl;
-		// std::cout << (mystack3 != mystacks) << std::endl;
-		// std::cout << (mystack3 >= mystacks) << std::endl;
-		// std::cout << (mystack3 <= mystacks) << std::endl;
-		// std::cout << (mystack3 < mystacks) << std::endl;
-		// std::cout << (mystack3 > mystacks) << std::endl;
+		NAMESPACE::stack<std::string> mystack3(mystacks);
+		std::cout << mystacks.size() << mystack3.size() << std::endl;
+		std::cout << "---comp" << std::endl;
+		std::cout << (mystack3 == mystacks) << std::endl;
+		std::cout << (mystack3 != mystacks) << std::endl;
+		std::cout << (mystack3 >= mystacks) << std::endl;
+		std::cout << (mystack3 <= mystacks) << std::endl;
+		std::cout << (mystack3 < mystacks) << std::endl;
+		std::cout << (mystack3 > mystacks) << std::endl;
 
-		// mystacks.push("new");
+		mystacks.push("new");
 
-		// std::cout << "---comp2" << std::endl;
-		// std::cout << (mystack2 == mystacks) << std::endl;
-		// std::cout << (mystack2 != mystacks) << std::endl;
-		// std::cout << (mystack2 >= mystacks) << std::endl;
-		// std::cout << (mystack2 <= mystacks) << std::endl;
-		// std::cout << (mystack2 < mystacks) << std::endl;
-		// std::cout << (mystack2 > mystacks) << std::endl;
+		std::cout << "---comp2" << std::endl;
+		std::cout << (mystack2 == mystacks) << std::endl;
+		std::cout << (mystack2 != mystacks) << std::endl;
+		std::cout << (mystack2 >= mystacks) << std::endl;
+		std::cout << (mystack2 <= mystacks) << std::endl;
+		std::cout << (mystack2 < mystacks) << std::endl;
+		std::cout << (mystack2 > mystacks) << std::endl;
 	}
 }
