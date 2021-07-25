@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 14:56:45 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 15:21:02 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,7 @@ void test_map()
 			it = m2.insert(NAMESPACE::make_pair<int, int>(19, 9)).first;
 
 			NAMESPACE::map<int, int> m1(m2);
-std::cout << "---" << std::endl;
+			std::cout << "---" << std::endl;
 			std::cout << (m1 == m2) << std::endl;
 			std::cout << (m1 != m2) << std::endl;
 			std::cout << (m1 >= m2) << std::endl;
@@ -293,6 +293,16 @@ std::cout << "---" << std::endl;
 
 			m2.insert(NAMESPACE::make_pair<int, int>(25, 9));
 			std::cout << "===" << std::endl;
+			std::cout << (m1 == m2) << std::endl;
+			std::cout << (m1 != m2) << std::endl;
+			std::cout << (m1 >= m2) << std::endl;
+			std::cout << (m1 <= m2) << std::endl;
+			std::cout << (m1 < m2) << std::endl;
+			std::cout << (m1 > m2) << std::endl;
+		}
+		{
+			NAMESPACE::map<int, int> m1, m2;
+			std::cout << "===comp empty" << std::endl;
 			std::cout << (m1 == m2) << std::endl;
 			std::cout << (m1 != m2) << std::endl;
 			std::cout << (m1 >= m2) << std::endl;
@@ -532,6 +542,53 @@ std::cout << "---" << std::endl;
 			std::cout << "Size of first: " << first.size() << '\n';
 			std::cout << "Size of second: " << second.size() << '\n';
 		}
+
+		std::cout << "compare" << std::endl;
+		{
+			NAMESPACE::map<std::string, std::string> m2;
+			it = m2.insert(NAMESPACE::pair<std::string, std::string>("8", "8")).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<std::string, std::string>("11", "1")).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<std::string, std::string>("81", "8")).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<std::string, std::string>("51", "5")).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<std::string, std::string>("31", "3")).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<std::string, std::string>("12", "2")).first;
+			std::cout << (*it).second << std::endl;
+			it = m2.insert(NAMESPACE::make_pair<std::string, std::string>("19", "9")).first;
+
+			NAMESPACE::map<std::string, std::string> m1(m2);
+			std::cout << "---" << std::endl;
+			std::cout << (m1 == m2) << std::endl;
+			std::cout << (m1 != m2) << std::endl;
+			std::cout << (m1 >= m2) << std::endl;
+			std::cout << (m1 <= m2) << std::endl;
+			std::cout << (m1 < m2) << std::endl;
+			std::cout << (m1 > m2) << std::endl;
+
+			m2.insert(NAMESPACE::make_pair<std::string, std::string>("25", "9"));
+			std::cout << "===" << std::endl;
+			std::cout << (m1 == m2) << std::endl;
+			std::cout << (m1 != m2) << std::endl;
+			std::cout << (m1 >= m2) << std::endl;
+			std::cout << (m1 <= m2) << std::endl;
+			std::cout << (m1 < m2) << std::endl;
+			std::cout << (m1 > m2) << std::endl;
+		}
+		{
+			NAMESPACE::map<std::string, std::string> m1, m2;
+			std::cout << "===comp empty" << std::endl;
+			std::cout << (m1 == m2) << std::endl;
+			std::cout << (m1 != m2) << std::endl;
+			std::cout << (m1 >= m2) << std::endl;
+			std::cout << (m1 <= m2) << std::endl;
+			std::cout << (m1 < m2) << std::endl;
+			std::cout << (m1 > m2) << std::endl;
+		}
+
 	}
 
 	std::cout << "---------- with const -------------" << std::endl;
@@ -592,4 +649,44 @@ std::cout << "---" << std::endl;
 		std::cout << (*(m.equal_range(3).first)).second << std::endl;
 		std::cout << m.count(5) << m.count(10) << std::endl;
 	}
+
+	std::cout << "compare" << std::endl;
+		{
+			NAMESPACE::map<int, int> m2;
+			m2.insert(NAMESPACE::pair<int, int>(8, 8));
+			m2.insert(NAMESPACE::make_pair<int, int>(11, 1));
+			m2.insert(NAMESPACE::make_pair<int, int>(81, 8));
+			m2.insert(NAMESPACE::make_pair<int, int>(51, 5));
+			m2.insert(NAMESPACE::make_pair<int, int>(31, 3));
+			m2.insert(NAMESPACE::make_pair<int, int>(12, 2));
+			m2.insert(NAMESPACE::make_pair<int, int>(19, 9));
+
+			const NAMESPACE::map<int, int> m1(m2);
+			std::cout << "---" << std::endl;
+			std::cout << (m1 == m2) << std::endl;
+			std::cout << (m1 != m2) << std::endl;
+			std::cout << (m1 >= m2) << std::endl;
+			std::cout << (m1 <= m2) << std::endl;
+			std::cout << (m1 < m2) << std::endl;
+			std::cout << (m1 > m2) << std::endl;
+
+			m2.insert(NAMESPACE::make_pair<int, int>(25, 9));
+			std::cout << "===" << std::endl;
+			std::cout << (m1 == m2) << std::endl;
+			std::cout << (m1 != m2) << std::endl;
+			std::cout << (m1 >= m2) << std::endl;
+			std::cout << (m1 <= m2) << std::endl;
+			std::cout << (m1 < m2) << std::endl;
+			std::cout << (m1 > m2) << std::endl;
+		}
+		{
+			const NAMESPACE::map<int, int> m1, m2;
+			std::cout << "===comp empty" << std::endl;
+			std::cout << (m1 == m2) << std::endl;
+			std::cout << (m1 != m2) << std::endl;
+			std::cout << (m1 >= m2) << std::endl;
+			std::cout << (m1 <= m2) << std::endl;
+			std::cout << (m1 < m2) << std::endl;
+			std::cout << (m1 > m2) << std::endl;
+		}
 }
