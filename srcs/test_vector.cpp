@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 20:31:45 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/24 22:13:43 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 11:06:03 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,21 @@
 #include <iostream>
 #include <cstring>
 #include <string>
+
+
+#include <sstream>
+
+
+namespace std
+{
+template <typename T>
+std::string to_string(T val)
+{
+    std::stringstream stream;
+    stream << val;
+    return stream.str();
+}
+}
 void test_vector()
 {
 	{

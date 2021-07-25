@@ -2,9 +2,9 @@ NAME		=	ft_containers
 
 SRCS		=	srcs/maintest.cpp \
 				srcs/test_map.cpp \
-				srcs/test_node.cpp
-				#srcs/test_vector.cpp \
-				#srcs/test_other.cpp \
+				srcs/test_node.cpp \
+				srcs/test_vector.cpp \
+				srcs/test_other.cpp
 
 
 OBJS		=	$(SRCS:.cpp=.o)
