@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 11:57:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 18:54:34 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 18:56:00 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -382,6 +382,7 @@ namespace ft
 		iterator_type _current;
 	};
 
+	// ============= const reverse iterator comparaison non member overloads ==========
 	template <class Iterator>
 	bool operator==(const ConstReverseIterator<Iterator> &lhs,
 					const ConstReverseIterator<Iterator> &rhs)
@@ -425,7 +426,7 @@ namespace ft
 	}
 
 
-	// ================
+	// ================ reverse iterator / const reverse iterator comparaison non member overloads ==============
 	template <class Iterator, class ConstIterator>
 	bool operator ==(const ConstReverseIterator<ConstIterator> &lhs,
 					const ReverseIterator<Iterator, ConstIterator> &rhs)
