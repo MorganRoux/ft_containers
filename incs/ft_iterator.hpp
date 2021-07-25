@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 11:57:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 10:03:39 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 11:19:39 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ namespace ft
 		typedef typename Iter::iterator_category iterator_category;
 	};
 
+
+
 	template <class T>
 	class iterator_traits<T *>
 	{
@@ -66,7 +68,8 @@ namespace ft
 		typedef random_access_iterator_tag iterator_category;
 	};
 
-	template<> class iterator_traits<int>{}; //to resolve error: type 'int' cannot be used prior to '::' because it has no members => silencing all
+	//template<class Iter> class iterator_traits<enable_if<is_integral<Iter>::value> >{};  // possibilité d'utiliser quelque chose comme ça ?
+	template<> class iterator_traits<int>{};  //to resolve error: type 'int' cannot be used prior to '::' because it has no members => silencing all
     template<> class iterator_traits<char>{};
     template<> class iterator_traits<double>{};
     template<> class iterator_traits<std::string>{};

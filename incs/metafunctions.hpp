@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 15:59:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/24 21:53:40 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 11:13:02 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ namespace ft
 
 	template <class T>
 	struct enable_if<true, T>
+	{
+		typedef T type;
+	};
+
+	template <bool B, class T = void>
+	struct enable_if_not
+	{
+	};
+
+	template <class T>
+	struct enable_if_not<false, T>
 	{
 		typedef T type;
 	};
