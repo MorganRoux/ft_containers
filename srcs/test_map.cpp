@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 11:27:28 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 11:45:22 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,15 @@ void print_map(NAMESPACE::map<Key, Value> const &m)
 
 void test_map()
 {
-	// std::cout << "constructor / desctructor" << std::endl;
-	// {
-	// 	NAMESPACE::map<std::string, std::string> m;
-	// 	for (NAMESPACE::map<std::string, std::string>::iterator it = m.begin(); it != m.end(); it++)
-	// 	{
-	// 		std::cout << (*it).first << (*it).second << std::endl;
-	// 	}
-	// 	std::cout << m.size() << std::endl;
-	// }
-	// {
-	// 	NAMESPACE::map<std::string, std::string> m;
-	// 	for (NAMESPACE::map<std::string, std::string>::iterator it = m.begin(); it != m.end(); it++)
-	// 	{
-	// 		std::cout << (*it).first << (*it).second << std::endl;
-	// 	}
-	// 	std::cout << m.size() << std::endl;
-	// }
+	std::cout << "constructor / desctructor" << std::endl;
+	{
+		NAMESPACE::map<std::string, std::string> m;
+		for (NAMESPACE::map<std::string, std::string>::iterator it = m.begin(); it != m.end(); it++)
+		{
+			std::cout << (*it).first << (*it).second << std::endl;
+		}
+		std::cout << m.size() << std::endl;
+	}
 	{
 		NAMESPACE::map<int, int> m;
 		NAMESPACE::map<int, int>::iterator it;
@@ -269,7 +261,6 @@ void test_map()
 
 			std::cout << "Size of first: " << first.size() << '\n';
 			std::cout << "Size of second: " << second.size() << '\n';
-
 		}
 	}
 
@@ -494,12 +485,62 @@ void test_map()
 			first["y"] = "16";
 			first["z"] = "32";
 
-			second = first;				   // second now contains 3 ints
+			second = first;								  // second now contains 3 ints
 			first = std::map<std::string, std::string>(); // and first is now empty
 
 			std::cout << "Size of first: " << first.size() << '\n';
 			std::cout << "Size of second: " << second.size() << '\n';
-
 		}
+	}
+
+	std::cout << "---------- with const -------------"<< std::endl;
+	std::cout << "constructor / desctructor" << std::endl;
+	{
+		const NAMESPACE::map<std::string, std::string> m;
+		for (NAMESPACE::map<std::string, std::string>::const_iterator it = m.begin(); it != m.end(); it++)
+		{
+			std::cout << (*it).first << (*it).second << std::endl;
+		}
+		std::cout << m.size() << std::endl;
+	}
+	{
+		NAMESPACE::map<int, int> m0;
+		NAMESPACE::map<int, int> m;
+		NAMESPACE::map<int, int>::const_iterator it;
+		NAMESPACE::map<int, int>::const_reverse_iterator rit;
+
+		m0.insert(NAMESPACE::pair<int, int>(4, 4));
+		m0.insert(NAMESPACE::make_pair<int, int>(1, 1));
+		m0.insert(NAMESPACE::make_pair<int, int>(8, 8));
+		m0.insert(NAMESPACE::make_pair<int, int>(5, 5));
+		m0.insert(NAMESPACE::make_pair<int, int>(3, 3));
+		m0.insert(NAMESPACE::make_pair<int, int>(2, 2));
+		m0.insert(NAMESPACE::make_pair<int, int>(3, 6));
+
+		m = m0;
+
+		std::cout << "iterator" << std::endl;
+		for (it = m.begin(); it != m.end(); it++)
+			std::cout << (*it).first << (*it).second << std::endl;
+
+		// std::cout << "reverse iterator" << std::endl;
+
+		// for (rit = m.rbegin(); rit != m.rend(); rit++)
+		// 	std::cout << (*rit).first << (*rit).second << std::endl;
+
+		NAMESPACE::map<int, int>::const_iterator cit(it);
+		for (cit = m.begin(); cit != m.end(); cit++)
+			std::cout << (*cit).first << cit->second << std::endl;
+
+		std::cout << "operator ->" << std::endl;
+		// std::cout << it->second << cit->second << std::endl;
+
+		std::cout << "bounds" << std::endl;
+		std::cout << (*(m.lower_bound(3))).second << std::endl;
+		std::cout << (*(m.upper_bound(3))).second << std::endl;
+		std::cout << (*(m.equal_range(3).first)).second << std::endl;
+		std::cout << m.count(5) << m.count(10) << std::endl;
+		std::cout << m[5] << m[10] << std::endl;
+
 	}
 }

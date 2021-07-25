@@ -30,6 +30,9 @@ fclean:
 
 re:			fclean all
 
+std:		fclean
+			$(CC) $(FLAGS) $(INC_PATH) $(SRCS) -D NAMESPACE=std -o std_containers
+
 test:		fclean
 			$(CC) $(FLAGS) $(INC_PATH) $(SRCS) -D NAMESPACE=std -o test_std
 			$(CC) $(FLAGS) $(INC_PATH) $(SRCS) -D NAMESPACE=ft -o test_fd

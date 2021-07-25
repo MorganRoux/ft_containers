@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 10:51:23 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 11:38:46 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,14 +254,30 @@ namespace ft
 		}
 
 		// Iterators
-		iterator begin() { return iterator(node_type::leftmost(_root)); }
-		const_iterator begin() const { return const_iterator(node_type::leftmost(_root)); }
+		iterator begin() {
+			if (_root == NULL)
+				return iterator(&_lastNode);
+			return iterator(node_type::leftmost(_root));
+		}
+		const_iterator begin() const {
+			if (_root == NULL)
+				return const_iterator(&_lastNode);
+			return const_iterator(node_type::leftmost(_root));
+		}
 		iterator end() { return iterator(&_lastNode); }
 		const_iterator end() const { return const_iterator(&_lastNode); }
-		reverse_iterator rbegin() { return reverse_iterator(node_type::rightmost(_root)); }
-		const_reverse_iterator rbegin() const { return const_reverse_iterator(node_type::rightmost(_root)); }
-		reverse_iterator rend() { return reverse_iterator(node_type::leftmost(_root)); }
-		const_reverse_iterator rend() const { return const_reverse_iterator(node_type::leftmost(_root)); }
+		reverse_iterator rbegin() { return reverse_iterator(&_lastNode); }
+		const_reverse_iterator rbegin() const { return const_reverse_iterator(&_lastNode); }
+		reverse_iterator rend() {
+			if (_root == NULL)
+				return reverse_iterator(&_lastNode);
+			return reverse_iterator(node_type::leftmost(_root));
+		}
+		const_reverse_iterator rend() const {
+			if (_root == NULL)
+				return const_reverse_iterator(&_lastNode);
+			return const_reverse_iterator(node_type::leftmost(_root));
+		}
 
 		// Capacity
 		bool empty() const { return (size() == 0); }
