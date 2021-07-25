@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 13:03:57 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 13:12:43 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,10 +297,12 @@ void test_map()
 		NAMESPACE::map<std::string, std::string>::const_iterator cit(it);
 		for (cit = m.begin(); cit != m.end(); cit++)
 			std::cout << (*cit).first << cit->second << std::endl;
+		it--;
 		it->second = "1000";
 		// Should not compile
 		// cit->second = 3;
 		std::cout << "operator ->" << std::endl;
+		cit--;
 		std::cout << it->second << cit->second << std::endl;
 
 		std::cout << "erase by position and erase by key" << std::endl;
@@ -492,7 +494,7 @@ void test_map()
 			std::cout << "Size of first: " << first.size() << '\n';
 			std::cout << "Size of second: " << second.size() << '\n';
 		}
-	}
+	 }
 
 	std::cout << "---------- with const -------------"<< std::endl;
 	std::cout << "constructor / desctructor" << std::endl;
@@ -542,7 +544,8 @@ void test_map()
 			std::cout << (*cit).first << cit->second << std::endl;
 
 		std::cout << "operator ->" << std::endl;
-		// std::cout << it->second << cit->second << std::endl;
+		it--;
+		std::cout << it->second << cit->second << std::endl;
 
 		std::cout << "bounds" << std::endl;
 		std::cout << (*(m.lower_bound(3))).second << std::endl;
