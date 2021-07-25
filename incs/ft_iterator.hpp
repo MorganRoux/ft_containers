@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 11:57:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/22 01:01:54 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 10:03:39 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,18 @@ namespace ft
 			iterator_type tmp = _current;
 			tmp--;
 			return *tmp;
+		};
+		typename iterator_type::value_type *operator->()
+		{
+			iterator_type tmp = _current;
+			tmp--;
+			return &(*tmp);
+		};
+		typename iterator_type::value_type const *operator->() const
+		{
+			iterator_type tmp = _current;
+			tmp--;
+			return &(*tmp);
 		};
 
 	private:

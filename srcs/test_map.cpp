@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/24 20:56:51 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 09:56:51 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void print_map(NAMESPACE::map<Key, Value> const &m)
 		return;
 	for (typename NAMESPACE::map<Key, Value>::const_iterator it = m.begin(); it != m.end(); it++)
 		std::cout << it->first << " - " << it->second << std::endl;
-	std::cout << m.size() << std::endl;
+	//std::cout << m.size() << std::endl;
 }
 
 

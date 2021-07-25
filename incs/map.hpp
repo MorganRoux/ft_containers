@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/24 22:05:34 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 10:28:00 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "metafunctions.hpp"
 #include "pair.hpp"
 #include "Node.hpp"
+#include "compare.hpp"
 
 namespace ft
 {
@@ -222,8 +223,8 @@ namespace ft
 			for (iterator it = first; it != last; it++)
 				insert(*it);
 			node_type *lastNode = node_type::rightmost(_root);
-			lastNode->_right = _lastNode;
-			_lastNode._parent = last;
+			lastNode->_right = &_lastNode;
+			_lastNode._parent = lastNode;
 		}
 
 		map(const map &x) : _root(NULL), _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
@@ -338,7 +339,41 @@ namespace ft
 					return ft::pair<iterator, bool>(iterator(node), false);
 			}
 		}
-		iterator insert(iterator position, const value_type &val);
+		iterator insert(iterator position, const value_type &val)
+		{
+		node_type *node = position.getNode();
+			while (1) //node->_left != NULL || node->_right != NULL)
+			{
+				if (_value_comp(val, node->_value)) //val < node->_value
+				{
+					if (node->_left == NULL) // || node->_left == &_lastNode)
+					{
+						node_type *newNode = _node_alloc.allocate(1, 0);
+						_node_alloc.construct(newNode, node_type(val, node->_left, NULL, node));
+						node->_left = newNode;
+						return iterator(newNode);
+					}
+					else
+						node = node->_left;
+				}
+				else if (_value_comp(node->_value, val)) //val > node->_value
+				{
+					if (node->_right == NULL || node->_right == &_lastNode)
+					{
+						node_type *newNode = _node_alloc.allocate(1, 0);
+						_node_alloc.construct(newNode, node_type(val, NULL, node->_right, node));
+						if (node->_right == &_lastNode)
+							_lastNode._parent = newNode;
+						node->_right = newNode;
+						return iterator(newNode);
+					}
+					else
+						node = node->_right;
+				}
+				else //val == node->_value
+					return iterator(node);
+			}
+			}
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last)
 		{
@@ -518,6 +553,52 @@ namespace ft
 		}
 	};
 
+template <class Key, class T, class Compare, class Alloc>
+  bool operator== ( const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+{
+	if (lhs.size() != rhs.size())
+		return false;
+
+	return equal(lhs.begin(), rhs.begin(), lhs.end());
+}
+
+template <class Key, class T, class Compare, class Alloc>
+  bool operator!= ( const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+{
+	return !(lhs == rhs);
+}
+
+template <class Key, class T, class Compare, class Alloc>
+  bool operator<  ( const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+{
+	if (lhs.size() != rhs.size())
+		return (lhs.size() < rhs.size());
+
+	return lexicographical_compare(lhs.begin(), rhs.begin(), lhs.end(), rhs.end());
+}
+
+template <class Key, class T, class Compare, class Alloc>
+  bool operator<= ( const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+{
+	return !(lhs > rhs);
+}
+
+template <class Key, class T, class Compare, class Alloc>
+  bool operator>  ( const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+{
+	return !(rhs < lhs);
+}
+template <class Key, class T, class Compare, class Alloc>
+  bool operator>= ( const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+{
+	return !(lhs < rhs);
+}
 }
 
 #endif
