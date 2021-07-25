@@ -58,20 +58,6 @@ void test_other()
 		std::cout << (p1 < p2) << std::endl;
 		std::cout << (p1 > p2) << std::endl;
 	}
-	//HARD ONE
-
-	// {
-	// 	std::cout << "--------constructor destructor of pair" << std::endl;
-	// 	A a;
-	// 	NAMESPACE::pair<std::string, A> t;
-	// 	NAMESPACE::pair<std::string, A> test("hello", a);
-	// 	std::cout << "Ending" << std::endl;
-	// }
-	// {
-	// 	std::cout << "-------makepair" << std::endl;
-	// 	A a;
-	// 	NAMESPACE::pair<std::string, A> test = NAMESPACE::make_pair<std::string, A>("hello", a);
-	// }
 
 	{
 		std::cout << "--------constructor destructor of pair" << std::endl;
