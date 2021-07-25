@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 20:31:45 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 11:06:03 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 14:11:54 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,6 +350,65 @@ void test_vector()
 				std::cout << ' ' << *it;
 			std::cout << '\n';
 		}
+
+		//comparaisons
+		std::cout << "compare" << std::endl;
+		{
+		NAMESPACE::vector<int> v1(2, 10);
+		NAMESPACE::vector<int> v2(2, 10);
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		NAMESPACE::vector<int> v1(2, 10);
+		NAMESPACE::vector<int> v2(3, 10);
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		NAMESPACE::vector<int> v1(2, 9);
+		NAMESPACE::vector<int> v2(2, 10);
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		NAMESPACE::vector<int> v1;
+		NAMESPACE::vector<int> v2(v1);
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		NAMESPACE::vector<int> v1;
+		NAMESPACE::vector<int> v2;
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+
 	}
 
 	std::cout << "=============WITH STRING =================" << std::endl;
@@ -681,6 +740,65 @@ void test_vector()
 			std::cout <<  myvector.begin()->size() << std::endl;
 
 		}
+
+		//comparaisons
+		std::cout << "compare" << std::endl;
+		{
+		NAMESPACE::vector<std::string> v1(2, "10");
+		NAMESPACE::vector<std::string> v2(2, "10");
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		NAMESPACE::vector<std::string> v1(2, "10");
+		NAMESPACE::vector<std::string> v2(3, "10");
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		NAMESPACE::vector<std::string> v1(2, "9");
+		NAMESPACE::vector<std::string> v2(2, "10");
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		NAMESPACE::vector<std::string> v1;
+		NAMESPACE::vector<std::string> v2(v1);
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		NAMESPACE::vector<std::string> v1;
+		NAMESPACE::vector<std::string> v2;
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+
 	}
 
 	{
@@ -766,6 +884,76 @@ void test_vector()
 		std::cout << "Maxsize" << std::endl;
 		{
 			std::cout << vect.max_size() << std::endl;
+		}
+
+		//comparaisons
+		std::cout << "compare" << std::endl;
+		{
+		const NAMESPACE::vector<int> v1(2, 10);
+		const NAMESPACE::vector<int> v2(2, 10);
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		const NAMESPACE::vector<int> v1(2, 10);
+		const NAMESPACE::vector<int> v2(3, 10);
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		const NAMESPACE::vector<int> v1(2, 9);
+		const NAMESPACE::vector<int> v2(2, 10);
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		const NAMESPACE::vector<int> v1;
+		const NAMESPACE::vector<int> v2(v1);
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+		{
+		const NAMESPACE::vector<int> v1;
+		const NAMESPACE::vector<int> v2;
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
+		}
+
+		{
+		const NAMESPACE::vector<int> v1(2, 9);
+		NAMESPACE::vector<int> v2(2, 10);
+
+		std::cout << (v1 == v2) << std::endl;
+		std::cout << (v1 != v2) << std::endl;
+		std::cout << (v1 >= v2) << std::endl;
+		std::cout << (v1 <= v2) << std::endl;
+		std::cout << (v1 < v2) << std::endl;
+		std::cout << (v1 > v2) << std::endl;
 		}
 	}
 }
