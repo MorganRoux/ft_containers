@@ -40,6 +40,7 @@ void test_other()
 	std::cout << NAMESPACE::is_integral<const int>::value << '\n';
 	std::cout << NAMESPACE::is_integral<bool>::value << '\n';
 
+
 	std::cout << "Pairs" << std::endl;
 	{
 		NAMESPACE::pair<int, float> p1, p2(4, 6.8);
