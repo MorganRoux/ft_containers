@@ -6,12 +6,13 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 15:59:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 11:13:02 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 13:26:57 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FTMETAFUNCTIONS_HPP
 #define FTMETAFUNCTIONS_HPP
+#include "ft_iterator.hpp"
 #include <cstddef>
 #include <typeinfo>
 namespace ft

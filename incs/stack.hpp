@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 09:47:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/20 20:58:53 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 13:20:15 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ namespace ft
 		bool empty() const { return _ctnr.empty();}
 		size_type size() const { return _ctnr.size();}
 		value_type &top() { return _ctnr.back(); }
-		const value_type &top() const { return _ctnr.back(); }
+		value_type const& top() const { return _ctnr.back(); }
 		void push(const value_type &val) { _ctnr.push_back(val); }
 		void pop() { _ctnr.pop_back(); }
 
