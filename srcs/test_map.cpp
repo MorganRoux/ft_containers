@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 09:56:51 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 10:33:00 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void print_map(NAMESPACE::map<Key, Value> const &m)
 		std::cout << it->first << " - " << it->second << std::endl;
 	//std::cout << m.size() << std::endl;
 }
-
 
 void test_map()
 {
@@ -110,48 +109,48 @@ void test_map()
 		//m.analyse_map(10);
 		std::cout << "-1--" << std::endl;
 		it = m.begin();
-		std::cout << "delete " <<  it->first << std::endl;
+		std::cout << "delete " << it->first << std::endl;
 		m.erase(it);
 		print_map(m);
 		//m.analyse_map(10);
 		std::cout << "-2--" << std::endl;
 		it = m.begin();
-		std::cout << "delete " <<  it->first << std::endl;
+		std::cout << "delete " << it->first << std::endl;
 		m.erase(it);
 		print_map(m);
 		//m.analyse_map(10);
 		std::cout << "-3--" << std::endl;
 		it = m.begin();
-		std::cout << "delete " <<  it->first << std::endl;
+		std::cout << "delete " << it->first << std::endl;
 		m.erase(it);
 		print_map(m);
 		//m.analyse_map(10);
 		std::cout << "--4-" << std::endl;
 		it = m.begin();
-		std::cout << "delete " <<  it->first << std::endl;
+		std::cout << "delete " << it->first << std::endl;
 		m.erase(it);
 		print_map(m);
 		//m.analyse_map(10);
 		std::cout << "-5--" << std::endl;
 		it = m.begin();
-		std::cout << "delete " <<  it->first << std::endl;
+		std::cout << "delete " << it->first << std::endl;
 		m.erase(it);
 		print_map(m);
 		//m.analyse_map(10);
 		std::cout << "-6--" << std::endl;
 		it = m.begin();
-		std::cout << "delete " <<  it->first << std::endl;
+		std::cout << "delete " << it->first << std::endl;
 		m.erase(it);
 		print_map(m);
 		//m.analyse_map(10);
 		std::cout << "--7-" << std::endl;
 		it = m.begin();
-		std::cout << "delete " <<  it->first << std::endl;
+		std::cout << "delete " << it->first << std::endl;
 		m.erase(it);
 		print_map(m);
 		std::cout << "-8--" << std::endl;
 		it = m.begin();
-		std::cout << "delete " <<  it->first << std::endl;
+		std::cout << "delete " << it->first << std::endl;
 		m.erase(it);
 		print_map(m);
 		std::cout << "--9-" << std::endl;
@@ -208,13 +207,15 @@ void test_map()
 		{
 			NAMESPACE::map<int, int>::iterator itkb = m.begin();
 			NAMESPACE::map<int, int>::iterator itke = m.end();
-			itkb++; itkb++;
-			itke--;itke--;itke--;
+			itkb++;
+			itkb++;
+			itke--;
+			itke--;
+			itke--;
 			std::cout << "---" << std::endl;
 			m.erase(itkb, itke);
 			print_map(m);
 		}
-
 
 		std::cout << "bounds" << std::endl;
 		std::cout << (*(m.lower_bound(3))).second << std::endl;
@@ -253,6 +254,22 @@ void test_map()
 			std::cout << "ok" << std::endl;
 			print_map(m);
 			print_map(m2);
+		}
+		std::cout << "operator=" << std::endl;
+		{
+			std::map<char, int> first;
+			std::map<char, int> second;
+
+			first['x'] = 8;
+			first['y'] = 16;
+			first['z'] = 32;
+
+			second = first;				   // second now contains 3 ints
+			first = std::map<char, int>(); // and first is now empty
+
+			std::cout << "Size of first: " << first.size() << '\n';
+			std::cout << "Size of second: " << second.size() << '\n';
+
 		}
 	}
 }
