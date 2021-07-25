@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/23 14:57:04 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 12:39:12 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ namespace ft
 		typedef ra_iterator<T> iterator;											 //a random access iterator to value_type	convertible to const_iterator
 		typedef ra_iterator<const T> const_iterator;								 // a random access iterator to const value_type
 		typedef typename iterator_traits<iterator>::difference_type difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type
-		typedef ReverseIterator<iterator> reverse_iterator;
-		typedef ReverseIterator<const_iterator> const_reverse_iterator;
+		typedef ReverseIterator<iterator, const_iterator> reverse_iterator;
+		typedef ConstReverseIterator<const_iterator> const_reverse_iterator;
 
 	private:
 		pointer			_v;

@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:19:57 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 11:45:22 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 13:03:57 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "map.hpp"
 #include <iostream>
 #include "pair.hpp"
+#include <cstdio>
 
 template <class Key, class Value>
 void print_map(NAMESPACE::map<Key, Value> const &m)
@@ -505,7 +506,6 @@ void test_map()
 	}
 	{
 		NAMESPACE::map<int, int> m0;
-		NAMESPACE::map<int, int> m;
 		NAMESPACE::map<int, int>::const_iterator it;
 		NAMESPACE::map<int, int>::const_reverse_iterator rit;
 
@@ -517,19 +517,28 @@ void test_map()
 		m0.insert(NAMESPACE::make_pair<int, int>(2, 2));
 		m0.insert(NAMESPACE::make_pair<int, int>(3, 6));
 
-		m = m0;
+		const NAMESPACE::map<int, int> m(m0);
 
 		std::cout << "iterator" << std::endl;
 		for (it = m.begin(); it != m.end(); it++)
 			std::cout << (*it).first << (*it).second << std::endl;
+		std::cout << "iterator" << std::endl;
+		for (it = m0.begin(); it != m0.end(); it++)
+			std::cout << (*it).first << (*it).second << std::endl;
 
-		// std::cout << "reverse iterator" << std::endl;
+		std::cout << "reverse iterator" << std::endl;
 
-		// for (rit = m.rbegin(); rit != m.rend(); rit++)
-		// 	std::cout << (*rit).first << (*rit).second << std::endl;
+		// m.analyse_map(10);
+		// m0.analyse_map(10);
+		for (rit = m.rbegin(); rit != m.rend(); rit++)
+			std::cout << (*rit).first << (*rit).second << std::endl;
+		for (rit = m0.rbegin(); rit != m0.rend(); rit++)
+			std::cout << (*rit).first << (*rit).second << std::endl;
 
 		NAMESPACE::map<int, int>::const_iterator cit(it);
 		for (cit = m.begin(); cit != m.end(); cit++)
+			std::cout << (*cit).first << cit->second << std::endl;
+		for (cit = m0.begin(); cit != m0.end(); cit++)
 			std::cout << (*cit).first << cit->second << std::endl;
 
 		std::cout << "operator ->" << std::endl;
@@ -540,7 +549,6 @@ void test_map()
 		std::cout << (*(m.upper_bound(3))).second << std::endl;
 		std::cout << (*(m.equal_range(3).first)).second << std::endl;
 		std::cout << m.count(5) << m.count(10) << std::endl;
-		std::cout << m[5] << m[10] << std::endl;
 
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 11:57:54 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 11:19:39 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 12:39:08 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,16 @@ namespace ft
 
 	//------------- REVERSE ITERATOR -------------//
 	template <class Iter>
+	class ConstReverseIterator;
+
+
+	template <class Iter, class ConstIter>
 	class ReverseIterator
 	{
 	public:
 
 		typedef				Iter												iterator_type;
+		typedef				ConstIter											const_iterator_type;
 		typedef typename 	ft::iterator_traits<Iter>::iterator_category		iterator_category;
 		typedef typename 	ft::iterator_traits<Iter>::value_type				value_type;
 		typedef typename 	ft::iterator_traits<Iter>::difference_type			difference_type;
@@ -110,7 +115,11 @@ namespace ft
 
 		ReverseIterator() {_current = iterator_type(); };
 		ReverseIterator(iterator_type it) { _current = it; };
-		ReverseIterator(ReverseIterator<iterator_type> const& rev_it){ _current = rev_it._current; };
+		ReverseIterator(ReverseIterator<iterator_type, const_iterator_type> const& rev_it){ _current = rev_it._current; };
+
+		operator ConstReverseIterator<const_iterator_type>() const { return ConstReverseIterator<const_iterator_type>(const_iterator_type(_current)); };
+
+
 		ReverseIterator& operator=(ReverseIterator const& other) { _current = other._current; return (*this); };
 		ReverseIterator& operator++() { _current--; return *this; };
 		ReverseIterator operator++(int)
@@ -165,6 +174,80 @@ namespace ft
 			tmp--;
 			return &(*tmp);
 		};
+		typename iterator_type::value_type const *operator->() const
+		{
+			iterator_type tmp = _current;
+			tmp--;
+			return &(*tmp);
+		};
+
+	private:
+
+		iterator_type	base() { return _current;};
+		iterator_type 	_current;
+
+	};
+
+	//------------- REVERSE ITERATOR -------------//
+	template <class Iter>
+	class ConstReverseIterator
+	{
+	public:
+
+		typedef				Iter												iterator_type;
+		typedef typename 	ft::iterator_traits<Iter>::iterator_category		iterator_category;
+		typedef typename 	ft::iterator_traits<Iter>::value_type				value_type;
+		typedef typename 	ft::iterator_traits<Iter>::difference_type			difference_type;
+		typedef typename 	ft::iterator_traits<Iter>::pointer					pointer;
+		typedef typename 	ft::iterator_traits<Iter>::reference				reference;
+
+		ConstReverseIterator() {_current = iterator_type(); };
+		ConstReverseIterator(iterator_type it) { _current = it; };
+		ConstReverseIterator(ConstReverseIterator<iterator_type> const& rev_it){ _current = rev_it._current; };
+
+		ConstReverseIterator& operator=(ConstReverseIterator const& other) { _current = other._current; return (*this); };
+		ConstReverseIterator& operator++() { _current--; return *this; };
+		ConstReverseIterator operator++(int)
+		{
+			ConstReverseIterator retval = *this;
+			++(*this);
+			return retval;
+		}
+		ConstReverseIterator& operator--() { _current++; return *this; };
+		ConstReverseIterator operator--(int)
+		{
+			ConstReverseIterator retval = *this;
+			--(*this);
+			return retval;
+		}
+		ConstReverseIterator operator+(int n) const
+		{
+			ConstReverseIterator rit = *this;
+			rit._current -= n;
+			return rit;
+		};
+		ConstReverseIterator operator-(int n) const
+		{
+			ConstReverseIterator rit = *this;
+			rit._current += n;
+			return rit;
+		};
+		difference_type operator-(ConstReverseIterator other) { return -(_current - other._current); }
+		bool operator==(ConstReverseIterator const &other) const { return (_current == other._current); };
+		bool operator!=(ConstReverseIterator const &other) const { return !this->operator==(other); };
+		bool operator<(ConstReverseIterator const &other) const { return (_current > other._current); }
+		bool operator>=(ConstReverseIterator const &other) const { return !(*this < other); }
+		bool operator>(ConstReverseIterator const &other) const { return (other < *this); }
+		bool operator<=(ConstReverseIterator const &other) const { return !(*this > other); }
+		typename iterator_type::value_type const &operator[](difference_type n) const { return *(_current - 1 - n); }
+
+		typename iterator_type::value_type const &operator*() const
+		{
+			iterator_type tmp = _current;
+			tmp--;
+			return *tmp;
+		};
+
 		typename iterator_type::value_type const *operator->() const
 		{
 			iterator_type tmp = _current;

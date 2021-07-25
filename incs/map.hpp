@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 11:38:46 by mroux            ###   ########.fr       */
+/*   Updated: 2021/07/25 13:02:30 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ namespace ft
 		typedef node_iterator<value_type> iterator;
 		typedef const_node_iterator<value_type> const_iterator;
 		// TODO : disable function definition of reverse iterator depending on the type of iterator
-		typedef ReverseIterator<iterator> reverse_iterator;
-		typedef ReverseIterator<const_iterator> const_reverse_iterator;
+		typedef ReverseIterator<iterator, const_iterator> reverse_iterator;
+		typedef ConstReverseIterator<const_iterator> const_reverse_iterator;
 		typedef typename iterator_traits<iterator>::difference_type difference_type;
 		typedef size_t size_type;
 		typedef Node<value_type> node_type;
@@ -78,13 +78,13 @@ namespace ft
 		key_compare _key_comp;
 		value_compare _value_comp;
 
-		void recursive_insert(node_type const *n)
+		void recursive_insert(node_type const *n, node_type const *last)
 		{
-			if (n == NULL || n == &_lastNode)
+			if (n == NULL || n == last)
 				return;
 			insert(n->_value);
-			recursive_insert(n->_left);
-			recursive_insert(n->_right);
+			recursive_insert(n->_left, last);
+			recursive_insert(n->_right, last);
 		}
 
 		void recursive_delete(node_type *n)
@@ -222,9 +222,11 @@ namespace ft
 		{
 			for (iterator it = first; it != last; it++)
 				insert(*it);
-			node_type *lastNode = node_type::rightmost(_root);
-			lastNode->_right = &_lastNode;
-			_lastNode._parent = lastNode;
+			// node_type *lastNode = node_type::rightmost(_root);
+			// it--;
+			// node_type *lastNode = it.getNode();
+			// lastNode->_right = &_lastNode;
+			// _lastNode._parent = lastNode;
 		}
 
 		map(const map &x) : _root(NULL),  _lastNode(node_type()), _alloc(x._alloc), _key_comp(x._key_comp), _value_comp(x._value_comp)
@@ -244,11 +246,10 @@ namespace ft
 			_key_comp = x._key_comp;
 			_value_comp = x._value_comp;
 			clear();
-			for (const_iterator it = x.begin(); it != x.end(); it++)
-				insert(*it);
-			node_type *last = node_type::rightmost(_root);
-			last->_right = &_lastNode;
-			_lastNode._parent = last;
+			recursive_insert(x._root, &x._lastNode);
+			// node_type *last = node_type::rightmost(_root);
+			// last->_right = &_lastNode;
+			// _lastNode._parent = last;
 
 			return *this;
 		}
@@ -520,7 +521,7 @@ namespace ft
 		allocator_type get_allocator() const { return _alloc; }
 
 
-		void print_map()
+		void print_map() const
 		{
 			print_node(_root);
 			if (empty())
@@ -529,7 +530,7 @@ namespace ft
 				std::cout << it->first << " - " << it->second << std::endl;
 			std::cout << size() << std::endl;
 		}
-		void analyse_map(int height)
+		void analyse_map(int height) const
 		{
 			std::cout << "Analyse map" << std::endl;
 			for (int i = 1; i < height; i++)
@@ -541,7 +542,7 @@ namespace ft
 
 
 		}
-		void print_node(node_type *n)
+		void print_node(node_type *n) const
 		{
 			if (n == NULL) {
 				std::cout << "Self = null" << std::endl;
@@ -555,7 +556,7 @@ namespace ft
 			std::cout << "P: " << n->_parent << std::endl;
 			std::cout << "--" << std::endl;
 		}
-		void print_level(node_type *n, int level)
+		void print_level(node_type *n, int level) const
 		{
 			if (n == NULL)
 				return;
