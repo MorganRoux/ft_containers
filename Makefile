@@ -9,7 +9,7 @@ SRCS		=	srcs/maintest.cpp \
 
 OBJS		=	$(SRCS:.cpp=.o)
 CC			=	clang++
-FLAGS		=	-Wall -Wextra -Werror -std=c++11 -g
+FLAGS		=	-Wall -Wextra -Werror -std=c++98 -g
 INC_PATH	=	-I./incs
 COMPILE		=	$(CC) $(FLAGS) $(INC_PATH)
 
