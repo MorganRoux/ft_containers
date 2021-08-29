@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 15:16:20 by mroux            ###   ########.fr       */
+/*   Updated: 2021/08/29 15:10:52 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -522,6 +522,7 @@ namespace ft
 		// Allocator
 		allocator_type get_allocator() const { return _alloc; }
 
+		private:
 		void print_map() const
 		{
 			print_node(_root);
