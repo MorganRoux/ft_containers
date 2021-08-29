@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 21:07:55 by mroux             #+#    #+#             */
-/*   Updated: 2021/07/25 15:16:01 by mroux            ###   ########.fr       */
+/*   Updated: 2021/08/29 16:27:00 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ namespace ft
 		ra_iterator(pointer p = NULL) : _p(p){};
 		~ra_iterator(){};
 		ra_iterator(ra_iterator const &other) : _p(other._p){};
+
+		operator ra_iterator<const U>() const { return ra_iterator<const U>(_p); };
+
 		ra_iterator &operator=(ra_iterator const &other)
 		{
 			_p = other._p;
@@ -81,7 +84,7 @@ namespace ft
 			ret._p -= n;
 			return ret;
 		}
-		difference_type operator-(ra_iterator other) { return _p - other._p; }
+		difference_type operator-(const ra_iterator &other) { return _p - other._p; }
 		ra_iterator operator+=(int n) { this->_p += n; return *this; }
 		ra_iterator operator-=(int n) { this->_p -= n; return *this; }
 		bool operator<(ra_iterator const &other) const { return (_p < other._p); }
@@ -96,8 +99,6 @@ namespace ft
 		value_type const *operator->() const { return _p; }
 		value_type &operator[](difference_type n) { return *(_p + n); }
 		value_type const &operator[](difference_type n) const { return *(_p + n); }
-
-		operator ra_iterator<const U>() const { return ra_iterator<const U>(_p); };
 
 	protected:
 		pointer _p;

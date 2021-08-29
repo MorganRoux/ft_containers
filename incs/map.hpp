@@ -6,7 +6,7 @@
 /*   By: mroux <mroux@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 12:04:27 by mroux             #+#    #+#             */
-/*   Updated: 2021/08/29 15:10:52 by mroux            ###   ########.fr       */
+/*   Updated: 2021/08/29 16:30:12 by mroux            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -470,7 +470,7 @@ namespace ft
 				if (it->first == k)
 					return it;
 			}
-			return NULL;
+			return end();
 		}
 		const_iterator find(const key_type &k) const
 		{
@@ -479,9 +479,9 @@ namespace ft
 				if (it->first == k)
 					return it;
 			}
-			return NULL;
+			return end();
 		}
-		size_type count(const key_type &k) const { return (find(k) == NULL ? 0 : 1); }
+		size_type count(const key_type &k) const { return (find(k) == end() ? 0 : 1); }
 		iterator lower_bound(const key_type &k)
 		{
 			iterator it = begin();
